@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DialectForge - Censorship-Resistant VPN Protocol</title>
-    <meta name="description" content="Patent-pending AI-negotiated VPN protocol that changes every 2 minutes. Impossible to fingerprint or block.">
+    <title>DialectForge - AI-Negotiated Emergent Protocol Technology</title>
+    <meta name="description" content="Patent-pending protocol that transforms any network traffic into undetectable random noise. Changes every 2 minutes. VPN, server security, IoT, and more.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #00ff88;
             --primary-dark: #00cc6a;
@@ -27,245 +22,132 @@
             --accent-purple: #a855f7;
             --accent-orange: #ff6b35;
         }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Animated background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(77, 166, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
-        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(ellipse at 20% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 80%, rgba(77, 166, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 50%); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 6rem 0; }
+        .section-title { font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 1rem; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); text-align: center; max-width: 700px; margin: 0 auto 4rem; }
 
         /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(10, 10, 15, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent-blue)); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-cta { background: var(--primary); color: var(--bg-dark); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .nav-cta:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--accent-blue));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-cta {
-            background: var(--primary);
-            color: var(--bg-dark);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .nav-cta:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 900px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.875rem;
-            color: var(--primary);
-            margin-bottom: 2rem;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 4rem; }
+        .hero-content { max-width: 900px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--primary); margin-bottom: 2rem; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
             background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--accent-blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2.5rem; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: var(--primary); color: var(--bg-dark); padding: 1rem 2rem; border-radius: 10px; text-decoration: none;
+            font-weight: 600; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3); }
+        .btn-secondary { background: transparent; color: var(--text); padding: 1rem 2rem; border-radius: 10px; text-decoration: none;
+            font-weight: 600; font-size: 1.1rem; border: 2px solid rgba(255, 255, 255, 0.2); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-        }
+        /* Protocol Visual */
+        .protocol-visual { margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .protocol-demo { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+        .protocol-box { padding: 1rem 1.5rem; border-radius: 10px; background: rgba(0, 0, 0, 0.3); }
+        .protocol-box.original { border: 2px solid var(--accent-blue); color: var(--accent-blue); }
+        .protocol-box.obfuscated { border: 2px solid var(--primary); color: var(--primary); animation: pulse 2s infinite; }
+        .protocol-arrow { font-size: 1.5rem; color: var(--text-secondary); }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .protocol-timer { margin-top: 1rem; color: var(--text-secondary); font-size: 0.875rem; }
+        .protocol-timer span { color: var(--primary); font-weight: 600; }
 
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        /* Features */
+        .features { background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.02) 100%); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature-card { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 2rem; transition: all 0.3s; }
+        .feature-card:hover { background: var(--bg-card-hover); border-color: var(--primary); transform: translateY(-5px); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+        .feature-card p { color: var(--text-secondary); font-size: 0.95rem; }
 
-        .btn-primary {
-            background: var(--primary);
-            color: var(--bg-dark);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
+        /* How It Works */
+        .how-it-works { background: var(--bg-card); }
+        .steps { display: flex; flex-direction: column; gap: 3rem; margin-bottom: 4rem; }
+        .step { display: flex; gap: 2rem; align-items: flex-start; }
+        .step-number { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--accent-blue)); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; flex-shrink: 0; }
+        .step-content h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .step-content p { color: var(--text-secondary); margin-bottom: 1rem; }
+        .step-visual { background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px; font-family: 'Courier New', monospace; }
+        .step-visual code { display: block; color: var(--primary); font-size: 0.875rem; }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
-        }
+        /* Comparison */
+        .comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .comparison-card { padding: 2rem; border-radius: 16px; }
+        .comparison-card.bad { background: rgba(255, 100, 100, 0.1); border: 1px solid rgba(255, 100, 100, 0.3); }
+        .comparison-card.good { background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.3); }
+        .comparison-card h4 { font-size: 1.25rem; margin-bottom: 1rem; }
+        .comparison-card ul { list-style: none; }
+        .comparison-card li { padding: 0.5rem 0; color: var(--text-secondary); }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
+        /* Applications */
+        .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .app-card { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 2rem; position: relative; transition: all 0.3s; }
+        .app-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .app-card.featured { border-color: var(--accent-blue); background: linear-gradient(135deg, rgba(77, 166, 255, 0.1) 0%, var(--bg-card) 100%); }
+        .app-badge { position: absolute; top: 1rem; right: 1rem; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+        .app-badge.coming { background: var(--accent-purple); color: white; }
+        .app-badge.dev { background: var(--accent-blue); color: white; }
+        .app-badge.research { background: var(--accent-orange); color: white; }
+        .app-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .app-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .app-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; }
+        .app-status { font-size: 0.8rem; color: var(--text-secondary); }
 
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
+        /* Patent Notice */
+        .patent-notice { display: flex; align-items: center; gap: 1rem; background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1.5rem; }
+        .patent-notice span { font-size: 2rem; }
+        .patent-notice p { color: var(--text-secondary); font-size: 0.9rem; }
 
-        /* Protocol Animation */
-        .protocol-visual {
-            margin-top: 4rem;
-            padding: 2rem;
-            background: var(--bg-card);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        /* Contact */
+        .contact { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%); }
+        .contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .contact-item { display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem; }
+        .contact-icon { font-size: 2rem; width: 60px; height: 60px; background: var(--bg-card); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .contact-item h4 { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+        .contact-item a, .contact-item p { color: var(--text); text-decoration: none; font-size: 1.1rem; }
+        .contact-item a:hover { color: var(--primary); }
+        .contact-cta { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 3rem; text-align: center; }
+        .contact-cta h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .contact-cta p { color: var(--text-secondary); margin-bottom: 2rem; }
 
-        .protocol-demo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
+        /* Footer */
+        footer { background: var(--bg-dark); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 4rem 0 2rem; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+        .footer-brand p { color: var(--text-secondary); margin-top: 1rem; }
+        .footer-links h4 { margin-bottom: 1rem; color: var(--text); }
+        .footer-links a { display: block; color: var(--text-secondary); text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; text-align: center; color: var(--text-secondary); font-size: 0.875rem; }
 
-        .protocol-box {
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .protocol-box.original {
-            border: 2px solid var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .protocol-box.obfuscated {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            animation: pulse 2s infinite;
-        }
-
-        .protocol-arrow {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        .protocol-timer {
-            margin-top: 1rem;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .protocol-timer span {
-            color: var(--primary);
-            font-weight: 600;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2rem; }
+            .step { flex-direction: column; }
+            .contact-content { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
         }
     </style>
 </head>
@@ -278,7 +160,7 @@
             DialectForge
         </a>
         <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
+            <li><a href="#protocol">The Protocol</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#applications">Applications</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -286,18 +168,19 @@
         <a href="#contact" class="nav-cta">Get Started</a>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-badge">
                 <span>🛡️</span>
                 <span>Patent-Pending Technology</span>
             </div>
-            <h1>The VPN Protocol That Can't Be Blocked</h1>
-            <p>DialectForge uses AI-negotiated emergent protocols that change every 2 minutes. Censors can't fingerprint what keeps evolving.</p>
+            <h1>The Protocol That Makes Traffic Invisible</h1>
+            <p>DialectForge is an AI-negotiated emergent protocol that transforms any network communication into undetectable random noise. It changes every 2 minutes. Censors and attackers can't fingerprint what keeps evolving.</p>
             <div class="hero-buttons">
-                <a href="#contact" class="btn-primary">
-                    <span>📱</span>
-                    Coming Soon to iOS & Android
+                <a href="#applications" class="btn-primary">
+                    <span>🚀</span>
+                    Explore Applications
                 </a>
                 <a href="#how-it-works" class="btn-secondary">
                     <span>▶️</span>
@@ -308,7 +191,7 @@
             <div class="protocol-visual">
                 <div class="protocol-demo">
                     <div class="protocol-box original">
-                        GET /index.html HTTP/1.1
+                        Any Protocol Data
                     </div>
                     <div class="protocol-arrow">→</div>
                     <div class="protocol-box obfuscated" id="obfuscated">
@@ -322,42 +205,42 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
+    <!-- Protocol Section -->
+    <section id="protocol" class="features">
         <div class="container">
-            <h2 class="section-title">Why DialectForge?</h2>
-            <p class="section-subtitle">Traditional VPNs are easily blocked. We built something different.</p>
+            <h2 class="section-title">What is DialectForge?</h2>
+            <p class="section-subtitle">DialectForge is not just a VPN. It's a revolutionary protocol technology that can secure any type of network communication - making it completely invisible to observers.</p>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🔄</div>
                     <h3>Cyclic Protocol Refresh</h3>
-                    <p>The protocol changes every 2 minutes. By the time censors analyze it, it's already different.</p>
+                    <p>The encoding "dialect" changes every 2 minutes. By the time anyone analyzes your traffic pattern, it's already completely different.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🤖</div>
                     <h3>AI-Negotiated Dialects</h3>
-                    <p>Client and server create a unique "dialect" through negotiation. No two connections look alike.</p>
+                    <p>Client and server create a unique "dialect" through seed-based negotiation. No two connections ever look alike. Pure emergent randomness.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎭</div>
-                    <h3>DPI Resistant</h3>
-                    <p>Deep Packet Inspection sees random noise. Traffic patterns are indistinguishable from normal data.</p>
+                    <h3>True Random Noise</h3>
+                    <p>Traffic appears as pure random data - not encrypted packets with headers, just noise. Deep Packet Inspection sees nothing to match against.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Global Server Network</h3>
-                    <p>Servers in Helsinki, Virginia, and Singapore. Under 100ms latency for 95% of users worldwide.</p>
+                    <div class="feature-icon">🔒</div>
+                    <h3>Proprietary Protocol</h3>
+                    <p>DialectForge is its own protocol - not built on WireGuard, OpenVPN, or anything else. A completely new approach to network security.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Protocol Agnostic</h3>
+                    <p>Works with any underlying network: WiFi, Ethernet, Bluetooth, LoRa, cellular, CAN bus. The dialect layer sits on top of everything.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
-                    <h3>WireGuard Core</h3>
-                    <p>Built on WireGuard for blazing fast speeds. DialectForge adds stealth without sacrificing performance.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Cross-Platform</h3>
-                    <p>Native apps for iOS, Android, Windows, Mac, and Linux. Same protection everywhere.</p>
+                    <h3>Minimal Overhead</h3>
+                    <p>Designed for efficiency with less than 500μs processing overhead. Fast enough for real-time applications and IoT devices.</p>
                 </div>
             </div>
         </div>
@@ -367,17 +250,17 @@
     <section id="how-it-works" class="how-it-works">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Three steps to unblockable privacy</p>
+            <p class="section-subtitle">Three steps to invisible communication</p>
             
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h3>Negotiate</h3>
-                        <p>Your device and our server exchange proposals and agree on a shared "dialect" - a unique encoding scheme.</p>
+                        <p>Endpoints exchange proposals and agree on a shared "dialect" - a unique encoding scheme derived from a cryptographic seed. This happens automatically and securely.</p>
                         <div class="step-visual">
-                            <code>Client: "abc123..." → Server: "def456..."</code>
-                            <code>Shared Seed: "9a7b3c4d5e6f..."</code>
+                            <code>Client Seed: "abc123..." ↔ Server Seed: "def456..."</code>
+                            <code>Shared Dialect: "9a7b3c4d5e6f..."</code>
                         </div>
                     </div>
                 </div>
@@ -385,9 +268,10 @@
                     <div class="step-number">2</div>
                     <div class="step-content">
                         <h3>Obfuscate</h3>
-                        <p>All traffic is wrapped in the current dialect. VPN packets become unrecognizable gibberish to outside observers.</p>
+                        <p>All traffic is wrapped in the current dialect. Data becomes unrecognizable random noise to any outside observer - no headers, no patterns, just gibberish.</p>
                         <div class="step-visual">
-                            <code>"GET google.com" → "x#$%@!&*()"</code>
+                            <code>"SELECT * FROM users" → "x#9$k@!m&*()"</code>
+                            <code>"GET /api/data" → "7fj2@#kL9!mn"</code>
                         </div>
                     </div>
                 </div>
@@ -395,9 +279,10 @@
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h3>Refresh</h3>
-                        <p>Every 120 seconds, the dialect evolves. Continuous security through constant change.</p>
+                        <p>Every 120 seconds, the dialect evolves using the seed progression. Both sides know the next dialect without any communication. Continuous security through constant change.</p>
                         <div class="step-visual">
-                            <code>Dialect v1 → v2 → v3 → ...</code>
+                            <code>Dialect v1 → v2 → v3 → v4 → ...</code>
+                            <code>Each refresh = completely new encoding</code>
                         </div>
                     </div>
                 </div>
@@ -405,21 +290,23 @@
 
             <div class="comparison">
                 <div class="comparison-card bad">
-                    <h4>❌ Traditional VPN</h4>
+                    <h4>❌ Traditional Security</h4>
                     <ul>
-                        <li>Fixed protocol signatures</li>
-                        <li>Easy to fingerprint</li>
-                        <li>Blocked in China, Russia, Iran</li>
-                        <li>One pattern = one block rule</li>
+                        <li>Fixed protocol signatures (OpenVPN, WireGuard)</li>
+                        <li>Recognizable encrypted packet headers</li>
+                        <li>Easy to fingerprint and block</li>
+                        <li>One pattern = one firewall rule</li>
+                        <li>Traffic analysis reveals usage patterns</li>
                     </ul>
                 </div>
                 <div class="comparison-card good">
                     <h4>✅ DialectForge</h4>
                     <ul>
-                        <li>Emergent protocols</li>
-                        <li>Impossible to fingerprint</li>
-                        <li>Works where others fail</li>
-                        <li>∞ patterns = ∞ block rules needed</li>
+                        <li>Emergent protocols with no signature</li>
+                        <li>Pure random noise - no headers to detect</li>
+                        <li>Impossible to fingerprint or block</li>
+                        <li>∞ patterns = ∞ rules needed</li>
+                        <li>Traffic looks like random data</li>
                     </ul>
                 </div>
             </div>
@@ -429,57 +316,57 @@
     <!-- Applications Section -->
     <section id="applications" class="applications">
         <div class="container">
-            <h2 class="section-title">Beyond VPN</h2>
-            <p class="section-subtitle">DialectForge technology has applications across many domains</p>
+            <h2 class="section-title">DialectForge Applications</h2>
+            <p class="section-subtitle">One protocol, many applications. DialectForge technology secures everything from consumer VPNs to server infrastructure to IoT devices.</p>
             
             <div class="apps-grid">
                 <div class="app-card featured">
-                    <div class="app-badge">Available Now</div>
-                    <div class="app-icon">🔐</div>
+                    <div class="app-badge coming">Coming Soon</div>
+                    <div class="app-icon">📱</div>
                     <h3>DialectForge VPN</h3>
-                    <p>Censorship-resistant VPN for consumers. Access the free internet from anywhere.</p>
-                    <span class="app-status ready">iOS & Android Coming Soon</span>
+                    <p>Censorship-resistant VPN for consumers. Access the free internet from anywhere. Traffic is completely undetectable.</p>
+                    <span class="app-status">iOS, Android, Windows, Mac</span>
+                </div>
+                <div class="app-card">
+                    <div class="app-badge dev">In Development</div>
+                    <div class="app-icon">🖥️</div>
+                    <h3>DialectForge Mesh</h3>
+                    <p>Invisible server-to-server communication. Protect your entire infrastructure - attackers can't even see your servers talking to each other.</p>
+                    <span class="app-status">Database replication, API traffic, backups</span>
+                </div>
+                <div class="app-card">
+                    <div class="app-badge dev">In Development</div>
+                    <div class="app-icon">🔐</div>
+                    <h3>DialectForge Terminal</h3>
+                    <p>Secure server administration through obfuscated connections. SSH that's invisible to attackers and network monitors.</p>
+                    <span class="app-status">macOS app available</span>
                 </div>
                 <div class="app-card">
                     <div class="app-badge coming">Coming Soon</div>
                     <div class="app-icon">🏢</div>
                     <h3>Enterprise Security</h3>
-                    <p>Protect corporate communications with undetectable encrypted channels.</p>
-                    <span class="app-status">In Development</span>
+                    <p>Zero-trust infrastructure tunneling for businesses. All internal communications wrapped in constantly-changing dialects.</p>
+                    <span class="app-status">Contact for early access</span>
                 </div>
                 <div class="app-card">
-                    <div class="app-badge coming">Coming Soon</div>
+                    <div class="app-badge research">Research</div>
                     <div class="app-icon">📡</div>
                     <h3>IoT Protection</h3>
-                    <p>Secure IoT device communications with lightweight DialectForge protocol.</p>
-                    <span class="app-status">In Development</span>
+                    <p>Lightweight DialectForge for embedded devices. Secure IoT communications with minimal overhead (~256KB footprint).</p>
+                    <span class="app-status">Research Phase</span>
                 </div>
                 <div class="app-card">
-                    <div class="app-badge coming">Research</div>
+                    <div class="app-badge research">Research</div>
                     <div class="app-icon">🚗</div>
                     <h3>Automotive Security</h3>
-                    <p>CAN bus protection using DialectForge's cyclic refresh for vehicle networks.</p>
-                    <span class="app-status">Research Phase</span>
-                </div>
-                <div class="app-card">
-                    <div class="app-badge coming">Research</div>
-                    <div class="app-icon">📻</div>
-                    <h3>LoRaWAN Security</h3>
-                    <p>Long-range IoT network protection with spread-spectrum obfuscation.</p>
-                    <span class="app-status">Research Phase</span>
-                </div>
-                <div class="app-card">
-                    <div class="app-badge coming">Research</div>
-                    <div class="app-icon">🔵</div>
-                    <h3>Bluetooth Security</h3>
-                    <p>BLE communication protection with address hopping and payload obfuscation.</p>
+                    <p>CAN bus protection using cyclic dialect refresh. Prevent vehicle network attacks with constantly-evolving encoding.</p>
                     <span class="app-status">Research Phase</span>
                 </div>
             </div>
 
             <div class="patent-notice">
                 <span>📜</span>
-                <p>DialectForge technology is protected by pending patents covering emergent protocol negotiation, cyclic refresh mechanisms, and multi-domain applications.</p>
+                <p>DialectForge technology is protected by pending patents covering emergent protocol negotiation, cyclic refresh mechanisms, unified dialect-route derivation, and multi-domain applications including VPN, mesh networking, IoT, automotive, and more.</p>
             </div>
         </div>
     </section>
@@ -488,7 +375,7 @@
     <section id="contact" class="contact">
         <div class="container">
             <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">Interested in DialectForge? We'd love to hear from you.</p>
+            <p class="section-subtitle">Interested in DialectForge technology? Whether you're a consumer, enterprise, or researcher - we'd love to hear from you.</p>
             
             <div class="contact-content">
                 <div class="contact-info">
@@ -516,11 +403,11 @@
                 </div>
                 
                 <div class="contact-cta">
-                    <h3>Ready to break through censorship?</h3>
-                    <p>Sign up for early access to DialectForge VPN and be the first to experience truly unblockable privacy.</p>
-                    <a href="mailto:dialectforge@gmail.com?subject=DialectForge Early Access" class="btn-primary">
+                    <h3>Ready for invisible communication?</h3>
+                    <p>Sign up for early access to DialectForge VPN or inquire about enterprise and research partnerships.</p>
+                    <a href="mailto:dialectforge@gmail.com?subject=DialectForge Inquiry" class="btn-primary">
                         <span>🚀</span>
-                        Request Early Access
+                        Contact Us
                     </a>
                 </div>
             </div>
@@ -536,11 +423,11 @@
                         <div class="logo-icon">🔐</div>
                         DialectForge
                     </a>
-                    <p>Patent-pending censorship-resistant protocol technology.</p>
+                    <p>Patent-pending AI-negotiated emergent protocol technology. Making network communication invisible.</p>
                 </div>
                 <div class="footer-links">
-                    <h4>Product</h4>
-                    <a href="#features">Features</a>
+                    <h4>Technology</h4>
+                    <a href="#protocol">The Protocol</a>
                     <a href="#how-it-works">How It Works</a>
                     <a href="#applications">Applications</a>
                 </div>
@@ -551,389 +438,10 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 DialectForge. All rights reserved. Patent Pending.</p>
+                <p>&copy; 2026 DialectForge. All rights reserved. Patent Pending.</p>
             </div>
         </div>
     </footer>
-
-    <style>
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Section Styles */
-        section {
-            padding: 6rem 0;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 4rem;
-        }
-
-        /* Features Section */
-        .features {
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.02) 100%);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* How It Works Section */
-        .how-it-works {
-            background: var(--bg-card);
-        }
-
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            margin-bottom: 4rem;
-        }
-
-        .step {
-            display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-        }
-
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--accent-blue));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        .step-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .step-content p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .step-visual {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .step-visual code {
-            display: block;
-            color: var(--primary);
-            font-size: 0.875rem;
-        }
-
-        .comparison {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .comparison-card {
-            padding: 2rem;
-            border-radius: 16px;
-        }
-
-        .comparison-card.bad {
-            background: rgba(255, 100, 100, 0.1);
-            border: 1px solid rgba(255, 100, 100, 0.3);
-        }
-
-        .comparison-card.good {
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-        }
-
-        .comparison-card h4 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .comparison-card ul {
-            list-style: none;
-        }
-
-        .comparison-card li {
-            padding: 0.5rem 0;
-            color: var(--text-secondary);
-        }
-
-        /* Applications Section */
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .app-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .app-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .app-card.featured {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, var(--bg-card) 100%);
-        }
-
-        .app-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--primary);
-            color: var(--bg-dark);
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .app-badge.coming {
-            background: var(--accent-purple);
-            color: white;
-        }
-
-        .app-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .app-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .app-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .app-status {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .app-status.ready {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .patent-notice {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        .patent-notice span {
-            font-size: 2rem;
-        }
-
-        .patent-notice p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Contact Section */
-        .contact {
-            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .contact-item {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .contact-icon {
-            font-size: 2rem;
-            width: 60px;
-            height: 60px;
-            background: var(--bg-card);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-item h4 {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.25rem;
-        }
-
-        .contact-item a, .contact-item p {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 1.1rem;
-        }
-
-        .contact-item a:hover {
-            color: var(--primary);
-        }
-
-        .contact-cta {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-        }
-
-        .contact-cta h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-cta p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--bg-dark);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 4rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-brand p {
-            color: var(--text-secondary);
-            margin-top: 1rem;
-        }
-
-        .footer-links h4 {
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .footer-links a {
-            display: block;
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 0.5rem 0;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .step {
-                flex-direction: column;
-            }
-
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-    </style>
 
     <script>
         // Timer countdown
