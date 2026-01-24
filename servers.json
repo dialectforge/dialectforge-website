@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "updated": "2026-01-24",
+  "servers": [
+    {
+      "id": "helsinki",
+      "name": "Helsinki",
+      "host": "77.42.88.227",
+      "api": "https://api.dialectforge.com",
+      "terminal_port": 2222,
+      "vpn_port": 51820,
+      "location": "Finland",
+      "region": "EU",
+      "flag": "🇫🇮",
+      "enabled": true,
+      "is_primary": true
+    },
+    {
+      "id": "virginia",
+      "name": "Virginia",
+      "host": "178.156.211.220",
+      "api": "https://api-us.dialectforge.com",
+      "terminal_port": 2222,
+      "vpn_port": 51820,
+      "location": "USA East",
+      "region": "US",
+      "flag": "🇺🇸",
+      "enabled": true,
+      "is_primary": false
+    },
+    {
+      "id": "singapore",
+      "name": "Singapore",
+      "host": "5.223.52.181",
+      "api": "https://api-sg.dialectforge.com",
+      "terminal_port": 2222,
+      "vpn_port": 51820,
+      "location": "Asia",
+      "region": "APAC",
+      "flag": "🇸🇬",
+      "enabled": true,
+      "is_primary": false
+    }
+  ],
+  "bootstrap": {
+    "host": "77.42.88.227",
+    "api": "https://api.dialectforge.com",
+    "comment": "Fallback if servers.json fetch fails"
+  }
+}
