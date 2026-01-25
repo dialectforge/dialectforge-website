@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - DialectForge VPN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #00ff88;
+            --primary-dark: #00cc6a;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+            --accent-blue: #4da6ff;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.8; }
+        .container { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--primary); text-align: center; }
+        .subtitle { color: var(--text-secondary); text-align: center; margin-bottom: 3rem; }
+        h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text); }
+        h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--primary); }
+        p, li { color: var(--text-secondary); margin-bottom: 1rem; }
+        ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-bottom: 2rem; color: var(--text-secondary); }
+        .back-link:hover { color: var(--primary); }
+        
+        .contact-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 3rem; }
+        .contact-card h2 { margin-top: 0; }
+        .contact-btn { display: inline-block; background: var(--primary); color: var(--bg-dark); padding: 1rem 2rem; border-radius: 10px; font-weight: 600; text-decoration: none; margin-top: 1rem; transition: all 0.3s; }
+        .contact-btn:hover { background: var(--primary-dark); text-decoration: none; transform: translateY(-2px); }
+        
+        .faq-section { background: var(--bg-card); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 0; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .faq-item:first-child { padding-top: 0; }
+        .faq-question { color: var(--text); font-weight: 600; margin-bottom: 0.5rem; }
+        .faq-answer { color: var(--text-secondary); margin-bottom: 0; }
+        
+        .status-card { background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), var(--bg-card)); border: 1px solid var(--primary); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; }
+        .status-dot { width: 12px; height: 12px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .status-text { color: var(--text); }
+        .status-text span { color: var(--text-secondary); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to DialectForge</a>
+        
+        <h1>Support</h1>
+        <p class="subtitle">We're here to help you get the most out of DialectForge VPN</p>
+
+        <div class="status-card">
+            <div class="status-dot"></div>
+            <div class="status-text">
+                All Systems Operational
+                <span>• Helsinki, Virginia, Singapore servers online</span>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h2>Need Help?</h2>
+            <p>Our support team typically responds within 24 hours</p>
+            <a href="mailto:dialectforge@gmail.com?subject=DialectForge Support Request" class="contact-btn">📧 Email Support</a>
+        </div>
+
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-section">
+            <div class="faq-item">
+                <p class="faq-question">How do I install the VPN on my device?</p>
+                <p class="faq-answer"><strong>macOS:</strong> Download the DMG from our website, open it, and drag DialectForge VPN to your Applications folder. On first launch, you'll need to approve the System Extension in System Settings.<br><br>
+                <strong>iOS:</strong> Download from the App Store and follow the prompts to allow the VPN configuration.<br><br>
+                <strong>Windows/Android:</strong> Coming soon!</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">The VPN won't connect. What should I do?</p>
+                <p class="faq-answer">1. Make sure you've approved the System Extension (macOS) or VPN permission (iOS)<br>
+                2. Try a different server (Helsinki, Virginia, or Singapore)<br>
+                3. Check your internet connection without VPN<br>
+                4. Restart the app<br>
+                5. If the problem persists, contact support with details about your device and error message</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">How do I approve the System Extension on macOS?</p>
+                <p class="faq-answer">When you first connect, macOS will ask you to approve the extension. Go to <strong>System Settings → General → Login Items & Extensions</strong>. Find DialectForge and enable it. You may need to enter your password. If you don't see the prompt, click "Enable VPN Extension" in the app.</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">How many devices can I use?</p>
+                <p class="faq-answer">Standard accounts support up to 5 registered devices. You can manage your devices in the app's Settings → Registered Devices. Revoke devices you no longer use to make room for new ones.</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">Is my traffic really invisible?</p>
+                <p class="faq-answer">Yes. DialectForge uses a proprietary protocol that transforms your traffic into random noise. Unlike traditional VPNs (WireGuard, OpenVPN), there are no recognizable packet headers or signatures. The "dialect" encoding changes every 2 minutes, making it impossible to fingerprint.</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">Which server should I use?</p>
+                <p class="faq-answer">Choose the server closest to you for best performance:<br>
+                • <strong>Helsinki:</strong> Best for Europe, Middle East, Africa<br>
+                • <strong>Virginia:</strong> Best for Americas<br>
+                • <strong>Singapore:</strong> Best for Asia-Pacific, Oceania<br><br>
+                The app shows server load percentages to help you choose the least congested option.</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">I forgot my password. How do I reset it?</p>
+                <p class="faq-answer">On the login screen, tap "Forgot Password?" and enter your email. You'll receive a reset link within a few minutes. Check your spam folder if you don't see it.</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">How do I cancel my subscription?</p>
+                <p class="faq-answer"><strong>iOS:</strong> Go to Settings → Your Name → Subscriptions → DialectForge VPN → Cancel<br>
+                <strong>macOS (App Store):</strong> Open App Store → Account → Subscriptions<br>
+                <strong>Other:</strong> Contact support and we'll help you</p>
+            </div>
+            
+            <div class="faq-item">
+                <p class="faq-question">Does DialectForge log my activity?</p>
+                <p class="faq-answer">No. We do not log your browsing activity, DNS queries, or traffic content. We only store the minimum data needed to operate your account (email, device IDs, connection timestamps). See our <a href="/privacy">Privacy Policy</a> for full details.</p>
+            </div>
+        </div>
+
+        <h2>Still Need Help?</h2>
+        <p>If your question isn't answered above, please email us at <a href="mailto:dialectforge@gmail.com">dialectforge@gmail.com</a> with:</p>
+        <ul>
+            <li>Your device type and OS version</li>
+            <li>A description of the issue</li>
+            <li>Any error messages you see</li>
+            <li>Steps you've already tried</li>
+        </ul>
+        <p>We'll get back to you as soon as possible!</p>
+    </div>
+</body>
+</html>
