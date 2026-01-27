@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download DialectForge VPN - Coming Soon</title>
+    <title>Download DialectForge VPN</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,63 +14,201 @@
             background: #0a0a0f; 
             color: #ffffff; 
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
             padding: 2rem;
         }
         .container {
-            max-width: 600px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
         .logo {
             font-size: 2rem;
             font-weight: 700;
             color: #00ff88;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #fff 0%, #00ff88 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        p {
-            font-size: 1.25rem;
+        .subtitle {
+            font-size: 1.1rem;
             color: #8b8b9a;
-            margin-bottom: 2rem;
-            line-height: 1.6;
         }
-        .status-badge {
-            display: inline-block;
-            background: rgba(255, 165, 0, 0.2);
-            border: 1px solid rgba(255, 165, 0, 0.5);
-            color: #ffa500;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
+        .download-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
             margin-bottom: 2rem;
+        }
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .platform-icon {
+            font-size: 2.5rem;
+        }
+        .platform-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        .platform-info .version {
+            color: #8b8b9a;
+            font-size: 0.9rem;
+        }
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3);
+        }
+        .download-meta {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #8b8b9a;
+        }
+        .coming-soon {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .coming-soon h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #8b8b9a;
+        }
+        .platform-list {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .platform-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #555;
+            font-size: 1rem;
+        }
+        .platform-item span {
+            font-size: 1.5rem;
+        }
+        .video-section {
+            margin-bottom: 2rem;
+        }
+        .video-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
         .back-link {
+            display: inline-block;
             color: #00ff88;
             text-decoration: none;
             font-weight: 500;
+            margin-top: 1rem;
         }
         .back-link:hover {
             text-decoration: underline;
+        }
+        .requirements {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #8b8b9a;
+        }
+        .requirements strong {
+            color: #fff;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">DialectForge</div>
-        <div class="status-badge">🚧 Under Maintenance</div>
-        <h1>Download Temporarily Unavailable</h1>
-        <p>We're making improvements to ensure the best experience. The download will be available again soon.</p>
-        <p>For early access or questions, contact <a href="mailto:support@dialectforge.com" style="color: #00ff88;">support@dialectforge.com</a></p>
-        <br>
+        <div class="header">
+            <div class="logo">DialectForge</div>
+            <h1>Download</h1>
+            <p class="subtitle">Invisible VPN protection for all your devices</p>
+        </div>
+
+        <!-- macOS Download -->
+        <div class="download-section">
+            <div class="platform-header">
+                <span class="platform-icon">🍎</span>
+                <div class="platform-info">
+                    <h2>macOS</h2>
+                    <span class="version">Version 1.0 • Apple Silicon & Intel</span>
+                </div>
+            </div>
+            <a href="https://github.com/dialectforge/dialectforge-website/releases/download/v1.0.0/DialectForgeVPN-1.0.dmg" class="download-btn">
+                Download for macOS
+            </a>
+            <div class="download-meta">
+                DMG Installer • ~15 MB • Requires macOS 13+
+            </div>
+            <div class="requirements">
+                <strong>Note:</strong> After installing, you'll need to allow the Network Extension in System Settings → General → Login Items & Extensions.
+            </div>
+        </div>
+
+        <!-- Installation Video -->
+        <div class="video-section">
+            <h3>📺 Installation Guide</h3>
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/ANoR7vNR31o" 
+                    title="DialectForge VPN macOS Installation Guide"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Coming Soon -->
+        <div class="coming-soon">
+            <h3>Coming Soon</h3>
+            <div class="platform-list">
+                <div class="platform-item"><span>📱</span> iOS</div>
+                <div class="platform-item"><span>🪟</span> Windows</div>
+                <div class="platform-item"><span>🤖</span> Android</div>
+            </div>
+        </div>
+
         <a href="/" class="back-link">← Back to Home</a>
     </div>
 </body>
