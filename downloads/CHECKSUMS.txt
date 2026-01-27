@@ -1,0 +1,33 @@
+DialectForge VPN macOS Release Checksums
+========================================
+
+Version: 1.0
+Build Date: January 26, 2026
+Notarization ID: 8ae0c013-b635-4bb7-851f-c42c644263cd
+
+SHA-256 Checksums
+-----------------
+
+DialectForgeVPN-1.0.dmg:
+7e9ff7a96071dd50f4fbefe2bcdf822d916f7860c4078c6ad3c9131300311da7
+
+Verification Instructions
+-------------------------
+
+macOS/Linux:
+  shasum -a 256 DialectForgeVPN-1.0.dmg
+
+Windows (PowerShell):
+  Get-FileHash DialectForgeVPN-1.0.dmg -Algorithm SHA256
+
+The checksum should match exactly. If it doesn't match, do not install
+the file - it may have been corrupted or tampered with.
+
+Code Signing
+------------
+This application is signed with:
+- Developer ID: John Martin
+- Team ID: 43L7PC83B4
+
+The app has been notarized by Apple and will be verified by Gatekeeper
+automatically on macOS.
