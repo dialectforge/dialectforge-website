@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updated": "2026-01-24",
+  "version": 2,
+  "updated": "2026-01-28",
   "servers": [
     {
       "id": "helsinki",
@@ -23,6 +23,19 @@
       "terminal_port": 2222,
       "vpn_port": 51820,
       "location": "USA East",
+      "region": "US",
+      "flag": "🇺🇸",
+      "enabled": true,
+      "is_primary": false
+    },
+    {
+      "id": "hillsboro",
+      "name": "Hillsboro",
+      "host": "5.78.141.24",
+      "api": "https://api-hb.dialectforge.com",
+      "terminal_port": 2222,
+      "vpn_port": 51820,
+      "location": "USA West",
       "region": "US",
       "flag": "🇺🇸",
       "enabled": true,
