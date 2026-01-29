@@ -76,10 +76,26 @@
             font-weight: 600;
             font-size: 1.1rem;
             transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
         }
         .download-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3);
+        }
+        .download-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+        .download-btn.secondary:hover {
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.15);
+        }
+        .download-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         .download-meta {
             margin-top: 1rem;
@@ -175,13 +191,20 @@
                     <span class="version">Version 1.0 • Apple Silicon & Intel</span>
                 </div>
             </div>
-            <a href="https://github.com/dialectforge/dialectforge-website/releases/download/v1.0.0/DialectForgeVPN-1.0.dmg" class="download-btn">
-                Download for macOS
-            </a>
+            <div class="download-buttons">
+                <a href="https://github.com/dialectforge/dialectforge-vpn/releases/download/v1.0.0-macos/DialectForgeVPN-macOS13.dmg" class="download-btn">
+                    Download for macOS 13+
+                </a>
+                <a href="https://github.com/dialectforge/dialectforge-vpn/releases/download/v1.0.0-macos/DialectForgeVPN-macOS26.dmg" class="download-btn secondary">
+                    Download for macOS 26.2
+                </a>
+            </div>
             <div class="download-meta">
-                DMG Installer • ~15 MB • Requires macOS 13+
+                DMG Installer • ~3 MB • Choose your macOS version
             </div>
             <div class="requirements">
+                <strong>macOS 13+ (Ventura/Sonoma/Sequoia):</strong> Recommended for most users<br>
+                <strong>macOS 26.2 (Tahoe):</strong> For users running the latest macOS<br><br>
                 <strong>Note:</strong> After installing, you'll need to allow the Network Extension in System Settings → General → Login Items & Extensions.
             </div>
         </div>
