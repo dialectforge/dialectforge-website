@@ -67,6 +67,30 @@
             text-decoration: none; font-weight: 500; margin-top: 1rem;
         }
         .back-link:hover { text-decoration: underline; }
+        .video-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
+            text-align: center;
+        }
+        .video-section h3 {
+            font-size: 1.3rem; margin-bottom: 1rem;
+            color: #fff;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
     </style>
 </head>
 <body>
@@ -77,16 +101,28 @@
             <p class="subtitle">Invisible VPN protection for all your devices</p>
         </div>
 
+        <!-- Video Demo -->
+        <div class="video-section">
+            <h3>🎬 See DialectForge VPN in Action</h3>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/ANoR7vNR31o?si=pLAExOrzrX-Y4Qw4" 
+                    title="DialectForge VPN Demo" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+
         <!-- macOS -->
         <div class="download-section">
             <div class="platform-header">
                 <div class="platform-icon">🍎</div>
                 <div class="platform-info">
                     <h2>macOS</h2>
-                    <div class="version">v1.0.2 · macOS 13.0 (Ventura) and later</div>
+                    <div class="version">v1.0.3 · macOS 13.0 (Ventura) and later</div>
                 </div>
             </div>
-            <a href="https://github.com/dialectforge/dialectforge-website/releases/download/v1.0.2-macos/DialectForgeVPN.dmg" class="download-btn">⬇ Download DMG</a>
+            <a href="https://github.com/dialectforge/dialectforge-website/releases/download/v1.0.3-macos/DialectForgeVPN.dmg" class="download-btn">⬇ Download DMG</a>
             <div class="download-meta">
                 7.3 MB · Signed &amp; notarized by Apple · Developer ID: John Martin
             </div>
