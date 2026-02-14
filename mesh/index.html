@@ -32,7 +32,16 @@
     background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
     background-size: 40px 40px; pointer-events: none;
   }
-  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }  header { text-align: center; margin-bottom: 52px; }
+  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+
+  .back-nav { margin-bottom: 24px; }
+  .back-nav a {
+    color: var(--dim); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-nav a:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 52px; }
   header h1 {
     font-weight: 900; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px;
     background: linear-gradient(135deg, #fff 40%, var(--cyan));
@@ -148,6 +157,7 @@
 </head>
 <body>
 <div class="container">
+  <div class="back-nav"><a href="/">&#x2190; DialectForge</a></div>
   <header>
     <h1>DialectForge Mesh</h1>
     <p>Four servers across three continents, secured by the same AI-negotiated obfuscation that protects your VPN traffic. Every byte between servers looks like random noise.</p>
@@ -248,23 +258,23 @@
       <div class="cmp-col">
         <h4><span style="color:var(--red);">&#x26A0;&#xFE0F;</span> Typical VPN Infrastructure</h4>
         <div class="cmp-item">
-          <span class="t-red">&#x2717;</span> Server-to-server traffic uses standard TLS<br>
-          <span class="t-red">&#x2717;</span> Replication protocol is identifiable<br>
-          <span class="t-red">&#x2717;</span> Database sync patterns are predictable<br>
-          <span class="t-red">&#x2717;</span> Traffic analysis reveals infrastructure<br>
-          <span class="t-red">&#x2717;</span> Static encryption — same keys for hours/days<br>
-          <span class="t-red">&#x2717;</span> Compromise one link = read all replication
+          <span style="color:var(--red);">&#x2717;</span> Server-to-server traffic uses standard TLS<br>
+          <span style="color:var(--red);">&#x2717;</span> Replication protocol is identifiable<br>
+          <span style="color:var(--red);">&#x2717;</span> Database sync patterns are predictable<br>
+          <span style="color:var(--red);">&#x2717;</span> Traffic analysis reveals infrastructure<br>
+          <span style="color:var(--red);">&#x2717;</span> Static encryption — same keys for hours/days<br>
+          <span style="color:var(--red);">&#x2717;</span> Compromise one link = read all replication
         </div>
       </div>
       <div class="cmp-col">
         <h4><span style="color:var(--green);">&#x1F6E1;&#xFE0F;</span> DialectForge Mesh</h4>
         <div class="cmp-item">
-          <span class="t-green">&#x2713;</span> All traffic wrapped in DF obfuscation<br>
-          <span class="t-green">&#x2713;</span> Protocol signatures eliminated<br>
-          <span class="t-green">&#x2713;</span> Replication indistinguishable from noise<br>
-          <span class="t-green">&#x2713;</span> Infrastructure topology hidden<br>
-          <span class="t-green">&#x2713;</span> Dialect refreshes on every new session<br>
-          <span class="t-green">&#x2713;</span> Past traffic unreadable — forward secrecy
+          <span style="color:var(--green);">&#x2713;</span> All traffic wrapped in DF obfuscation<br>
+          <span style="color:var(--green);">&#x2713;</span> Protocol signatures eliminated<br>
+          <span style="color:var(--green);">&#x2713;</span> Replication indistinguishable from noise<br>
+          <span style="color:var(--green);">&#x2713;</span> Infrastructure topology hidden<br>
+          <span style="color:var(--green);">&#x2713;</span> Dialect refreshes on every new session<br>
+          <span style="color:var(--green);">&#x2713;</span> Past traffic unreadable — forward secrecy
         </div>
       </div>
     </div>
