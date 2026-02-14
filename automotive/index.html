@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DialectForge Automotive — CAN Bus Security</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --text: #e0e0e8;
+    --dim: #6a6a80;
+    --green: #00e892;
+    --green-glow: rgba(0,232,146,0.12);
+    --red: #ff4d6a;
+    --red-glow: rgba(255,77,106,0.12);
+    --amber: #ffb84d;
+    --amber-glow: rgba(255,184,77,0.12);
+    --blue: #4d9fff;
+    --blue-glow: rgba(77,159,255,0.12);
+    --purple: #b44dff;
+    --cyan: #4de8ff;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Outfit', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--display); min-height: 100vh; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+
+  .back-nav { margin-bottom: 24px; }
+  .back-nav a {
+    color: var(--dim); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-nav a:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 52px; }
+  .research-badge {
+    display: inline-block; font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.08em; padding: 4px 14px; border-radius: 100px; margin-bottom: 16px;
+    background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(255,184,77,0.25);
+  }
+  header h1 {
+    font-weight: 900; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px;
+    background: linear-gradient(135deg, #fff 40%, var(--amber));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  header p { font-weight: 300; font-size: 1.15rem; color: var(--dim); max-width: 700px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── CAN Bus Visual ── */
+  .can-visual {
+    position: relative; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 40px 32px; margin-bottom: 48px; overflow: hidden;
+  }
+  .can-visual h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 28px; color: var(--amber); }
+  .ecu-row { display: flex; justify-content: space-around; align-items: flex-end; position: relative; z-index: 1; padding-bottom: 60px; }
+  .ecu-node { text-align: center; }
+  .ecu-ring {
+    width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; margin: 0 auto 10px; animation: pulse 3s ease-in-out infinite;
+  }
+  .ecu-ring.safe { background: var(--green-glow); border: 2px solid var(--green); box-shadow: 0 0 20px rgba(0,232,146,0.1); }
+  .ecu-ring.warn { background: var(--amber-glow); border: 2px solid var(--amber); box-shadow: 0 0 20px rgba(255,184,77,0.15); }
+  .ecu-ring.danger { background: var(--red-glow); border: 2px solid var(--red); box-shadow: 0 0 20px rgba(255,77,106,0.15); }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+  .ecu-name { font-weight: 700; font-size: 0.85rem; margin-bottom: 3px; }
+  .ecu-label { font-size: 0.7rem; color: var(--dim); font-family: var(--mono); }
+
+  .can-bus-line {
+    position: absolute; bottom: 32px; left: 5%; right: 5%; height: 3px;
+    background: var(--amber); border-radius: 2px; z-index: 0;
+  }
+  .can-bus-label {
+    position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 0.6rem; color: var(--amber); letter-spacing: 0.1em; font-weight: 700;
+  }
+  .data-pulse {
+    position: absolute; bottom: 30px; height: 7px; width: 40px; border-radius: 4px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    animation: canflow 2s linear infinite; z-index: 1;
+  }
+  .data-pulse.p1 { left: 10%; animation-delay: 0s; }
+  .data-pulse.p2 { left: 30%; animation-delay: 0.5s; }
+  .data-pulse.p3 { left: 55%; animation-delay: 1.0s; }
+  .data-pulse.p4 { left: 75%; animation-delay: 1.5s; }
+  @keyframes canflow {
+    0% { opacity: 0; transform: translateX(0); } 30% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; transform: translateX(60px); }
+  }
+
+  /* ── Problem Section ── */
+  .problem {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .problem h3 { text-align: center; font-weight: 700; font-size: 1.2rem; margin-bottom: 8px; color: var(--red); }
+  .problem .subtitle { text-align: center; font-size: 0.88rem; color: var(--dim); margin-bottom: 24px; }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .problem-item {
+    background: var(--bg); border-radius: 12px; padding: 18px 20px;
+    border-left: 3px solid var(--red);
+  }
+  .problem-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: var(--red); }
+  .problem-item p { font-size: 0.82rem; color: var(--dim); line-height: 1.6; }
+
+  /* ── Steps Grid ── */
+  .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 48px; }
+  .how-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 26px 24px;
+  }
+  .how-num {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
+    padding: 3px 10px; border-radius: 100px; display: inline-block; margin-bottom: 12px;
+    background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(255,184,77,0.2);
+  }
+  .how-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+  .how-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
+  .how-code {
+    margin-top: 10px; font-family: var(--mono); font-size: 0.72rem; color: var(--amber);
+    background: var(--bg); padding: 8px 12px; border-radius: 8px;
+  }
+
+  /* ── Traffic Demo ── */
+  .traffic-demo {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .traffic-demo h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; }
+  .traffic-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .traffic-label { font-size: 0.75rem; font-weight: 700; width: 110px; text-align: right; flex-shrink: 0; }
+  .traffic-bar {
+    flex: 1; font-family: var(--mono); font-size: 0.72rem; padding: 14px 16px;
+    border-radius: 8px; letter-spacing: 0.03em; line-height: 1.8;
+  }
+
+  /* ── Attack Scenario ── */
+  .attack-scenario {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .attack-scenario h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; }
+  .attack-steps { display: flex; flex-direction: column; gap: 0; }
+  .attack-step {
+    display: flex; align-items: center; gap: 16px; padding: 14px 20px;
+    border-left: 3px solid var(--border); position: relative;
+  }
+  .attack-step::before {
+    content: ''; position: absolute; left: -7px; top: 50%; transform: translateY(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .attack-step.s-attack { border-left-color: var(--red); }
+  .attack-step.s-attack::before { background: var(--red); }
+  .attack-step.s-detect { border-left-color: var(--amber); }
+  .attack-step.s-detect::before { background: var(--amber); }
+  .attack-step.s-lock { border-left-color: var(--purple); }
+  .attack-step.s-lock::before { background: var(--purple); }
+  .attack-step.s-recover { border-left-color: var(--green); }
+  .attack-step.s-recover::before { background: var(--green); }
+  .step-icon { font-size: 1.4rem; flex-shrink: 0; width: 36px; text-align: center; }
+  .step-text { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+  .step-text strong { color: var(--text); }
+  .step-code {
+    font-family: var(--mono); font-size: 0.7rem; display: inline-block;
+    background: var(--bg); padding: 2px 8px; border-radius: 4px; margin-top: 4px;
+  }
+
+  /* ── Comparison ── */
+  .compare {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .compare h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .cmp-col { background: var(--bg); border-radius: 12px; padding: 20px; }
+  .cmp-col h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .cmp-item { font-size: 0.82rem; font-family: var(--mono); line-height: 2.2; }
+
+  /* ── Callout ── */
+  .callout {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px 32px; margin-bottom: 48px; display: flex; gap: 20px; align-items: flex-start;
+  }
+  .callout-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
+  .callout-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+  .callout-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
+
+  /* ── Specs Box ── */
+  .specs {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .specs h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; color: var(--amber); }
+  .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .spec-item { text-align: center; padding: 16px; background: var(--bg); border-radius: 12px; }
+  .spec-val { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; color: var(--amber); margin-bottom: 4px; }
+  .spec-label { font-size: 0.75rem; color: var(--dim); }
+
+  /* ── Insight ── */
+  .insight {
+    text-align: center; padding: 36px 32px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 16px; max-width: 860px; margin: 0 auto;
+  }
+  .insight h3 { font-weight: 700; font-size: 1.2rem; margin-bottom: 12px; color: var(--amber); }
+  .insight p { font-weight: 300; font-size: 1rem; color: var(--dim); line-height: 1.7; max-width: 660px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    .ecu-row { flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .how-grid, .compare-grid, .problem-grid { grid-template-columns: 1fr; }
+    .specs-grid { grid-template-columns: 1fr 1fr; }
+    .can-bus-line, .data-pulse { display: none; }
+    header h1 { font-size: 1.8rem; }
+    .traffic-row { flex-direction: column; }
+    .traffic-label { text-align: left; width: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="back-nav"><a href="/">&#x2190; DialectForge</a></div>
+  <header>
+    <div class="research-badge">RESEARCH PHASE</div>
+    <h1>DialectForge Automotive</h1>
+    <p>Your car's internal network has zero authentication. CAN bus &mdash; the protocol connecting every ECU in your vehicle &mdash; was designed in the 1980s with no security. DialectForge changes that without replacing a single wire.</p>
+  </header>
+
+  <!-- ═══ CAN Bus Visual ═══ -->
+  <div class="can-visual">
+    <h3>Vehicle CAN Bus Network</h3>
+    <div class="ecu-row">
+      <div class="ecu-node">
+        <div class="ecu-ring safe">&#x1F3CE;&#xFE0F;</div>
+        <div class="ecu-name">Engine</div>
+        <div class="ecu-label">ECU 0x100</div>
+      </div>
+      <div class="ecu-node">
+        <div class="ecu-ring safe">&#x1F6D1;</div>
+        <div class="ecu-name">Brakes</div>
+        <div class="ecu-label">ECU 0x123</div>
+      </div>
+      <div class="ecu-node">
+        <div class="ecu-ring safe">&#x1F3A1;</div>
+        <div class="ecu-name">Steering</div>
+        <div class="ecu-label">ECU 0x145</div>
+      </div>
+      <div class="ecu-node">
+        <div class="ecu-ring warn">&#x1F3B5;</div>
+        <div class="ecu-name">Infotainment</div>
+        <div class="ecu-label">ECU 0x1A0</div>
+      </div>
+      <div class="ecu-node">
+        <div class="ecu-ring danger">&#x1F50C;</div>
+        <div class="ecu-name">OBD-II Port</div>
+        <div class="ecu-label">ATTACK SURFACE</div>
+      </div>
+    </div>
+    <div class="can-bus-line"></div>
+    <div class="can-bus-label">CAN BUS (ISO 11898)</div>
+    <div class="data-pulse p1"></div>
+    <div class="data-pulse p2"></div>
+    <div class="data-pulse p3"></div>
+    <div class="data-pulse p4"></div>
+  </div>
+
+  <!-- ═══ The Problem ═══ -->
+  <div class="problem">
+    <h3>The Problem With CAN Bus</h3>
+    <div class="subtitle">Designed in 1986. Zero authentication. Still in every car on the road.</div>
+    <div class="problem-grid">
+      <div class="problem-item">
+        <h4>No Authentication</h4>
+        <p>Any device on the bus can send any message. An ECU has no way to verify who sent a frame. Plug into the OBD-II port and you can talk to every system in the vehicle.</p>
+      </div>
+      <div class="problem-item">
+        <h4>Static, Predictable IDs</h4>
+        <p>CAN message IDs are fixed and publicly documented. Brake commands are always the same ID. Attackers know exactly what to send and where.</p>
+      </div>
+      <div class="problem-item">
+        <h4>Plaintext Payloads</h4>
+        <p>Data travels unencrypted. A brake pressure value of 40 is readable in plain hex on the wire. No obfuscation, no encryption, no protection.</p>
+      </div>
+      <div class="problem-item">
+        <h4>Real-World Exploits</h4>
+        <p>Researchers have demonstrated remote brake disabling, engine shutdown, and steering manipulation. Relay attacks enable keyless vehicle theft in seconds.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ How DF Protects CAN ═══ -->
+  <div class="how-grid">
+    <div class="how-card">
+      <span class="how-num">STEP 1</span>
+      <div class="how-title">Seed at Ignition</div>
+      <div class="how-desc">When the vehicle starts, a priority CAN frame (ID 0x000) broadcasts a 256-bit seed to every ECU on the bus. This happens once, in under 50ms, before any normal traffic flows.</div>
+      <div class="how-code">CAN ID 0x000 | Seed: b4d85f8f6ced4355...</div>
+    </div>
+    <div class="how-card">
+      <span class="how-num">STEP 2</span>
+      <div class="how-title">Dialect Negotiation</div>
+      <div class="how-desc">Each ECU's lightweight AI agent (~256KB) uses the seed to generate dialect proposals. After 3 iterations of proposal exchange, all ECUs converge on a shared dialect map. Total time: under 100ms.</div>
+      <div class="how-code">"brake" &#x2192; 0x19 &nbsp;|&nbsp; "status_ok" &#x2192; 0xA7</div>
+    </div>
+    <div class="how-card">
+      <span class="how-num">STEP 3</span>
+      <div class="how-title">ID Hopping</div>
+      <div class="how-desc">CAN message IDs hop every 50&ndash;500ms while preserving arbitration priority. The brake ECU's ID 0x123 becomes 0x29C, then something else next cycle. Unpredictable without the seed.</div>
+      <div class="how-code">ID 0x123 ^ seed &#x2192; 0x29C (hops every cycle)</div>
+    </div>
+    <div class="how-card">
+      <span class="how-num">STEP 4</span>
+      <div class="how-title">Encrypted Payloads</div>
+      <div class="how-desc">Commands are mapped through the dialect and XOR-encrypted with a session key derived from the seed. "brake=40" becomes raw bytes 19 28 9F 4A. Gibberish to anyone without the seed.</div>
+      <div class="how-code">"brake=40" &#x2192; 19 28 9F 4A (gibberish)</div>
+    </div>
+  </div>
+
+  <!-- ═══ Traffic Demo ═══ -->
+  <div class="traffic-demo">
+    <h3>What an attacker sees on the bus</h3>
+    <div style="font-family:var(--mono); font-size:0.72rem; color:var(--dim); text-align:center; margin-bottom:16px;">
+      ECU &nbsp;&#x2192;&nbsp; <span style="color:var(--amber);">[DialectForge Encode]</span> &nbsp;&#x2192;&nbsp; CAN Bus &nbsp;&#x2192;&nbsp; <span style="color:var(--amber);">[Decode]</span> &nbsp;&#x2192;&nbsp; ECU
+    </div>
+    <div class="traffic-row">
+      <div class="traffic-label" style="color:var(--red);">Standard<br>CAN Frame</div>
+      <div class="traffic-bar" style="background:rgba(255,77,106,0.08); border:1px solid rgba(255,77,106,0.15); color:var(--red);">
+        <span style="color:var(--amber);font-weight:600;">ID: 0x123</span> <span style="opacity:0.5;">|</span> DLC: 4 <span style="opacity:0.5;">|</span> Data: <span style="color:#fff;font-weight:700;">62 72 61 6B</span> <span style="opacity:0.5;">(ASCII: "brak")</span><br>
+        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; Fixed ID &bull; &#x25B2; Readable payload &bull; Same every time &bull; Trivially spoofable</span>
+      </div>
+    </div>
+    <div class="traffic-row">
+      <div class="traffic-label" style="color:var(--green);">DF Protected<br>CAN Frame</div>
+      <div class="traffic-bar" style="background:rgba(0,232,146,0.06); border:1px solid rgba(0,232,146,0.15); color:var(--green);">
+        <span style="color:var(--amber);font-weight:600;">ID: 0x29C</span> <span style="opacity:0.5;">|</span> DLC: 4 <span style="opacity:0.5;">|</span> Data: <span style="color:#fff;font-weight:700;">19 28 9F 4A</span><br>
+        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; Hopped ID &bull; &#x25B2; Encrypted payload &bull; Changes every 50&ndash;500ms &bull; Gibberish without seed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Attack Scenario ═══ -->
+  <div class="attack-scenario">
+    <h3>Attack &#x2192; Detect &#x2192; Lockdown &#x2192; Rekey</h3>
+    <div class="attack-steps">
+      <div class="attack-step s-attack">
+        <div class="step-icon">&#x1F3AD;</div>
+        <div class="step-text">
+          <strong>Attacker injects spoofed frame</strong> via OBD-II port with fixed ID 0x123 and a forged brake command.<br>
+          <span class="step-code">ID: 0x123 | Data: 62 72 61 6B</span>
+        </div>
+      </div>
+      <div class="attack-step s-detect">
+        <div class="step-icon">&#x1F50D;</div>
+        <div class="step-text">
+          <strong>ECUs attempt decryption &mdash; it fails.</strong> The ID doesn't match any hopped value. The payload doesn't decrypt to a valid dialect entry. Anomaly score incremented.<br>
+          <span class="step-code">anomaly_score: 1.0 (threshold: 0.7)</span>
+        </div>
+      </div>
+      <div class="attack-step s-lock">
+        <div class="step-icon">&#x1F6A8;</div>
+        <div class="step-text">
+          <strong>Quorum lockdown triggered.</strong> &gt;70% of ECUs flag the anomaly (or 3&#x3C3; deviation detected). Network enters protected state. Malicious frame silently dropped.
+        </div>
+      </div>
+      <div class="attack-step s-recover">
+        <div class="step-icon">&#x26A1;</div>
+        <div class="step-text">
+          <strong>Priority rekey in 18ms.</strong> CAN ID 0x000 broadcasts a fresh seed. All ECUs re-negotiate a completely new dialect. The attacker's knowledge is instantly worthless.<br>
+          <span class="step-code">New seed &#x2192; new IDs, new keys, new dialect</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Comparison ═══ -->
+  <div class="compare">
+    <h3>Standard CAN Bus vs. DialectForge CAN</h3>
+    <div class="compare-grid">
+      <div class="cmp-col">
+        <h4><span style="color:var(--red);">&#x26A0;&#xFE0F;</span> Standard CAN Bus</h4>
+        <div class="cmp-item">
+          <span style="color:var(--red);">&#x2717;</span> No authentication whatsoever<br>
+          <span style="color:var(--red);">&#x2717;</span> Static IDs &mdash; easy to spoof<br>
+          <span style="color:var(--red);">&#x2717;</span> Plaintext payloads &mdash; readable on the wire<br>
+          <span style="color:var(--red);">&#x2717;</span> Any device can inject any message<br>
+          <span style="color:var(--red);">&#x2717;</span> No intrusion detection<br>
+          <span style="color:var(--red);">&#x2717;</span> Compromise = full vehicle access
+        </div>
+      </div>
+      <div class="cmp-col">
+        <h4><span style="color:var(--green);">&#x1F6E1;&#xFE0F;</span> DialectForge CAN</h4>
+        <div class="cmp-item">
+          <span style="color:var(--green);">&#x2713;</span> Seed-based authentication at ignition<br>
+          <span style="color:var(--green);">&#x2713;</span> Hopped IDs &mdash; unpredictable without seed<br>
+          <span style="color:var(--green);">&#x2713;</span> Encrypted gibberish payloads<br>
+          <span style="color:var(--green);">&#x2713;</span> Injection immunity &mdash; foreign frames rejected<br>
+          <span style="color:var(--green);">&#x2713;</span> AI anomaly detection + quorum lockdown<br>
+          <span style="color:var(--green);">&#x2713;</span> Compromise triggers rekey in 18ms
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Injection Immunity Callout ═══ -->
+  <div class="callout">
+    <div class="callout-icon">&#x1F6AB;</div>
+    <div>
+      <div class="callout-title">Injection Immunity</div>
+      <div class="callout-desc">An attacker plugs into the OBD-II port and sends a brake command. Without the session seed, the frame doesn't match the current dialect &mdash; the ID is wrong, the payload doesn't decrypt. Every ECU on the bus rejects it instantly. The bus continues operating normally. This isn't filtering. It's structural immunity.</div>
+    </div>
+  </div>
+
+  <!-- ═══ Simulation Verified ═══ -->
+  <div class="callout">
+    <div class="callout-icon">&#x1F9EA;</div>
+    <div>
+      <div class="callout-title">Simulation Verified</div>
+      <div class="callout-desc">A multi-node CAN bus simulation demonstrates the full lifecycle: dialect negotiation from a shared seed, encrypted message transmission, spoofed frame injection, anomaly detection with automatic lockdown, 2FA-verified recovery, and full re-negotiation with a fresh seed. The attack-detect-lockdown-rekey cycle completes in milliseconds.</div>
+    </div>
+  </div>
+
+  <!-- ═══ Technical Specs ═══ -->
+  <div class="specs">
+    <h3>Technical Specifications</h3>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-val">50&ndash;500ms</div>
+        <div class="spec-label">Dialect Cycle Rate</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">&lt;500&#x00B5;s</div>
+        <div class="spec-label">Processing Overhead</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">&lt;5%</div>
+        <div class="spec-label">Bandwidth Overhead</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">256-bit</div>
+        <div class="spec-label">Seed (SHA-256)</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">~18ms</div>
+        <div class="spec-label">Rekey Time</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val">~256KB</div>
+        <div class="spec-label">AI Agent Size</div>
+      </div>
+    </div>
+    <div style="margin-top: 20px; text-align: center; font-size: 0.78rem; color: var(--dim);">
+      Target Hardware: NXP S32K, Renesas RH850 &nbsp;&#x2022;&nbsp;
+      Compliance: ISO 26262 ASIL-B, ISO 11898 &nbsp;&#x2022;&nbsp;
+      Power: &lt;1mJ per negotiation on ARM Cortex-M7
+    </div>
+  </div>
+
+  <!-- ═══ Closing Insight ═══ -->
+  <div class="insight">
+    <h3>Zero authentication. Fixed IDs. Plaintext payloads.</h3>
+    <p>That's the CAN bus in every car on the road today. DialectForge layers AI-negotiated obfuscation directly onto existing hardware &mdash; no wire changes, no protocol overhaul. Just a firmware update that makes your vehicle's internal network speak a language only it understands.</p>
+  </div>
+
+</div>
+</body>
+</html>
