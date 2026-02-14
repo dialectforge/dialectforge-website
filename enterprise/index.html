@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DialectForge Enterprise — Invisible Infrastructure for Business</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --text: #e0e0e8;
+    --dim: #6a6a80;
+    --green: #00e892;
+    --green-glow: rgba(0,232,146,0.12);
+    --red: #ff4d6a;
+    --amber: #ffb84d;
+    --blue: #4d9fff;
+    --blue-glow: rgba(77,159,255,0.12);
+    --purple: #b44dff;
+    --purple-glow: rgba(180,77,255,0.12);
+    --cyan: #4de8ff;
+    --cyan-glow: rgba(77,232,255,0.12);
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Outfit', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--display); min-height: 100vh; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+
+  header { text-align: center; margin-bottom: 52px; }
+  header h1 {
+    font-weight: 900; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px;
+    background: linear-gradient(135deg, #fff 40%, var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  header p { font-weight: 300; font-size: 1.15rem; color: var(--dim); max-width: 720px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── Architecture Visual ── */
+  .arch-visual {
+    position: relative; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 40px 32px; margin-bottom: 48px; overflow: hidden;
+  }
+  .arch-visual h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 28px; }
+  .arch-flow {
+    display: flex; align-items: center; justify-content: center; gap: 0;
+    flex-wrap: wrap; padding: 10px 0;
+  }
+  .arch-step {
+    text-align: center; padding: 18px 22px; border-radius: 14px; min-width: 150px;
+  }
+  .arch-step.client { background: var(--blue-glow); border: 1px solid rgba(77,159,255,0.25); }
+  .arch-step.tunnel { background: var(--green-glow); border: 1px solid rgba(0,232,146,0.25); }
+  .arch-step.compress { background: var(--purple-glow); border: 1px solid rgba(180,77,255,0.25); }
+  .arch-step.container { background: var(--cyan-glow); border: 1px solid rgba(77,232,255,0.25); }
+  .arch-step-icon { font-size: 2rem; margin-bottom: 8px; }
+  .arch-step-label { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+  .arch-step-desc { font-size: 0.72rem; color: var(--dim); font-family: var(--mono); }
+  .arch-arrow {
+    font-size: 1.6rem; color: var(--dim); padding: 0 8px; flex-shrink: 0;
+  }
+
+  /* ── Use Case Cards ── */
+  .use-cases { margin-bottom: 48px; }
+  .use-cases h2 {
+    text-align: center; font-weight: 700; font-size: 1.3rem; margin-bottom: 28px;
+  }
+  .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .uc-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px 24px; transition: border-color 0.3s;
+  }
+  .uc-card:hover { border-color: rgba(180,77,255,0.3); }
+  .uc-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .uc-icon {
+    width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; flex-shrink: 0;
+  }
+  .uc-title { font-weight: 700; font-size: 1.05rem; }
+  .uc-subtitle { font-size: 0.75rem; color: var(--dim); font-family: var(--mono); margin-top: 2px; }
+  .uc-desc { font-size: 0.88rem; color: var(--dim); line-height: 1.7; margin-bottom: 14px; }
+  .uc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .uc-tag {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 100px;
+  }
+  .tag-purple { background: var(--purple-glow); color: var(--purple); border: 1px solid rgba(180,77,255,0.2); }
+  .tag-green { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0,232,146,0.2); }
+  .tag-blue { background: var(--blue-glow); color: var(--blue); border: 1px solid rgba(77,159,255,0.2); }
+  .tag-cyan { background: var(--cyan-glow); color: var(--cyan); border: 1px solid rgba(77,232,255,0.2); }
+  .tag-amber { background: rgba(255,184,77,0.12); color: var(--amber); border: 1px solid rgba(255,184,77,0.2); }
+
+  /* ── Traffic Demo ── */
+  .traffic-demo {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .traffic-demo h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; }
+  .traffic-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .traffic-label { font-size: 0.75rem; font-weight: 700; width: 120px; text-align: right; flex-shrink: 0; }
+  .traffic-bar {
+    flex: 1; font-family: var(--mono); font-size: 0.72rem; padding: 12px 16px;
+    border-radius: 8px; letter-spacing: 0.03em; word-break: break-all; line-height: 1.6;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px 32px; margin-bottom: 24px; display: flex; gap: 20px; align-items: flex-start;
+  }
+  .callout-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
+  .callout-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+  .callout-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
+
+  /* ── Comparison ── */
+  .compare {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .compare h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .cmp-col { background: var(--bg); border-radius: 12px; padding: 20px; }
+  .cmp-col h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .cmp-item { font-size: 0.82rem; font-family: var(--mono); line-height: 2.2; }
+
+  /* ── Closing ── */
+  .insight {
+    text-align: center; padding: 36px 32px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 16px; max-width: 860px; margin: 0 auto;
+  }
+  .insight h3 { font-weight: 700; font-size: 1.2rem; margin-bottom: 12px; color: var(--purple); }
+  .insight p { font-weight: 300; font-size: 1rem; color: var(--dim); line-height: 1.7; max-width: 660px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    .uc-grid { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .arch-flow { flex-direction: column; }
+    .arch-arrow { transform: rotate(90deg); }
+    header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>DialectForge Enterprise</h1>
+    <p>Deploy the same AI-negotiated obfuscation that powers our consumer products across your entire organization. Every byte of corporate traffic becomes unclassifiable noise — not just encrypted, invisible.</p>
+  </header>
+
+  <!-- ═══ Architecture Visual ═══ -->
+  <div class="arch-visual">
+    <h3>The DialectForge Enterprise Pipeline</h3>
+    <div class="arch-flow">
+      <div class="arch-step client">
+        <div class="arch-step-icon">&#x1F4BB;</div>
+        <div class="arch-step-label">Client App</div>
+        <div class="arch-step-desc">Your software</div>
+      </div>
+      <div class="arch-arrow">&#x2192;</div>
+      <div class="arch-step tunnel">
+        <div class="arch-step-icon">&#x1F510;</div>
+        <div class="arch-step-label">DF Tunnel</div>
+        <div class="arch-step-desc">AI-negotiated dialect</div>
+      </div>
+      <div class="arch-arrow">&#x2192;</div>
+      <div class="arch-step compress">
+        <div class="arch-step-icon">&#x1F5DC;</div>
+        <div class="arch-step-label">Compression</div>
+        <div class="arch-step-desc">508 patterns &#x2022; 7 languages</div>
+      </div>
+      <div class="arch-arrow">&#x2192;</div>
+      <div class="arch-step container">
+        <div class="arch-step-icon">&#x1F4E6;</div>
+        <div class="arch-step-label">Container</div>
+        <div class="arch-step-desc">Deploy anywhere</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Use Cases ═══ -->
+  <div class="use-cases">
+    <h2>Enterprise Applications</h2>
+    <div class="uc-grid">
+
+      <!-- 1: On-Site Network Protection -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:var(--green-glow); border:1px solid rgba(0,232,146,0.25);">&#x1F3E2;</div>
+          <div>
+            <div class="uc-title">On-Site Network Protection</div>
+            <div class="uc-subtitle">WIFI + HARDWIRED TRAFFIC</div>
+          </div>
+        </div>
+        <div class="uc-desc">Deploy DialectForge at the network edge. All WiFi and hardwired traffic is obfuscated before it leaves your building. Even if someone physically taps the wire or captures WiFi packets, they see nothing identifiable — no protocols, no patterns, no metadata. Your internal network becomes a black box.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-green">PHYSICAL LAYER</span>
+          <span class="uc-tag tag-green">ZERO TRUST</span>
+          <span class="uc-tag tag-green">ON-PREMISE</span>
+        </div>
+      </div>
+
+      <!-- 2: Data in Transit -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:var(--purple-glow); border:1px solid rgba(180,77,255,0.25);">&#x1F3E5;</div>
+          <div>
+            <div class="uc-title">Data in Transit Protection</div>
+            <div class="uc-subtitle">COMPLIANCE + REGULATION</div>
+          </div>
+        </div>
+        <div class="uc-desc">Healthcare organizations handling HIPAA data, financial institutions under PCI-DSS, and law firms protecting privileged communications. DialectForge doesn't just encrypt — it makes traffic unclassifiable. Auditors see encryption. Attackers see random noise. Regulators see compliance.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-purple">HIPAA</span>
+          <span class="uc-tag tag-purple">PCI-DSS</span>
+          <span class="uc-tag tag-purple">LEGAL</span>
+        </div>
+      </div>
+
+      <!-- 3: Remote Workforce -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:var(--blue-glow); border:1px solid rgba(77,159,255,0.25);">&#x1F310;</div>
+          <div>
+            <div class="uc-title">Remote Workforce Security</div>
+            <div class="uc-subtitle">DPI-RESISTANT CONNECTIVITY</div>
+          </div>
+        </div>
+        <div class="uc-desc">Employees in countries with deep packet inspection — China, Iran, Russia, UAE — connect to corporate resources without the connection itself being flagged, throttled, or blocked. Standard VPNs are identifiable and often banned. DialectForge traffic is not identifiable as anything.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-blue">ANTI-DPI</span>
+          <span class="uc-tag tag-blue">CENSORSHIP RESISTANT</span>
+          <span class="uc-tag tag-blue">GLOBAL</span>
+        </div>
+      </div>
+
+      <!-- 4: IoT / Industrial -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:rgba(255,184,77,0.12); border:1px solid rgba(255,184,77,0.25);">&#x1F3ED;</div>
+          <div>
+            <div class="uc-title">IoT &amp; Industrial Control</div>
+            <div class="uc-subtitle">SCADA + OT SECURITY</div>
+          </div>
+        </div>
+        <div class="uc-desc">Factories, energy grids, water treatment plants, smart buildings. SCADA systems and IoT sensors communicate through DF tunnels. An attacker performing reconnaissance can't even identify what protocols are running — let alone intercept commands or telemetry data.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-amber">SCADA</span>
+          <span class="uc-tag tag-amber">OT NETWORKS</span>
+          <span class="uc-tag tag-amber">CRITICAL INFRA</span>
+        </div>
+      </div>
+
+      <!-- 5: Multi-Cloud Mesh -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:var(--cyan-glow); border:1px solid rgba(77,232,255,0.25);">&#x2601;</div>
+          <div>
+            <div class="uc-title">Multi-Cloud Mesh</div>
+            <div class="uc-subtitle">CROSS-PROVIDER INTERCONNECT</div>
+          </div>
+        </div>
+        <div class="uc-desc">Connect AWS, Azure, and GCP environments through DialectForge mesh relay. Traffic between your cloud providers is invisible to the providers themselves. No vendor lock-in, no cloud-native VPN limitations, no trust in third-party peering. Your multi-cloud backbone is just noise on the wire.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-cyan">AWS</span>
+          <span class="uc-tag tag-cyan">AZURE</span>
+          <span class="uc-tag tag-cyan">GCP</span>
+          <span class="uc-tag tag-cyan">HYBRID</span>
+        </div>
+      </div>
+
+      <!-- 6: Secure Org Messaging -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:var(--green-glow); border:1px solid rgba(0,232,146,0.25);">&#x1F4AC;</div>
+          <div>
+            <div class="uc-title">Secure Organizational Messaging</div>
+            <div class="uc-subtitle">ZERO SERVER STORAGE</div>
+          </div>
+        </div>
+        <div class="uc-desc">Double DialectForge encryption — Layer 1 hides that it's messaging traffic, Layer 2 encrypts the actual content peer-to-peer. The server routes encrypted blobs and stores nothing. Law firms, healthcare organizations, government contractors, and boards of directors get communication that leaves no trace on any server.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-green">E2E ENCRYPTED</span>
+          <span class="uc-tag tag-green">ZERO STORAGE</span>
+          <span class="uc-tag tag-green">DOUBLE DF</span>
+        </div>
+      </div>
+
+      <!-- 7: API Gateway -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:var(--purple-glow); border:1px solid rgba(180,77,255,0.25);">&#x1F517;</div>
+          <div>
+            <div class="uc-title">API Gateway Protection</div>
+            <div class="uc-subtitle">SERVICE-TO-SERVICE</div>
+          </div>
+        </div>
+        <div class="uc-desc">Microservices communicate through DF tunnels. Even if an attacker gets inside your network through a compromised service, lateral movement is blind — inter-service traffic is obfuscated. They can't map your architecture, can't identify which services talk to which, and can't intercept API calls.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-purple">MICROSERVICES</span>
+          <span class="uc-tag tag-purple">ZERO TRUST</span>
+          <span class="uc-tag tag-purple">LATERAL DEFENSE</span>
+        </div>
+      </div>
+
+      <!-- 8: Edge Computing -->
+      <div class="uc-card">
+        <div class="uc-header">
+          <div class="uc-icon" style="background:var(--blue-glow); border:1px solid rgba(77,159,255,0.25);">&#x1F4E1;</div>
+          <div>
+            <div class="uc-title">Edge Computing</div>
+            <div class="uc-subtitle">BRANCH + RETAIL</div>
+          </div>
+        </div>
+        <div class="uc-desc">Retail locations, branch offices, field operations. Each site deploys a DF container that tunnels all traffic back to headquarters. No hardware appliance to ship, install, or maintain. Software-defined obfuscation that deploys in minutes and scales to thousands of locations.</div>
+        <div class="uc-tags">
+          <span class="uc-tag tag-blue">CONTAINERIZED</span>
+          <span class="uc-tag tag-blue">NO HARDWARE</span>
+          <span class="uc-tag tag-blue">SCALABLE</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ What Your Traffic Looks Like ═══ -->
+  <div class="traffic-demo">
+    <h3>What happens to corporate traffic</h3>
+    <div style="font-family:var(--mono); font-size:0.72rem; color:var(--dim); text-align:center; margin-bottom:16px;">
+      Corporate App &nbsp;&#x2192;&nbsp; <span style="color:var(--purple);">[DF Tunnel + Compress]</span> &nbsp;&#x2192;&nbsp; Internet &nbsp;&#x2192;&nbsp; <span style="color:var(--purple);">[Decompress + Deobfuscate]</span> &nbsp;&#x2192;&nbsp; Destination
+    </div>
+    <div class="traffic-row">
+      <div class="traffic-label" style="color:var(--red);">Standard<br>Corporate VPN</div>
+      <div class="traffic-bar" style="background:rgba(255,77,106,0.08); border:1px solid rgba(255,77,106,0.15); color:var(--red);">
+        <span style="opacity:0.5;">16 03 03</span> <span style="color:#fff;font-weight:700;">00 f1</span> <span style="opacity:0.5;">17 03 03 00 31</span> <span style="color:var(--amber);font-weight:600;">14 03 03 00 01 01</span> <span style="opacity:0.5;">16 03 03 00 28</span><br>
+        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; TLS record headers &#x2022; &#x25B2; ChangeCipherSpec &#x2022; Immediately identifiable as VPN traffic</span>
+      </div>
+    </div>
+    <div class="traffic-row">
+      <div class="traffic-label" style="color:var(--green);">DialectForge<br>Enterprise</div>
+      <div class="traffic-bar" style="background:rgba(0,232,146,0.06); border:1px solid rgba(0,232,146,0.15); color:var(--green);">
+        c3 71 a8 0e 59 f4 b2 6d 1a 8c 47 e0 93 3b d5 72 0f a6 4e 88 c1 5d 29 f7 64 b0 1c 83 a5 4f<br>
+        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; No protocol signatures &#x2022; No TLS fingerprint &#x2022; Unclassifiable random noise</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Comparison ═══ -->
+  <div class="compare">
+    <h3>Traditional Enterprise Security vs. DialectForge Enterprise</h3>
+    <div class="compare-grid">
+      <div class="cmp-col">
+        <h4><span style="color:var(--red);">&#x26A0;&#xFE0F;</span> Traditional Approach</h4>
+        <div class="cmp-item">
+          &#x2717; Traffic is encrypted but classifiable<br>
+          &#x2717; VPN protocols are identifiable and blockable<br>
+          &#x2717; Hardware appliances at every location<br>
+          &#x2717; Static encryption keys rotated on schedules<br>
+          &#x2717; Cloud provider can inspect inter-cloud traffic<br>
+          &#x2717; Internal network is trusted by default<br>
+          &#x2717; IoT devices often communicate in plaintext
+        </div>
+      </div>
+      <div class="cmp-col">
+        <h4><span style="color:var(--green);">&#x1F6E1;&#xFE0F;</span> DialectForge Enterprise</h4>
+        <div class="cmp-item">
+          &#x2713; Traffic is encrypted AND unclassifiable<br>
+          &#x2713; Protocol changes every 2 minutes automatically<br>
+          &#x2713; Software containers — no hardware needed<br>
+          &#x2713; AI-negotiated dialects refresh continuously<br>
+          &#x2713; Cloud providers see only random noise<br>
+          &#x2713; Zero trust at every network boundary<br>
+          &#x2713; Every device tunneled through DF obfuscation
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Callouts ═══ -->
+  <div class="callout">
+    <div class="callout-icon">&#x1F4E6;</div>
+    <div>
+      <div class="callout-title">Container-First Deployment</div>
+      <div class="callout-desc">Deploy a DialectForge container alongside your existing infrastructure. Point your traffic through it. Done. No agents to install on every endpoint, no network reconfiguration, no hardware to ship. Works on-premise, in the cloud, or at the edge. The container handles obfuscation, compression, and dialect negotiation automatically.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">&#x1F9E0;</div>
+    <div>
+      <div class="callout-title">AI-Negotiated, Not Pre-Configured</div>
+      <div class="callout-desc">Traditional encryption uses known protocols with documented handshakes. DialectForge endpoints negotiate their own unique "language" using AI — a dialect that has never existed before and will never be reused. There's no protocol specification for an attacker to study, no static fingerprint to match against, and no key schedule to predict.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">&#x1F5DC;</div>
+    <div>
+      <div class="callout-title">Built-In Compression</div>
+      <div class="callout-desc">The DialectForge compression layer uses 508 patterns across 7 languages, reducing payload size before obfuscation. Less data on the wire means faster transit and lower bandwidth costs — especially impactful for edge deployments with limited connectivity and international organizations with multilingual communications.</div>
+    </div>
+  </div>
+
+  <!-- ═══ Closing ═══ -->
+  <div class="insight">
+    <h3>Your infrastructure. Invisible.</h3>
+    <p>The same technology that makes personal VPN traffic undetectable in censored countries now protects your corporate network, your cloud infrastructure, your IoT fleet, and your internal communications. Not just encrypted — invisible.</p>
+  </div>
+
+</div>
+</body>
+</html>
