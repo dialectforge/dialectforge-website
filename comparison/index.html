@@ -46,6 +46,14 @@
     margin: 0 auto;
     padding: 40px 32px;
   }
+
+  .back-nav { margin-bottom: 24px; }
+  .back-nav a {
+    color: var(--dim); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-nav a:hover { color: var(--text); }
+
   header { text-align: center; margin-bottom: 48px; }
   header h1 {
     font-family: var(--display);
@@ -229,6 +237,7 @@
 </head>
 <body>
 <div class="container">
+  <div class="back-nav"><a href="/">&#x2190; DialectForge</a></div>
   <header>
     <h1>What Your ISP Sees</h1>
     <p>A side-by-side comparison of network traffic captured by a packet analyzer &mdash; the same tool governments use to detect and block VPNs.</p>
