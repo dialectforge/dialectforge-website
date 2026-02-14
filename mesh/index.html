@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DialectForge Mesh — Server Infrastructure</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --text: #e0e0e8;
+    --dim: #6a6a80;
+    --green: #00e892;
+    --green-glow: rgba(0,232,146,0.12);
+    --red: #ff4d6a;
+    --amber: #ffb84d;
+    --blue: #4d9fff;
+    --blue-glow: rgba(77,159,255,0.12);
+    --purple: #b44dff;
+    --purple-glow: rgba(180,77,255,0.12);
+    --cyan: #4de8ff;
+    --cyan-glow: rgba(77,232,255,0.12);
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Outfit', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--display); min-height: 100vh; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }  header { text-align: center; margin-bottom: 52px; }
+  header h1 {
+    font-weight: 900; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px;
+    background: linear-gradient(135deg, #fff 40%, var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  header p { font-weight: 300; font-size: 1.15rem; color: var(--dim); max-width: 680px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── World Map / Server Mesh ── */
+  .mesh-visual {
+    position: relative; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 40px; margin-bottom: 48px; overflow: hidden;
+    min-height: 380px;
+  }
+  .mesh-visual::before {
+    content: ''; position: absolute; inset: 0; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cellipse cx='400' cy='200' rx='380' ry='180' fill='none' stroke='white' stroke-width='0.5'/%3E%3Cellipse cx='400' cy='200' rx='380' ry='90' fill='none' stroke='white' stroke-width='0.3'/%3E%3Cline x1='400' y1='20' x2='400' y2='380' stroke='white' stroke-width='0.3'/%3E%3Cline x1='20' y1='200' x2='780' y2='200' stroke='white' stroke-width='0.3'/%3E%3C/svg%3E");
+    background-size: cover; background-position: center;
+  }
+  .server-nodes { display: flex; justify-content: space-around; align-items: center; position: relative; z-index: 1; }
+  .server-node { text-align: center; position: relative; }
+  .node-ring {
+    width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem; margin: 0 auto 14px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .node-ring.primary { background: var(--green-glow); border: 2px solid var(--green); box-shadow: 0 0 30px rgba(0,232,146,0.15); }
+  .node-ring.replica { background: var(--blue-glow); border: 2px solid var(--blue); box-shadow: 0 0 30px rgba(77,159,255,0.15); }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+  .node-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
+  .node-region { font-size: 0.78rem; color: var(--dim); margin-bottom: 6px; }
+  .node-badge {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em;
+    padding: 3px 10px; border-radius: 100px; display: inline-block;
+  }
+  .badge-primary { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0,232,146,0.25); }
+  .badge-replica { background: var(--blue-glow); color: var(--blue); border: 1px solid rgba(77,159,255,0.25); }
+
+  /* ── Connection lines ── */
+  .mesh-lines {
+    position: absolute; top: 50%; left: 0; right: 0; height: 2px; z-index: 0;
+  }
+  .mesh-line {
+    position: absolute; top: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    animation: dataflow 2.5s linear infinite;
+  }
+  .mesh-line.l1 { left: 10%; width: 22%; animation-delay: 0s; }
+  .mesh-line.l2 { left: 36%; width: 22%; animation-delay: 0.6s; }
+  .mesh-line.l3 { left: 62%; width: 22%; animation-delay: 1.2s; }
+  .mesh-line.l4 { left: 10%; width: 74%; top: 8px; animation-delay: 1.8s; opacity: 0.4; }
+  @keyframes dataflow {
+    0% { opacity: 0; } 20% { opacity: 0.7; } 50% { opacity: 1; } 80% { opacity: 0.7; } 100% { opacity: 0; }
+  }  /* ── How it works steps ── */
+  .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 48px; }
+  .how-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 26px 24px;
+  }
+  .how-num {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
+    padding: 3px 10px; border-radius: 100px; display: inline-block; margin-bottom: 12px;
+    background: var(--cyan-glow); color: var(--cyan); border: 1px solid rgba(77,232,255,0.2);
+  }
+  .how-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+  .how-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
+
+  /* ── Comparison ── */
+  .compare {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .compare h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .cmp-col { background: var(--bg); border-radius: 12px; padding: 20px; }
+  .cmp-col h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .cmp-item { font-size: 0.82rem; font-family: var(--mono); line-height: 2.2; }
+
+  /* ── Session mode callout ── */
+  .callout {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px 32px; margin-bottom: 48px; display: flex; gap: 20px; align-items: flex-start;
+  }
+  .callout-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
+  .callout-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+  .callout-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
+
+  /* ── Traffic visual ── */
+  .traffic-demo {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 48px;
+  }
+  .traffic-demo h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; }
+  .traffic-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .traffic-label { font-size: 0.75rem; font-weight: 700; width: 100px; text-align: right; flex-shrink: 0; }
+  .traffic-bar {
+    flex: 1; font-family: var(--mono); font-size: 0.72rem; padding: 12px 16px;
+    border-radius: 8px; letter-spacing: 0.03em; word-break: break-all; line-height: 1.6;
+  }
+
+  .insight {
+    text-align: center; padding: 36px 32px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 16px; max-width: 860px; margin: 0 auto;
+  }
+  .insight h3 { font-weight: 700; font-size: 1.2rem; margin-bottom: 12px; color: var(--cyan); }
+  .insight p { font-weight: 300; font-size: 1rem; color: var(--dim); line-height: 1.7; max-width: 660px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    .server-nodes { flex-direction: column; gap: 32px; }
+    .how-grid, .compare-grid { grid-template-columns: 1fr; }
+    .mesh-lines { display: none; }
+    header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>DialectForge Mesh</h1>
+    <p>Four servers across three continents, secured by the same AI-negotiated obfuscation that protects your VPN traffic. Every byte between servers looks like random noise.</p>
+  </header>
+
+  <!-- ═══ Server Mesh Visual ═══ -->
+  <div class="mesh-visual">
+    <div class="mesh-lines">
+      <div class="mesh-line l1"></div>
+      <div class="mesh-line l2"></div>
+      <div class="mesh-line l3"></div>
+      <div class="mesh-line l4"></div>
+    </div>
+    <div class="server-nodes">
+      <div class="server-node">
+        <div class="node-ring replica">&#127482;&#127480;</div>
+        <div class="node-name">Virginia</div>
+        <div class="node-region">USA East</div>
+        <div><span class="node-badge badge-replica">REPLICA</span></div>
+        <div style="font-family:var(--mono); font-size:0.65rem; color:var(--dim); margin-top:8px;">tunnel endpoint</div>
+      </div>
+      <div class="server-node">
+        <div class="node-ring primary">&#127466;&#127482;</div>
+        <div class="node-name">Helsinki</div>
+        <div class="node-region">Finland &bull; Primary</div>
+        <div><span class="node-badge badge-primary">PRIMARY</span></div>
+        <div style="font-family:var(--mono); font-size:0.65rem; color:var(--dim); margin-top:8px;">tunnel endpoint</div>
+      </div>
+      <div class="server-node">
+        <div class="node-ring replica">&#127482;&#127480;</div>
+        <div class="node-name">Hillsboro</div>
+        <div class="node-region">USA West</div>
+        <div><span class="node-badge badge-replica">REPLICA</span></div>
+        <div style="font-family:var(--mono); font-size:0.65rem; color:var(--dim); margin-top:8px;">tunnel endpoint</div>
+      </div>
+      <div class="server-node">
+        <div class="node-ring replica">&#127480;&#127468;</div>
+        <div class="node-name">Singapore</div>
+        <div class="node-region">Asia Pacific</div>
+        <div><span class="node-badge badge-replica">REPLICA</span></div>
+        <div style="font-family:var(--mono); font-size:0.65rem; color:var(--dim); margin-top:8px;">tunnel endpoint</div>
+      </div>
+    </div>
+  </div>
+  <!-- ═══ How Mesh Syncing Works ═══ -->
+  <div class="how-grid">
+    <div class="how-card">
+      <span class="how-num">STEP 1</span>
+      <div class="how-title">Built-In Dialect Negotiation</div>
+      <div class="how-desc">DialectForge Mesh is built directly into the server software — no manual setup, no external auth. When servers come online, their AI agents automatically negotiate a unique dialect that only they understand. Zero human intervention.</div>
+    </div>
+    <div class="how-card">
+      <span class="how-num">STEP 2</span>
+      <div class="how-title">Database Replication Through the Tunnel</div>
+      <div class="how-desc">The primary server runs a tunnel endpoint. Replicas each run tunnel clients that map a local port to the primary through DialectForge obfuscation. Database replication connects to localhost — it has no idea it's going through DialectForge across the internet. The replicas see all traffic as local — completely invisible.</div>
+    </div>
+    <div class="how-card">
+      <span class="how-num">STEP 3</span>
+      <div class="how-title">Mesh Secret Never Transmitted</div>
+      <div class="how-desc">All four servers share a mesh secret — but it's never sent over the wire. The dialect engine uses nonce exchange to derive session keys from the shared secret. Even if you capture every packet, you can't reconstruct the secret. Each connection gets a unique seed.</div>
+    </div>
+    <div class="how-card">
+      <span class="how-num">STEP 4</span>
+      <div class="how-title">Continuous Sync, Zero Exposure</div>
+      <div class="how-desc">User signs up on any server → data writes to Helsinki (primary) → streams to Virginia and Singapore within seconds. All replication traffic flows through DialectForge tunnels. An attacker intercepting the stream sees only random noise — can't even tell it's database traffic.</div>
+    </div>
+  </div>
+  <!-- ═══ What the traffic looks like ═══ -->
+  <div class="traffic-demo">
+    <h3>What an attacker sees on the wire</h3>
+    <div style="font-family:var(--mono); font-size:0.72rem; color:var(--dim); text-align:center; margin-bottom:16px;">
+      Replica &nbsp;→&nbsp; <span style="color:var(--cyan);">[DialectForge Obfuscate]</span> &nbsp;→&nbsp; Internet &nbsp;→&nbsp; Primary &nbsp;→&nbsp; <span style="color:var(--cyan);">[Deobfuscate]</span> &nbsp;→&nbsp; Database
+    </div>
+    <div class="traffic-row">
+      <div class="traffic-label" style="color:var(--red);">Standard<br>Replication</div>
+      <div class="traffic-bar" style="background:rgba(255,77,106,0.08); border:1px solid rgba(255,77,106,0.15); color:var(--red);">
+        <span style="opacity:0.5;">00 00 00</span> <span style="color:#fff;font-weight:700;">52</span> <span style="opacity:0.5;">00 03 00 00</span> <span style="color:var(--amber);font-weight:600;">04 d2</span> <span style="opacity:0.5;">00 00 00 00 00 00 00</span> <span style="color:var(--amber);font-weight:600;">01</span> <span style="opacity:0.5;">00 00 00</span><br>
+        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; Database protocol header &bull; &#x25B2; Replication command &bull; Instantly identifiable</span>
+      </div>
+    </div>
+    <div class="traffic-row">
+      <div class="traffic-label" style="color:var(--green);">DF Mesh<br>Wrapped</div>
+      <div class="traffic-bar" style="background:rgba(0,232,146,0.06); border:1px solid rgba(0,232,146,0.15); color:var(--green);">
+        a7 3f c1 8b 02 e9 4d 71 b8 5a 0f d3 66 9e 2c a4 f7 1b 83 50 dc 6e 29 b5 48 0a 7c e1 93 3d<br>
+        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; No protocol signatures &bull; No identifiable patterns &bull; Pure random noise</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Comparison ═══ -->
+  <div class="compare">
+    <h3>Standard Infrastructure vs. DialectForge Mesh</h3>
+    <div style="font-family:var(--mono); font-size:0.72rem; background:var(--bg); border-radius:10px; padding:16px; margin-bottom:20px; text-align:center; color:var(--dim);">
+      <span style="color:var(--amber);">$ nmap server:&lt;port&gt;</span> &nbsp;&nbsp;→&nbsp;&nbsp; <span style="color:var(--green);">STATE: open &nbsp;|&nbsp; SERVICE: unknown</span> &nbsp;&nbsp; <span style="color:var(--dim);">← Can't identify protocol</span><br>
+      <span style="color:var(--amber);">$ nc server &lt;port&gt;</span> &nbsp;&nbsp;&nbsp;→&nbsp;&nbsp; <span style="color:var(--green);">(gibberish response)</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:var(--dim);">← Not any known protocol</span>
+    </div>
+    <div class="compare-grid">
+      <div class="cmp-col">
+        <h4><span style="color:var(--red);">&#x26A0;&#xFE0F;</span> Typical VPN Infrastructure</h4>
+        <div class="cmp-item">
+          <span class="t-red">&#x2717;</span> Server-to-server traffic uses standard TLS<br>
+          <span class="t-red">&#x2717;</span> Replication protocol is identifiable<br>
+          <span class="t-red">&#x2717;</span> Database sync patterns are predictable<br>
+          <span class="t-red">&#x2717;</span> Traffic analysis reveals infrastructure<br>
+          <span class="t-red">&#x2717;</span> Static encryption — same keys for hours/days<br>
+          <span class="t-red">&#x2717;</span> Compromise one link = read all replication
+        </div>
+      </div>
+      <div class="cmp-col">
+        <h4><span style="color:var(--green);">&#x1F6E1;&#xFE0F;</span> DialectForge Mesh</h4>
+        <div class="cmp-item">
+          <span class="t-green">&#x2713;</span> All traffic wrapped in DF obfuscation<br>
+          <span class="t-green">&#x2713;</span> Protocol signatures eliminated<br>
+          <span class="t-green">&#x2713;</span> Replication indistinguishable from noise<br>
+          <span class="t-green">&#x2713;</span> Infrastructure topology hidden<br>
+          <span class="t-green">&#x2713;</span> Dialect refreshes on every new session<br>
+          <span class="t-green">&#x2713;</span> Past traffic unreadable — forward secrecy
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ═══ Session Mode Callout ═══ -->
+  <div class="callout">
+    <div class="callout-icon">&#x1F9E0;</div>
+    <div>
+      <div class="callout-title">Why Session-Mode Dialects?</div>
+      <div class="callout-desc">The tunnel server runs in session-lock mode. Database replication is a continuous stream — if the dialect cycled mid-stream, it could corrupt data. So each tunnel connection locks its dialect for the entire session lifetime. New connections negotiate new dialects. Security without risking data integrity.</div>
+    </div>
+  </div>
+
+  <!-- ═══ What this means ═══ -->
+  <div class="callout">
+    <div class="callout-icon">&#x1F30D;</div>
+    <div>
+      <div class="callout-title">Real-World Impact</div>
+      <div class="callout-desc">A user signs up and their data writes to the primary server. Streaming replication pushes it to every replica within seconds — through DialectForge tunnels. If they travel and connect from Asia, the nearest replica has their data ready. No one watching the wire can tell it's database traffic, VPN infrastructure, or anything at all. It's just noise.</div>
+    </div>
+  </div>
+
+  <!-- ═══ Closing Insight ═══ -->
+  <div class="insight">
+    <h3>We eat our own dog food.</h3>
+    <p>The same AI-negotiated obfuscation that protects your VPN traffic also protects the servers talking to each other. If it's good enough for our users, it's good enough for our infrastructure. Every byte — user data, replication streams, everything — is just noise on the wire.</p>
+  </div>
+
+</div>
+</body>
+</html>
