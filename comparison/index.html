@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DialectForge Traffic Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --text: #e0e0e8;
+    --dim: #6a6a80;
+    --red: #ff4d6a;
+    --red-glow: rgba(255,77,106,0.15);
+    --green: #00e892;
+    --green-glow: rgba(0,232,146,0.12);
+    --amber: #ffb84d;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Outfit', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+  header { text-align: center; margin-bottom: 48px; }
+  header h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 2.6rem;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #fff 40%, var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  header p {
+    font-weight: 300;
+    font-size: 1.15rem;
+    color: var(--dim);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 48px;
+  }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .panel--vulnerable { box-shadow: 0 0 60px -20px var(--red-glow); }
+  .panel--secure { box-shadow: 0 0 60px -20px var(--green-glow); }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-header h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }  .badge--red {
+    background: var(--red-glow);
+    color: var(--red);
+    border: 1px solid rgba(255,77,106,0.25);
+  }
+  .badge--green {
+    background: var(--green-glow);
+    color: var(--green);
+    border: 1px solid rgba(0,232,146,0.2);
+  }
+  .panel-label {
+    font-size: 0.75rem;
+    color: var(--dim);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .hex-dump {
+    padding: 20px 24px;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    line-height: 2;
+    overflow-x: auto;
+  }
+  .hex-line {
+    display: flex;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .offset {
+    color: var(--dim);
+    min-width: 56px;
+    user-select: none;
+  }  .byte { padding: 1px 2px; border-radius: 2px; }
+  .sig {
+    background: rgba(255,77,106,0.22);
+    color: var(--red);
+    font-weight: 700;
+    border-radius: 3px;
+  }
+  .hdr {
+    background: rgba(255,184,77,0.18);
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .annotations {
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .annotation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: var(--dim);
+    line-height: 1.4;
+  }
+  .annotation .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }  .swatch--sig { background: rgba(255,77,106,0.5); }
+  .swatch--hdr { background: rgba(255,184,77,0.4); }
+  .swatch--rand { background: rgba(0,232,146,0.3); }
+  .annotation strong { color: var(--text); font-weight: 600; }
+  .insight {
+    text-align: center;
+    padding: 36px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .insight h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: var(--green);
+  }
+  .insight p {
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--dim);
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto;
+  }  .cycle-note {
+    margin-top: 16px;
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--green);
+    background: var(--green-glow);
+    border: 1px solid rgba(0,232,146,0.15);
+    padding: 8px 18px;
+    border-radius: 100px;
+  }
+  @keyframes refreshPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .refresh-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+  }
+  .refresh-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: refreshPulse 2s ease-in-out infinite;
+  }  @media (max-width: 900px) {
+    .comparison { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.8rem; }
+    .hex-dump { font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>What Your ISP Sees</h1>
+    <p>A side-by-side comparison of network traffic captured by a packet analyzer &mdash; the same tool governments use to detect and block VPNs.</p>
+  </header>
+  <div class="comparison">
+    <div class="panel panel--vulnerable">
+      <div class="panel-header">
+        <h2>&#x1F513; Standard VPN <span class="badge badge--red">Identifiable</span></h2>
+        <span class="panel-label">WireGuard Protocol</span>
+      </div>
+      <div class="hex-dump">
+        <div class="hex-line"><span class="offset">0000</span> <span class="byte sig">01</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte hdr">a1</span> <span class="byte hdr">f2</span> <span class="byte hdr">c3</span> <span class="byte hdr">04</span> <span class="byte">8b</span> <span class="byte">7e</span> <span class="byte">33</span> <span class="byte">d1</span> <span class="byte">5c</span> <span class="byte">a9</span> <span class="byte">02</span> <span class="byte">ef</span></div>
+        <div class="hex-line"><span class="offset">0010</span> <span class="byte">b7</span> <span class="byte">44</span> <span class="byte">19</span> <span class="byte">e6</span> <span class="byte">03</span> <span class="byte">8d</span> <span class="byte">71</span> <span class="byte">fa</span> <span class="byte">22</span> <span class="byte">c0</span> <span class="byte">15</span> <span class="byte">ab</span> <span class="byte">90</span> <span class="byte">6d</span> <span class="byte">e8</span> <span class="byte">3b</span></div>
+        <div class="hex-line"><span class="offset">0020</span> <span class="byte">f3</span> <span class="byte">28</span> <span class="byte">7c</span> <span class="byte">d5</span> <span class="byte">4e</span> <span class="byte">01</span> <span class="byte">b9</span> <span class="byte">87</span> <span class="byte">63</span> <span class="byte">ae</span> <span class="byte">0f</span> <span class="byte">dc</span> <span class="byte">76</span> <span class="byte">5a</span> <span class="byte">e4</span> <span class="byte">11</span></div>
+        <div class="hex-line"><span class="offset">0030</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte">d4</span> <span class="byte">1b</span> <span class="byte">c7</span> <span class="byte">52</span> <span class="byte">38</span> <span class="byte">f0</span> <span class="byte">a6</span> <span class="byte">9e</span></div>        <div class="hex-line"><span class="offset">0040</span> <span class="byte sig">04</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte hdr">a1</span> <span class="byte hdr">f2</span> <span class="byte hdr">c3</span> <span class="byte hdr">04</span> <span class="byte hdr">00</span> <span class="byte hdr">00</span> <span class="byte hdr">00</span> <span class="byte hdr">01</span> <span class="byte">9c</span> <span class="byte">47</span> <span class="byte">b3</span> <span class="byte">28</span></div>
+        <div class="hex-line"><span class="offset">0050</span> <span class="byte">7f</span> <span class="byte">e1</span> <span class="byte">55</span> <span class="byte">c8</span> <span class="byte">0a</span> <span class="byte">3d</span> <span class="byte">96</span> <span class="byte">bf</span> <span class="byte">44</span> <span class="byte">72</span> <span class="byte">ed</span> <span class="byte">18</span> <span class="byte">a5</span> <span class="byte">03</span> <span class="byte">f7</span> <span class="byte">61</span></div>
+        <div class="hex-line"><span class="offset">0060</span> <span class="byte sig">04</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte sig">00</span> <span class="byte hdr">a1</span> <span class="byte hdr">f2</span> <span class="byte hdr">c3</span> <span class="byte hdr">04</span> <span class="byte">b8</span> <span class="byte">23</span> <span class="byte">4f</span> <span class="byte">91</span> <span class="byte">de</span> <span class="byte">60</span> <span class="byte">c7</span> <span class="byte">1a</span></div>
+        <div class="hex-line"><span class="offset">0070</span> <span class="byte">53</span> <span class="byte">f9</span> <span class="byte">82</span> <span class="byte">d6</span> <span class="byte">01</span> <span class="byte">e4</span> <span class="byte">70</span> <span class="byte">bd</span> <span class="byte">2c</span> <span class="byte">a8</span> <span class="byte">0b</span> <span class="byte">ff</span> <span class="byte">97</span> <span class="byte">6e</span> <span class="byte">43</span> <span class="byte">a0</span></div>
+      </div>
+      <div class="annotations">
+        <div class="annotation">
+          <span class="swatch swatch--sig"></span>
+          <span><strong>Protocol signature</strong> &mdash; WireGuard message type bytes, always identifiable</span>
+        </div>
+        <div class="annotation">
+          <span class="swatch swatch--hdr"></span>
+          <span><strong>Known header fields</strong> &mdash; Sender index, counter, and handshake fields match a known pattern</span>
+        </div>
+      </div>
+    </div>    <div class="panel panel--secure">
+      <div class="panel-header">
+        <h2>&#x1F6E1;&#xFE0F; DialectForge <span class="badge badge--green">Undetectable</span></h2>
+        <div class="refresh-indicator">
+          <span class="refresh-dot"></span>
+          <span>dialect cycling</span>
+        </div>
+      </div>
+      <div class="hex-dump">
+        <div class="hex-line"><span class="offset">0000</span> <span class="byte">74</span> <span class="byte">24</span> <span class="byte">9f</span> <span class="byte">c4</span> <span class="byte">77</span> <span class="byte">e3</span> <span class="byte">22</span> <span class="byte">1c</span> <span class="byte">b6</span> <span class="byte">58</span> <span class="byte">0d</span> <span class="byte">a3</span> <span class="byte">f1</span> <span class="byte">6b</span> <span class="byte">89</span> <span class="byte">3e</span></div>
+        <div class="hex-line"><span class="offset">0010</span> <span class="byte">d7</span> <span class="byte">42</span> <span class="byte">15</span> <span class="byte">e8</span> <span class="byte">93</span> <span class="byte">af</span> <span class="byte">5c</span> <span class="byte">71</span> <span class="byte">0e</span> <span class="byte">fa</span> <span class="byte">36</span> <span class="byte">c5</span> <span class="byte">88</span> <span class="byte">2d</span> <span class="byte">b4</span> <span class="byte">60</span></div>
+        <div class="hex-line"><span class="offset">0020</span> <span class="byte">a2</span> <span class="byte">17</span> <span class="byte">cb</span> <span class="byte">4e</span> <span class="byte">f5</span> <span class="byte">63</span> <span class="byte">8a</span> <span class="byte">d9</span> <span class="byte">31</span> <span class="byte">7c</span> <span class="byte">e6</span> <span class="byte">04</span> <span class="byte">bf</span> <span class="byte">52</span> <span class="byte">98</span> <span class="byte">2b</span></div>
+        <div class="hex-line"><span class="offset">0030</span> <span class="byte">46</span> <span class="byte">ed</span> <span class="byte">81</span> <span class="byte">3a</span> <span class="byte">c8</span> <span class="byte">57</span> <span class="byte">0b</span> <span class="byte">f4</span> <span class="byte">6f</span> <span class="byte">a5</span> <span class="byte">1e</span> <span class="byte">d3</span> <span class="byte">79</span> <span class="byte">40</span> <span class="byte">bc</span> <span class="byte">13</span></div>
+        <div class="hex-line"><span class="offset">0040</span> <span class="byte">e1</span> <span class="byte">56</span> <span class="byte">8c</span> <span class="byte">2f</span> <span class="byte">da</span> <span class="byte">68</span> <span class="byte">a7</span> <span class="byte">34</span> <span class="byte">f0</span> <span class="byte">4b</span> <span class="byte">97</span> <span class="byte">c2</span> <span class="byte">1d</span> <span class="byte">b5</span> <span class="byte">73</span> <span class="byte">ee</span></div>
+        <div class="hex-line"><span class="offset">0050</span> <span class="byte">29</span> <span class="byte">86</span> <span class="byte">d0</span> <span class="byte">4c</span> <span class="byte">fb</span> <span class="byte">61</span> <span class="byte">a4</span> <span class="byte">38</span> <span class="byte">c7</span> <span class="byte">55</span> <span class="byte">0a</span> <span class="byte">e9</span> <span class="byte">72</span> <span class="byte">b1</span> <span class="byte">3d</span> <span class="byte">f8</span></div>
+        <div class="hex-line"><span class="offset">0060</span> <span class="byte">83</span> <span class="byte">c6</span> <span class="byte">1a</span> <span class="byte">5f</span> <span class="byte">ae</span> <span class="byte">47</span> <span class="byte">d4</span> <span class="byte">02</span> <span class="byte">69</span> <span class="byte">bb</span> <span class="byte">f7</span> <span class="byte">2e</span> <span class="byte">94</span> <span class="byte">c1</span> <span class="byte">58</span> <span class="byte">0f</span></div>
+        <div class="hex-line"><span class="offset">0070</span> <span class="byte">e5</span> <span class="byte">3b</span> <span class="byte">a0</span> <span class="byte">76</span> <span class="byte">d8</span> <span class="byte">43</span> <span class="byte">1f</span> <span class="byte">b9</span> <span class="byte">64</span> <span class="byte">fc</span> <span class="byte">27</span> <span class="byte">8e</span> <span class="byte">51</span> <span class="byte">cc</span> <span class="byte">05</span> <span class="byte">ab</span></div>
+      </div>
+      <div class="annotations">
+        <div class="annotation">
+          <span class="swatch swatch--rand"></span>
+          <span><strong>Every byte is random</strong> &mdash; No signatures, no headers, no recognizable structure of any kind</span>
+        </div>
+      </div>
+    </div>
+  </div>  <div class="insight">
+    <h3>Why does this matter?</h3>
+    <p>Countries like China and Iran use deep packet inspection to fingerprint and block VPN protocols. If traffic has a recognizable pattern, it gets blocked. DialectForge traffic is indistinguishable from random noise &mdash; there's nothing to fingerprint.</p>
+    <div class="cycle-note">&#x21BB; dialect refreshes every 2 minutes &mdash; patterns never persist</div>
+  </div>
+</div>
+</body>
+</html>
