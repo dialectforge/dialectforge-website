@@ -34,6 +34,13 @@
   }
   .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
 
+  .back-nav { margin-bottom: 24px; }
+  .back-nav a {
+    color: var(--dim); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-nav a:hover { color: var(--text); }
+
   header { text-align: center; margin-bottom: 52px; }
   header h1 {
     font-weight: 900; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px;
@@ -148,6 +155,7 @@
 </head>
 <body>
 <div class="container">
+  <div class="back-nav"><a href="/">&#x2190; DialectForge</a></div>
   <header>
     <h1>DialectForge Enterprise</h1>
     <p>Deploy the same AI-negotiated obfuscation that powers our consumer products across your entire organization. Every byte of corporate traffic becomes unclassifiable noise — not just encrypted, invisible.</p>
