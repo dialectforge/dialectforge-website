@@ -29,6 +29,14 @@
   body { background: var(--bg); color: var(--text); font-family: var(--display); min-height: 100vh; }
   body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
   .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+
+  .back-nav { margin-bottom: 24px; }
+  .back-nav a {
+    color: var(--dim); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .back-nav a:hover { color: var(--text); }
+
   header { text-align: center; margin-bottom: 52px; }
   header h1 { font-weight: 900; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px; background: linear-gradient(135deg, #fff 30%, var(--blue) 60%, var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   header p { font-weight: 300; font-size: 1.15rem; color: var(--dim); max-width: 660px; margin: 0 auto; line-height: 1.6; }
@@ -74,6 +82,7 @@
 </head>
 <body>
 <div class="container">
+  <div class="back-nav"><a href="/">&#x2190; DialectForge</a></div>
   <header>
     <h1>DialectForge Messenger</h1>
     <p>Double-layer security that makes messages invisible to everyone &mdash; including us. We can't read your messages, we can't hand them over, and we can't be forced to.</p>
