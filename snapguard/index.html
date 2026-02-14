@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SnapGuard — A private photo vault for iPhone. AES-256-GCM encryption, on-device only, no cloud, no tracking. Your photos, your eyes only.">
+    <title>SnapGuard by DialectForge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #ff6ec7;
+            --secondary: #00e5ff;
+            --gold: #ffd700;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.8; }
+        .container { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+        .back { color: var(--secondary); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 2rem; }
+        .back:hover { text-decoration: underline; }
+        .hero { text-align: center; margin-bottom: 3rem; }
+        .app-badge { display: inline-block; color: var(--gold); font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        h1 { font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; }
+        .tagline { color: var(--text-secondary); font-size: 1.15rem; max-width: 500px; margin: 0 auto 2rem; }
+        .features { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 3rem; }
+        @media (max-width: 600px) { .features { grid-template-columns: 1fr; } h1 { font-size: 2rem; } }
+        .feature { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.06); }
+        .feature-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .feature h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text); }
+        .feature p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; line-height: 1.6; }
+        .highlight { background: var(--bg-card); border-left: 4px solid var(--primary); padding: 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+        .highlight p { margin: 0; color: var(--text); font-weight: 500; }
+        h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--secondary); }
+        p { color: var(--text-secondary); margin-bottom: 1rem; }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .links { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+        .links a { color: var(--secondary); font-size: 0.9rem; font-weight: 500; }
+        .footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; color: var(--text-secondary); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="https://dialectforge.com" class="back">&larr; DialectForge</a>
+
+    <div class="hero">
+        <span class="app-badge">DialectForge</span>
+        <h1>SnapGuard</h1>
+        <p class="tagline">A private photo vault for iPhone. Military-grade encryption, completely offline. Your photos, your eyes only.</p>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <div class="feature-icon">&#x1F512;</div>
+            <h3>AES-256-GCM Encryption</h3>
+            <p>Every photo is encrypted with AES-256-GCM — the same standard used by governments and banks. Unbreakable.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x1F4F1;</div>
+            <h3>100% On-Device</h3>
+            <p>Photos never leave your phone. No cloud, no servers, no sync. Everything stays in your hands.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x1F4F7;</div>
+            <h3>Direct Camera Capture</h3>
+            <p>Shoot photos directly into the vault. They're encrypted the moment they're taken — never touching your camera roll.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x1F6E1;&#xFE0F;</div>
+            <h3>Dual-Layer Protection</h3>
+            <p>Proprietary key derivation plus AES-256-GCM. Two independent encryption layers protecting every image.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x1F4A8;</div>
+            <h3>Panic Wipe</h3>
+            <p>Shake your device to instantly wipe the vault in an emergency. Uses motion detection — no buttons to find.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">&#x1F6AB;</div>
+            <h3>Zero Tracking</h3>
+            <p>No analytics, no ad SDKs, no user profiles. We don't even know you installed the app.</p>
+        </div>
+    </div>
+
+    <div class="highlight">
+        <p>No cloud. No tracking. No analytics. Photos encrypted on-device with AES-256-GCM and never transmitted anywhere.</p>
+    </div>
+
+    <h2>Pricing</h2>
+    <p>SnapGuard is free to download. Unlock Lifetime Premium with a one-time in-app purchase for unlimited vault storage and all features. No subscriptions.</p>
+
+    <h2>Support</h2>
+    <p>Having trouble or have a feature request? We'd love to hear from you.</p>
+    <p>Email us at <a href="mailto:dialectforge@gmail.com?subject=SnapGuard%20Support">dialectforge@gmail.com</a></p>
+
+    <div class="links">
+        <a href="privacy/">Privacy Policy</a>
+        <a href="terms/">Terms of Service</a>
+        <a href="mailto:dialectforge@gmail.com?subject=SnapGuard%20Support">Contact Support</a>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 John Dean Martin. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>
