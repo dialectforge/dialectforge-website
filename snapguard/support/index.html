@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SnapGuard Support. Get help with your encrypted photo vault.">
+    <title>Support - SnapGuard by DialectForge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #ff6ec7;
+            --secondary: #00e5ff;
+            --gold: #ffd700;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.8; }
+        .container { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+        .back { color: var(--secondary); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 2rem; }
+        .back:hover { text-decoration: underline; }
+        h1 { font-size: 2.5rem; margin-bottom: 0.25rem; color: var(--primary); }
+        .app-name { color: var(--gold); font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .updated { color: var(--text-secondary); margin-bottom: 3rem; font-size: 0.9rem; }
+        h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--secondary); }
+        p { color: var(--text-secondary); margin-bottom: 1rem; }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .highlight { background: var(--bg-card); border-left: 4px solid var(--primary); padding: 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+        .highlight p { margin-bottom: 0; color: var(--text); }
+        .faq-item { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; }
+        .faq-item strong { color: var(--text); display: block; margin-bottom: 0.5rem; font-size: 1.05rem; }
+        .faq-item p { margin-bottom: 0; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .feature-card { background: var(--bg-card); padding: 1.25rem; border-radius: 8px; }
+        .feature-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .feature-card strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
+        .feature-card p { font-size: 0.9rem; margin-bottom: 0; }
+        .contact-box { background: var(--bg-card); border: 1px solid #1e1e2a; border-radius: 12px; padding: 2rem; text-align: center; margin-top: 2rem; }
+        .contact-box a.email-btn { display: inline-block; background: var(--primary); color: var(--bg-dark); font-weight: 600; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; margin-top: 1rem; }
+        .contact-box a.email-btn:hover { opacity: 0.9; text-decoration: none; }
+        .links { display: flex; gap: 1.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
+        .links a { color: var(--secondary); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="https://dialectforge.com" class="back">&larr; DialectForge</a>
+    <p class="app-name">SNAPGUARD</p>
+    <h1>Support</h1>
+    <p class="updated">Your private vault, your rules</p>
+
+    <div class="highlight">
+        <p>SnapGuard encrypts everything on your device with AES-256 encryption. We collect zero data and have zero access to your content.</p>
+    </div>
+
+    <h2>Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="icon">&#x1f512;</div>
+            <strong>Dual-Vault System</strong>
+            <p>Real vault and decoy vault with separate PINs</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#x1f4f7;</div>
+            <strong>Photos &amp; Videos</strong>
+            <p>Import, capture, and encrypt with thumbnails</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#x1f4c1;</div>
+            <strong>Folders</strong>
+            <p>Organize with folders and subfolders</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#x1f4dd;</div>
+            <strong>Notes &amp; Files</strong>
+            <p>Encrypted notes with OCR and any file type</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#x1f399;</div>
+            <strong>Audio Recorder</strong>
+            <p>Record voice memos directly into vault</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#x1f310;</div>
+            <strong>Private Browser</strong>
+            <p>Browse privately, save pages to vault</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#x1f4e1;</div>
+            <strong>WiFi Transfer</strong>
+            <p>Transfer files to your computer over WiFi</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#x1f3ac;</div>
+            <strong>Slideshow</strong>
+            <p>View photos in full-screen slideshow mode</p>
+        </div>
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+        <strong>What happens if I forget my PIN?</strong>
+        <p>Your PIN is stored as a cryptographic hash and cannot be recovered. If you forget your PIN, your encrypted data cannot be accessed. This is by design to protect your privacy.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>What is the decoy vault?</strong>
+        <p>SnapGuard has two vaults. Your real PIN opens your real vault. Any other PIN opens a decoy vault with separate content. If someone forces you to open the app, they see the decoy and have no way to know a real vault exists.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>Does SnapGuard collect any data?</strong>
+        <p>No. Zero data collection, zero analytics, zero tracking. Everything stays on your device. We have no servers and no access to your content.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>How does the encryption work?</strong>
+        <p>SnapGuard uses dual-layer encryption. The first layer uses a proprietary key-derivation system, and the second layer applies AES-256-GCM encryption. Your PIN never leaves the device and is stored as a SHA-256 hash in the iOS Keychain.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>How do I use the Share Extension?</strong>
+        <p>From any app, tap the Share button and select SnapGuard. Enter your PIN to save the file directly to your vault. Your real PIN saves to the real vault; any other PIN saves to the decoy vault.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>How does WiFi Transfer work?</strong>
+        <p>Open WiFi Transfer from the menu inside your vault. It starts a local server on your phone. Open the displayed URL on your computer's browser (both devices must be on the same WiFi network). Your files are decrypted on-the-fly for download and never leave your local network.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>Is the private browser really private?</strong>
+        <p>Yes. The browser uses an ephemeral session with no persistent cookies, no cache, and no history. When you close it, everything is gone. You can save page screenshots or files directly to your vault.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>What does Shake to Wipe do?</strong>
+        <p>When enabled, shaking your device triggers a panic wipe that can clear your vault contents. This is a premium feature designed for emergency situations.</p>
+    </div>
+
+    <h2>Troubleshooting</h2>
+
+    <div class="faq-item">
+        <strong>SnapGuard doesn't appear in the Share Sheet</strong>
+        <p>Open Settings &gt; General &gt; SnapGuard and make sure it's enabled. If it still doesn't appear, try restarting your device. The Share Extension supports photos, videos, and files.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>WiFi Transfer isn't connecting</strong>
+        <p>Make sure both your phone and computer are on the same WiFi network. Check that no VPN is active. Try the URL exactly as shown in the app, including the port number.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>How do I cancel my subscription?</strong>
+        <p>Open the Settings app on your iPhone &gt; tap your name at the top &gt; Subscriptions &gt; SnapGuard &gt; Cancel Subscription. You'll keep access until the end of your current billing period.</p>
+    </div>
+
+    <div class="faq-item">
+        <strong>How do I restore my subscription on a new device?</strong>
+        <p>Open SnapGuard &gt; Settings &gt; tap "Restore Purchase." Make sure you're signed in with the same Apple ID you used for the original purchase.</p>
+    </div>
+
+    <h2>Contact Us</h2>
+    <div class="contact-box">
+        <p>Need help with something not listed here?</p>
+        <a href="mailto:dialectforge@gmail.com" class="email-btn">dialectforge@gmail.com</a>
+        <p style="margin-top: 1rem; font-size: 0.85rem;">We typically respond within 24 hours.</p>
+    </div>
+
+    <div class="links">
+        <a href="https://dialectforge.com/snapguard/privacy">Privacy Policy</a>
+        <a href="https://dialectforge.com/snapguard/terms">Terms of Service</a>
+        <a href="https://dialectforge.com">DialectForge</a>
+    </div>
+</div>
+</body>
+</html>
