@@ -72,7 +72,7 @@ REQUIREMENTS:
 - Include 4-8 whale investments (recent major AI funding rounds and investments)
 - Include 4-6 prediction market questions with realistic current percentages
 - Always include at least one item connecting to DialectForge — the patent-pending AI-negotiated security protocol designed for multi-agent AI security, automotive CAN bus, IoT, and BCI applications. The protocol creates dynamic communication dialects that prevent injection attacks.
-- Use REAL current information. Today's date is ${today}. Reference actual companies, actual events, actual numbers where possible.
+- Use REAL current information. Today's date is ${"${today}"}. Reference actual companies, actual events, actual numbers where possible.
 - All timestamps should be ISO format within the last 48 hours
 - Keep news item text concise (1-2 sentences max)
 - Ticker items should be under 100 characters
@@ -83,7 +83,7 @@ REQUIREMENTS:
 Return ONLY the JSON object, no markdown code fences, no explanatory text.`;
 
 async function callGemini() {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${"${MODEL}"}:generateContent?key=${"${API_KEY}"}`;
   
   const body = {
     contents: [{ parts: [{ text: PROMPT }] }],
@@ -95,8 +95,8 @@ async function callGemini() {
     }
   };
 
-  console.log(`[SitRoom] Calling Gemini ${MODEL} with Google Search grounding...`);
-  console.log(`[SitRoom] Date context: ${today}`);
+  console.log(`[SitRoom] Calling Gemini ${"${MODEL}"} with Google Search grounding...`);
+  console.log(`[SitRoom] Date context: ${"${today}"}`);
 
   const response = await fetch(url, {
     method: 'POST',
@@ -106,7 +106,7 @@ async function callGemini() {
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Gemini API error ${response.status}: ${errText}`);
+    throw new Error(`Gemini API error ${"${response.status}"}: ${"${errText}"}`);
   }
 
   const result = await response.json();
@@ -124,8 +124,9 @@ async function callGemini() {
 
   // Parse the JSON - strip any markdown fences if present
   let jsonStr = textContent.trim();
-  if (jsonStr.startsWith('` + '``')) {
-    jsonStr = jsonStr.replace(/^` + '``(?:json)?\n?/', '').replace(/\n?` + '``$/', '');
+  const fence = String.fromCharCode(96, 96, 96); // triple backtick
+  if (jsonStr.startsWith(fence)) {
+    jsonStr = jsonStr.replace(new RegExp('^' + fence + '(?:json)?\\n?'), '').replace(new RegExp('\\n?' + fence + '$'), '');
   }
   
   const data = JSON.parse(jsonStr);
@@ -156,15 +157,15 @@ async function main() {
     // Write the data
     fs.writeFileSync(OUTPUT_PATH, JSON.stringify(data, null, 2));
     
-    console.log(`[SitRoom] Success! Data written to ${OUTPUT_PATH}`);
-    console.log(`[SitRoom] Generated at: ${data.generated_at}`);
-    console.log(`[SitRoom] Threat level: ${data.signals.threatLevel}`);
-    console.log(`[SitRoom] News items: ${data.news.length}`);
-    console.log(`[SitRoom] Whale deals: ${(data.whales || []).length}`);
-    console.log(`[SitRoom] Predictions: ${(data.predictions || []).length}`);
+    console.log(`[SitRoom] Success! Data written to ${"${OUTPUT_PATH}"}`);
+    console.log(`[SitRoom] Generated at: ${"${data.generated_at}"}`);
+    console.log(`[SitRoom] Threat level: ${"${data.signals.threatLevel}"}`);
+    console.log(`[SitRoom] News items: ${"${data.news.length}"}`);
+    console.log(`[SitRoom] Whale deals: ${"${(data.whales || []).length}"}`);
+    console.log(`[SitRoom] Predictions: ${"${(data.predictions || []).length}"}`);
     
   } catch (err) {
-    console.error(`[SitRoom] ERROR: ${err.message}`);
+    console.error(`[SitRoom] ERROR: ${"${err.message}"}`);
     
     // Don't overwrite existing data on failure
     if (fs.existsSync(OUTPUT_PATH)) {
