@@ -1,0 +1,31 @@
+name: Update AGI Situation Room
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch: {}     # Manual trigger
+
+jobs:
+  update-sitroom:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate sitroom data
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/generate-sitroom.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "SitRoom Bot"
+          git config user.email "bot@dialectforge.com"
+          git add sitroom/data/sitroom.json
+          git diff --cached --quiet || git commit -m "🔴 SitRoom data update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push

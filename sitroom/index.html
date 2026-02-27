@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AGI SITUATION ROOM | DialectForge</title>
+<meta name="description" content="Live intelligence dashboard tracking the global race to AGI. AI briefings, funding tracker, prediction markets, and security analysis powered by DialectForge.">
+<meta property="og:title" content="AGI Situation Room | DialectForge">
+<meta property="og:description" content="Live intelligence on the global AI race. Real-time briefings, whale tracking, prediction markets.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dialectforge.com/sitroom">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AGI SitRoom">
+<meta name="theme-color" content="#06080c">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+:root {
+  --bg-primary: #06080c;
+  --bg-secondary: #0b0e14;
+  --bg-panel: #0e1219;
+  --bg-panel-hover: #131924;
+  --border: #151d2c;
+  --border-bright: #1f2d45;
+  --text-primary: #d8e0ec;
+  --text-secondary: #6b7d96;
+  --text-dim: #3d4f65;
+  --accent-red: #ff2e44;
+  --accent-red-dim: #ff2e4435;
+  --accent-green: #00e87b;
+  --accent-green-dim: #00e87b25;
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: #3b82f618;
+  --accent-cyan: #06d6e0;
+  --accent-cyan-dim: #06d6e020;
+  --accent-yellow: #fbbf24;
+  --accent-yellow-dim: #fbbf2425;
+  --accent-purple: #a855f7;
+  --accent-purple-dim: #a855f720;
+  --accent-orange: #f97316;
+  --df-green: #00ff88;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg-primary);color:var(--text-primary);font-family:'JetBrains Mono',monospace;overflow-x:hidden;font-size:11px;line-height:1.4;-webkit-font-smoothing:antialiased}
+#root{min-height:100vh;display:flex;flex-direction:column}
+
+/* Ticker */
+.ticker-bar{background:linear-gradient(90deg,#080a10,#0d1018,#080a10);border-bottom:1px solid var(--accent-red-dim);padding:5px 0;overflow:hidden;position:sticky;top:0;z-index:100}
+.ticker-content{display:flex;white-space:nowrap;animation:tickerScroll 80s linear infinite;gap:50px}
+.ticker-content:hover{animation-play-state:paused}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.3px;color:var(--text-secondary)}
+.ticker-tag{padding:1px 5px;border-radius:2px;font-size:7px;font-weight:700;letter-spacing:1px;flex-shrink:0}
+.tag-CRITICAL{background:var(--accent-red);color:#000}.tag-HIGH{background:var(--accent-yellow);color:#000}.tag-LIVE{background:var(--accent-green);color:#000}.tag-NEW{background:var(--accent-blue);color:#fff}
+
+/* Header / Nav */
+.site-nav{background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);padding:0 14px;display:flex;justify-content:space-between;align-items:center;height:42px;position:sticky;top:27px;z-index:90}
+.nav-left{display:flex;align-items:center;gap:16px}
+.nav-home{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--df-green);font-weight:700;font-size:12px;font-family:'Orbitron',sans-serif;letter-spacing:1px;transition:opacity .2s}
+.nav-home:hover{opacity:.8}
+.nav-home-icon{width:22px;height:22px;background:linear-gradient(135deg,var(--df-green),var(--accent-blue));border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px}
+.nav-sep{color:var(--text-dim);font-size:14px}
+.nav-current{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:800;letter-spacing:2px;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-blue),var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-links{display:flex;gap:14px;list-style:none}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-size:9px;letter-spacing:1px;transition:color .2s}
+.nav-links a:hover{color:var(--df-green)}
+.nav-links a.active{color:var(--accent-cyan)}
+.live-badge{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--accent-green);font-weight:600}
+.pulse{width:5px;height:5px;background:var(--accent-green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 4px var(--accent-green)}50%{opacity:.3}}
+.clock{font-size:8px;color:var(--text-dim)}
+@media(max-width:700px){.nav-links{display:none}}
+
+/* Signals */
+.signals{display:flex;gap:6px;padding:8px 14px;background:var(--bg-secondary);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.signals::-webkit-scrollbar{display:none}
+.sig-card{flex:1;min-width:72px;background:var(--bg-panel);border:1px solid var(--border);border-radius:5px;padding:7px 6px;text-align:center;transition:border-color .3s}
+.sig-card:hover{border-color:var(--border-bright)}
+.sig-label{font-size:7px;color:var(--text-dim);letter-spacing:1.2px;margin-bottom:3px}
+.sig-value{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700}
+.sig-delta{font-size:7px;margin-top:2px}
+.up{color:var(--accent-green)}.down{color:var(--accent-red)}
+
+/* Mobile Tabs */
+.tabs{display:flex;background:var(--bg-secondary);border-bottom:1px solid var(--border);overflow-x:auto}
+@media(min-width:900px){.tabs{display:none}}
+.tab{flex:1;min-width:fit-content;padding:8px 4px;text-align:center;font-size:7.5px;letter-spacing:1px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.tab.active{color:var(--accent-cyan);border-bottom-color:var(--accent-cyan)}
+
+/* Main Grid */
+.main{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);flex:1}
+@media(min-width:900px){.main{grid-template-columns:260px 1fr 260px;height:calc(100vh - 170px)}}
+.panel{background:var(--bg-panel);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border-bright) transparent}
+.panel::-webkit-scrollbar{width:3px}.panel::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:2px}
+.mpanel{display:none}.mpanel.active{display:block}
+@media(min-width:900px){.mpanel{display:block!important}}
+.panel-hdr{position:sticky;top:0;background:var(--bg-panel);padding:9px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;z-index:10}
+.panel-title{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:600;letter-spacing:2px;color:var(--text-secondary)}
+.panel-badge{font-size:7px;padding:2px 5px;border-radius:3px;font-weight:600}
+
+/* Threat Bar */
+.threat-bar{display:flex;align-items:center;gap:10px;padding:10px 12px;border-left:3px solid var(--accent-red);margin:8px 10px;border-radius:0 4px 4px 0;transition:background .3s}
+.threat-CRITICAL{background:linear-gradient(90deg,rgba(255,46,68,.15),transparent)}
+.threat-HIGH{background:linear-gradient(90deg,rgba(251,191,36,.1),transparent);border-left-color:var(--accent-yellow)}
+.threat-ELEVATED{background:linear-gradient(90deg,rgba(249,115,22,.08),transparent);border-left-color:var(--accent-orange)}
+.threat-MODERATE{background:linear-gradient(90deg,rgba(59,130,246,.08),transparent);border-left-color:var(--accent-blue)}
+.threat-lbl{font-size:7px;letter-spacing:1px;color:var(--text-dim)}
+.threat-val{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:700;color:var(--accent-red)}
+
+/* Briefing */
+.brief-section{padding:10px 12px;border-bottom:1px solid var(--border)}
+.brief-label{font-size:7px;color:var(--accent-cyan);letter-spacing:1.5px;margin-bottom:5px}
+.brief-text{font-size:10.5px;color:var(--text-primary);line-height:1.65}
+.brief-highlight{color:var(--accent-yellow);font-weight:500}
+.brief-q{background:var(--bg-secondary);border:1px solid var(--accent-blue-dim);border-radius:4px;padding:7px 9px;margin-top:8px;font-size:9.5px;color:var(--accent-blue);font-weight:500}
+
+/* DialectForge Card */
+.df-card{background:linear-gradient(135deg,#0e1219,#140f26);border:1px solid var(--accent-purple-dim);margin:10px;border-radius:6px;padding:11px;position:relative;overflow:hidden}
+.df-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent-purple),var(--accent-cyan),transparent)}
+.df-logo{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;letter-spacing:2px}
+.df-tag{font-size:8.5px;color:var(--text-secondary);margin-bottom:8px}
+.df-stats{display:flex;gap:6px;margin-bottom:8px}
+.df-stat{flex:1;background:var(--bg-primary);border-radius:3px;padding:5px;text-align:center}
+.df-stat-v{font-family:'Orbitron';font-size:12px;font-weight:600;color:var(--accent-cyan)}
+.df-stat-l{font-size:6.5px;color:var(--text-dim);letter-spacing:1px;margin-top:1px}
+.df-feat{display:flex;align-items:center;gap:5px;padding:3px 0;font-size:8.5px;color:var(--text-secondary)}
+.df-chk{color:var(--accent-green);font-size:9px}
+.df-cta{display:block;text-align:center;margin-top:8px;padding:7px;background:linear-gradient(135deg,var(--accent-purple),var(--accent-blue));border:none;border-radius:4px;color:white;font-family:'JetBrains Mono';font-size:8px;font-weight:600;letter-spacing:1.5px;cursor:pointer;text-decoration:none;transition:opacity .2s}
+.df-cta:hover{opacity:.85}
+
+/* Map */
+.map-wrap{position:relative;min-height:380px;background:var(--bg-primary)}
+.map-grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(21,29,44,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(21,29,44,.15) 1px,transparent 1px);background-size:35px 35px;pointer-events:none}
+.map-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(6,214,224,.2),transparent);animation:scan 5s linear infinite;pointer-events:none}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.map-pt{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:5}
+.map-dot{width:8px;height:8px;border-radius:50%;position:relative}
+.map-dot::after{content:'';position:absolute;top:-3px;left:-3px;width:14px;height:14px;border-radius:50%;border:1px solid;animation:ring 2.5s infinite;opacity:0}
+@keyframes ring{0%{transform:scale(.8);opacity:.7}100%{transform:scale(2.8);opacity:0}}
+.d-crit{background:var(--accent-red)}.d-crit::after{border-color:var(--accent-red)}
+.d-major{background:var(--accent-yellow)}.d-major::after{border-color:var(--accent-yellow)}
+.d-active{background:var(--accent-cyan)}.d-active::after{border-color:var(--accent-cyan)}
+.d-df{background:var(--accent-purple)}.d-df::after{border-color:var(--accent-purple)}
+.map-lbl{position:absolute;font-size:7px;color:var(--text-secondary);white-space:nowrap;letter-spacing:.3px;top:12px;left:50%;transform:translateX(-50%)}
+.map-legend{position:absolute;bottom:8px;left:8px;background:rgba(14,18,25,.9);border:1px solid var(--border);border-radius:4px;padding:6px 8px;display:flex;flex-direction:column;gap:3px;z-index:10}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:7px;color:var(--text-secondary)}
+.leg-dot{width:5px;height:5px;border-radius:50%}
+
+/* Feed */
+.feed-item{padding:9px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;animation:fadeUp .3s ease}
+.feed-item:hover{background:var(--bg-panel-hover)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.feed-src{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.src-name{font-size:9px;font-weight:600;color:var(--text-primary)}
+.src-badges{display:flex;gap:3px}
+.badge{font-size:6.5px;padding:1px 4px;border-radius:2px;font-weight:600;letter-spacing:.5px}
+.b-tweet{background:#1d9bf015;color:#1da1f2;border:1px solid #1d9bf030}
+.b-arxiv{background:#b31b1b15;color:#e74c3c;border:1px solid #b31b1b30}
+.b-blog{background:var(--accent-green-dim);color:var(--accent-green);border:1px solid rgba(0,232,123,.2)}
+.b-news{background:var(--accent-yellow-dim);color:var(--accent-yellow);border:1px solid rgba(251,191,36,.2)}
+.b-sec{background:var(--accent-purple-dim);color:var(--accent-purple);border:1px solid rgba(168,85,247,.2)}
+.b-patent{background:var(--accent-cyan-dim);color:var(--accent-cyan);border:1px solid rgba(6,214,224,.2)}
+.b-reddit{background:#ff450015;color:#ff4500;border:1px solid #ff450030}
+.b-polymarket{background:#0052ff15;color:#4da6ff;border:1px solid #0052ff30}
+.b-high{background:var(--accent-red-dim);color:var(--accent-red)}
+.feed-txt{font-size:9.5px;color:var(--text-secondary);line-height:1.5}
+.feed-txt a{color:var(--accent-blue);text-decoration:none}
+.feed-time{font-size:7px;color:var(--text-dim);margin-top:3px}
+
+/* Bottom Panels */
+.bottom{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border)}
+@media(min-width:900px){.bottom{grid-template-columns:1fr 1fr}}
+.bot-panel{background:var(--bg-panel);padding:10px 12px}
+.whale-item{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
+.whale-ent{font-size:9.5px;color:var(--text-primary)}
+.whale-type{font-size:7px;letter-spacing:.5px;color:var(--text-dim)}
+.whale-amt{font-family:'Orbitron';font-size:11px;font-weight:600}
+.pred-item{padding:7px 0;border-bottom:1px solid var(--border)}
+.pred-q{font-size:9.5px;color:var(--text-primary);margin-bottom:4px}
+.pred-bar-wrap{display:flex;align-items:center;gap:6px}
+.pred-bar{flex:1;height:5px;background:var(--bg-secondary);border-radius:3px;overflow:hidden}
+.pred-fill{height:100%;border-radius:3px;transition:width .8s ease}
+.fill-yes{background:linear-gradient(90deg,var(--accent-green),#00c96a)}
+.fill-no{background:linear-gradient(90deg,var(--accent-red),#cc2233)}
+.pred-pct{font-family:'Orbitron';font-size:10px;font-weight:600;min-width:36px;text-align:right}
+.pred-meta{display:flex;justify-content:space-between;font-size:7px;color:var(--text-dim);margin-top:2px}
+
+/* Loading & Footer */
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text-dim);font-size:10px;letter-spacing:1px}
+.loading::after{content:'';width:12px;height:12px;margin-left:8px;border:2px solid var(--border-bright);border-top-color:var(--accent-cyan);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.footer{background:var(--bg-secondary);border-top:1px solid var(--border);padding:8px 14px;display:flex;justify-content:space-between;align-items:center;font-size:7px;color:var(--text-dim)}
+.footer a{color:var(--accent-purple);text-decoration:none}
+
+/* Error state */
+.error-msg{background:var(--accent-red-dim);border:1px solid rgba(255,46,68,.3);border-radius:4px;padding:10px 12px;margin:10px;font-size:9px;color:var(--accent-red)}
+
+/* SVG Map styling */
+.world-map-svg{width:100%;height:100%;position:absolute;inset:0}
+.world-map-svg path{fill:#0e1a2a;stroke:#1a2840;stroke-width:.5}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+const CONFIG = {
+  dataUrl: './data/sitroom.json',
+  refreshInterval: 30 * 60 * 1000
+};
+
+// ── Utility helpers ──
+function timeAgo(iso) {
+  if (!iso) return '';
+  const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+  if (s < 60) return s + 's ago';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  return Math.floor(s/86400) + 'd ago';
+}
+
+// ── Fallback data ──
+function getFallbackData() {
+  return {
+    generated_at: new Date().toISOString(),
+    signals: { newsVolume: 142, fundingTotal: '$8.7B', threatLevel: 'HIGH', modelsThisMonth: 7 },
+    briefing: {
+      headline: 'AGI Situation Room monitoring global AI developments',
+      tensionLevel: 7,
+      sections: [
+        { label: 'EXECUTIVE SUMMARY', text: 'The AI race continues to accelerate with frontier labs pushing model capabilities while safety infrastructure struggles to keep pace. Multi-agent deployments are expanding rapidly, creating new attack surfaces that current security frameworks cannot address.' },
+        { label: 'KEY DEVELOPMENT', text: 'Prompt injection remains the #1 vulnerability in production AI systems. <span class="brief-highlight">DialectForge\'s dynamic dialect negotiation</span> represents the only known approach to fundamentally solve injection at the protocol level rather than patching at the application layer.' },
+        { label: 'STRATEGIC QUESTION', isQuestion: true, text: 'As AI agents gain autonomous tool use, who secures the communication channel between agents?' }
+      ],
+      tickerItems: [
+        { level: 'CRITICAL', text: 'Frontier model capabilities advancing faster than safety benchmarks' },
+        { level: 'HIGH', text: 'Multi-agent AI deployments accelerating \u2014 security protocols lag behind' },
+        { level: 'LIVE', text: 'Global AI compute spend on track to exceed $100B in 2026' },
+        { level: 'NEW', text: 'DialectForge patent filings \u2014 AI-negotiated security protocol for multi-agent systems' }
+      ]
+    },
+    news: [
+      { source: 'AI Research', badges: ['arxiv'], text: 'New paper demonstrates emergent communication protocols in multi-agent LLM systems \u2014 validates DialectForge approach', time: new Date(Date.now() - 3600000).toISOString() },
+      { source: 'Industry', badges: ['news'], text: 'OpenAI announces expanded agent capabilities with tool use \u2014 raises security questions about inter-agent communication', time: new Date(Date.now() - 7200000).toISOString() },
+      { source: 'Security', badges: ['sec','high'], text: 'NIST publishes draft framework for AI system security \u2014 prompt injection classified as critical threat vector', time: new Date(Date.now() - 14400000).toISOString() },
+      { source: 'Crypto/AI', badges: ['polymarket'], text: 'Polymarket: AGI by 2030 trading at 34% \u2014 up 8pts this month', time: new Date(Date.now() - 18000000).toISOString() },
+      { source: 'Community', badges: ['reddit'], text: 'r/MachineLearning debate on whether current architectures can achieve AGI heats up \u2014 2.4k comments', time: new Date(Date.now() - 21600000).toISOString() }
+    ],
+    whales: [
+      { entity: 'SoftBank \u2192 OpenAI', type: 'EQUITY ROUND', amount: '$15B', raw: 15000000000 },
+      { entity: 'Google \u2192 DeepMind', type: 'INTERNAL ALLOCATION', amount: '$4.5B', raw: 4500000000 },
+      { entity: 'Amazon \u2192 Anthropic', type: 'STRATEGIC INVESTMENT', amount: '$4B', raw: 4000000000 },
+      { entity: 'Saudi PIF \u2192 xAI', type: 'GROWTH ROUND', amount: '$2.1B', raw: 2100000000 },
+      { entity: 'Microsoft \u2192 Compute', type: 'INFRASTRUCTURE', amount: '$3.8B', raw: 3800000000 },
+      { entity: 'Sequoia \u2192 Mistral', type: 'SERIES B', amount: '$640M', raw: 640000000 }
+    ],
+    predictions: [
+      { question: 'AGI achieved by 2030?', pctYes: 34, volume: '$2.1M', source: 'Polymarket' },
+      { question: 'GPT-5 released in 2026?', pctYes: 72, volume: '$890K', source: 'Polymarket' },
+      { question: 'Major AI regulation passed in US by 2026?', pctYes: 41, volume: '$1.4M', source: 'Polymarket' },
+      { question: 'AI causes >$1B economic disruption event?', pctYes: 28, volume: '$450K', source: 'Metaculus' }
+    ]
+  };
+}
+
+// ── Map data ──
+const MAP_POINTS = [
+  { top: '30%', left: '14%', cls: 'd-crit', label: 'SF \u00B7 OpenAI / Anthropic' },
+  { top: '22%', left: '13%', cls: 'd-major', label: 'SEA \u00B7 Microsoft' },
+  { top: '22%', left: '47%', cls: 'd-crit', label: 'LDN \u00B7 DeepMind' },
+  { top: '28%', left: '76%', cls: 'd-crit', label: 'BJ \u00B7 Baidu / ByteDance' },
+  { top: '34%', left: '78%', cls: 'd-major', label: 'Wuxi \u00B7 DeepSeek' },
+  { top: '30%', left: '84%', cls: 'd-active', label: 'TKY \u00B7 Preferred Net' },
+  { top: '25%', left: '49%', cls: 'd-active', label: 'PAR \u00B7 Mistral' },
+  { top: '24%', left: '20%', cls: 'd-active', label: 'TOR \u00B7 Cohere' },
+  { top: '14%', left: '52%', cls: 'd-df', label: 'Helsinki \u00B7 DF VPN', isDF: true },
+  { top: '32%', left: '22%', cls: 'd-df', label: 'VA \u00B7 DF VPN', isDF: true },
+  { top: '55%', left: '74%', cls: 'd-df', label: 'SG \u00B7 DF VPN', isDF: true },
+];
+
+// ── Simplified world map SVG paths (continents) ──
+const WORLD_SVG = "M 155 65 L 175 55 195 60 210 55 225 65 215 80 195 85 175 80 Z M 50 95 L 45 75 55 55 75 50 95 55 105 70 100 90 85 105 65 110 Z M 120 95 L 130 85 150 80 170 85 180 100 175 115 155 120 135 115 Z M 290 90 L 310 80 330 85 345 95 340 110 325 115 305 110 Z M 350 70 L 370 60 395 65 410 80 415 100 405 115 390 120 370 115 355 100 Z M 430 75 L 445 65 465 70 480 85 475 105 455 110 440 100 Z M 55 155 L 65 135 80 130 95 140 100 160 90 180 75 185 60 175 Z M 350 150 L 370 135 395 140 410 155 405 175 385 185 365 175 Z";
+
+// ──────── COMPONENTS ────────
+
+function Ticker({ items }) {
+  const defaults = [
+    { level: 'CRITICAL', text: 'Frontier model capabilities advancing faster than safety benchmarks \u2014 alignment gap widening' },
+    { level: 'LIVE', text: 'Global AI compute spend on track to exceed $100B in 2026' },
+    { level: 'HIGH', text: 'Multi-agent AI deployments accelerating \u2014 security protocols lag behind' },
+    { level: 'NEW', text: 'DialectForge patent filings published \u2014 AI-negotiated security protocol' }
+  ];
+  const all = items && items.length > 0 ? items : defaults;
+  const doubled = [...all, ...all];
+  return (
+    <div className="ticker-bar">
+      <div className="ticker-content">
+        {doubled.map((item, i) => (
+          <div className="ticker-item" key={i}>
+            <span className={`ticker-tag tag-${item.level}`}>{item.level}</span>
+            {item.text}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SiteNav() {
+  const [clock, setClock] = useState('');
+  useEffect(() => {
+    const tick = () => setClock(new Date().toISOString().replace('T',' ').slice(0,19) + ' UTC');
+    tick(); const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="site-nav">
+      <div className="nav-left">
+        <a href="/" className="nav-home">
+          <div className="nav-home-icon">{'\u{1F510}'}</div>
+          DIALECTFORGE
+        </a>
+        <span className="nav-sep">/</span>
+        <span className="nav-current">AGI SITUATION ROOM</span>
+      </div>
+      <div className="nav-right">
+        <ul className="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/download">Download</a></li>
+          <li><a href="/research">Research</a></li>
+          <li><a href="/sitroom" className="active">SitRoom</a></li>
+          <li><a href="/enterprise">Enterprise</a></li>
+        </ul>
+        <div className="live-badge"><div className="pulse"></div> LIVE</div>
+        <div className="clock">{clock}</div>
+      </div>
+    </div>
+  );
+}
+
+function SignalCards({ signals }) {
+  if (!signals) return null;
+  const threatColor = signals.threatLevel === 'CRITICAL' ? 'var(--accent-red)' :
+    signals.threatLevel === 'HIGH' ? 'var(--accent-yellow)' : 'var(--accent-cyan)';
+  return (
+    <div className="signals">
+      <div className="sig-card">
+        <div className="sig-label">NEWS VOL</div>
+        <div className="sig-value" style={{color:'var(--accent-yellow)'}}>{signals.newsVolume || '\u2014'}</div>
+        <div className="sig-delta up">{'\u25B2'} active</div>
+      </div>
+      <div className="sig-card">
+        <div className="sig-label">FUNDING</div>
+        <div className="sig-value" style={{color:'var(--accent-green)'}}>{signals.fundingTotal || '\u2014'}</div>
+        <div className="sig-delta up">{'\u25B2'} this quarter</div>
+      </div>
+      <div className="sig-card">
+        <div className="sig-label">THREAT</div>
+        <div className="sig-value" style={{color: threatColor}}>{signals.threatLevel || '\u2014'}</div>
+        <div className="sig-delta" style={{color: threatColor}}>
+          {signals.threatLevel === 'HIGH' || signals.threatLevel === 'CRITICAL' ? '\u25B2 ELEVATED' : '\u2014 STABLE'}
+        </div>
+      </div>
+      <div className="sig-card">
+        <div className="sig-label">MODELS</div>
+        <div className="sig-value" style={{color:'var(--accent-cyan)'}}>{signals.modelsThisMonth || '\u2014'}</div>
+        <div className="sig-delta">this month</div>
+      </div>
+    </div>
+  );
+}
+
+function MobileTabs({ activeTab, setActiveTab }) {
+  const tabs = [
+    { id: 'intel', label: 'INTEL' },
+    { id: 'map', label: 'MAP' },
+    { id: 'feed', label: 'FEED' },
+    { id: 'markets', label: 'MARKETS' }
+  ];
+  return (
+    <div className="tabs">
+      {tabs.map(t => (
+        <div key={t.id} className={`tab ${activeTab === t.id ? 'active' : ''}`}
+          onClick={() => setActiveTab(t.id)}>{t.label}</div>
+      ))}
+    </div>
+  );
+}
+
+function DFCard() {
+  return (
+    <div className="df-card">
+      <div className="df-logo">DIALECTFORGE</div>
+      <div className="df-tag">AI-Negotiated Security Protocol</div>
+      <div className="df-stats">
+        <div className="df-stat"><div className="df-stat-v">120s</div><div className="df-stat-l">REFRESH CYCLE</div></div>
+        <div className="df-stat"><div className="df-stat-v">&lt;500{'\u00B5'}s</div><div className="df-stat-l">OVERHEAD</div></div>
+        <div className="df-stat"><div className="df-stat-v">{'\u221E'}</div><div className="df-stat-l">PATTERNS</div></div>
+      </div>
+      <div className="df-feat"><span className="df-chk">{'\u2713'}</span> Injection-immune by design</div>
+      <div className="df-feat"><span className="df-chk">{'\u2713'}</span> Multi-agent communication security</div>
+      <div className="df-feat"><span className="df-chk">{'\u2713'}</span> CAN bus / IoT / BCI compatible</div>
+      <a href="/" className="df-cta">EXPLORE DIALECTFORGE {'\u2192'}</a>
+    </div>
+  );
+}
+
+function BriefingPanel({ briefing }) {
+  const b = briefing || {};
+  const tensionLevel = b.tensionLevel || 7;
+  const threatClass = tensionLevel >= 9 ? 'CRITICAL' : tensionLevel >= 7 ? 'HIGH' : tensionLevel >= 5 ? 'ELEVATED' : 'MODERATE';
+  return (
+    <div className="panel">
+      <div className="panel-hdr">
+        <div className="panel-title">AI INTEL BRIEFING</div>
+        <div className="panel-badge" style={{background:'var(--accent-cyan-dim)',color:'var(--accent-cyan)'}}>AI GENERATED</div>
+      </div>
+      <div className={`threat-bar threat-${threatClass}`}>
+        <div>
+          <div className="threat-lbl">AGI RACE TENSION</div>
+          <div className="threat-val">{tensionLevel} / 10</div>
+        </div>
+      </div>
+      {b.sections ? b.sections.map((sec, i) => (
+        <div className="brief-section" key={i}>
+          <div className="brief-label">{sec.label}</div>
+          {sec.isQuestion ? (
+            <div className="brief-q">{sec.text}</div>
+          ) : (
+            <div className="brief-text" dangerouslySetInnerHTML={{__html: sec.text}} />
+          )}
+        </div>
+      )) : (
+        <div className="loading">CONNECTING TO INTELLIGENCE FEEDS</div>
+      )}
+      <DFCard />
+    </div>
+  );
+}
+
+function MapPanel() {
+  return (
+    <div className="panel" style={{overflow:'hidden'}}>
+      <div className="panel-hdr">
+        <div className="panel-title">GLOBAL AI OPERATIONS</div>
+        <div className="panel-badge" style={{background:'var(--accent-green-dim)',color:'var(--accent-green)'}}>TRACKING</div>
+      </div>
+      <div className="map-wrap">
+        <svg className="world-map-svg" viewBox="0 0 500 250" preserveAspectRatio="xMidYMid meet">
+          <path d={WORLD_SVG} />
+        </svg>
+        <div className="map-grid-overlay"></div>
+        <div className="map-scan"></div>
+        {MAP_POINTS.map((pt, i) => (
+          <div className="map-pt" key={i} style={{top: pt.top, left: pt.left}}>
+            <div className={`map-dot ${pt.cls}`}></div>
+            <div className="map-lbl">{pt.label}</div>
+          </div>
+        ))}
+        <div className="map-legend">
+          <div className="leg-item"><div className="leg-dot" style={{background:'var(--accent-red)'}}></div> Critical Labs</div>
+          <div className="leg-item"><div className="leg-dot" style={{background:'var(--accent-yellow)'}}></div> Major Players</div>
+          <div className="leg-item"><div className="leg-dot" style={{background:'var(--accent-cyan)'}}></div> Active Research</div>
+          <div className="leg-item"><div className="leg-dot" style={{background:'var(--accent-purple)'}}></div> DialectForge VPN</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FeedPanel({ news }) {
+  const items = news && news.length > 0 ? news : [];
+  return (
+    <div className="panel">
+      <div className="panel-hdr">
+        <div className="panel-title">INTEL FEED</div>
+        <div className="panel-badge" style={{background:'var(--accent-blue-dim)',color:'var(--accent-blue)'}}>
+          {items.length} ITEMS
+        </div>
+      </div>
+      {items.length === 0 ? (
+        <div className="loading">SCANNING SOURCES</div>
+      ) : items.map((item, i) => (
+        <div className="feed-item" key={i} onClick={() => item.url && window.open(item.url, '_blank')}>
+          <div className="feed-src">
+            <span className="src-name">{item.source}</span>
+            <div className="src-badges">
+              {(item.badges || []).map((b, j) => (
+                <span key={j} className={`badge b-${b}`}>{b.toUpperCase()}</span>
+              ))}
+            </div>
+          </div>
+          <div className="feed-txt">{item.text}</div>
+          <div className="feed-time">{timeAgo(item.time)}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MarketsPanel({ whales, predictions }) {
+  const w = whales || [];
+  const p = predictions || [];
+  return (
+    <div className="bottom">
+      <div className="bot-panel">
+        <div className="panel-hdr" style={{margin:'-10px -12px 8px',padding:'9px 12px'}}>
+          <div className="panel-title">WHALE TRACKER</div>
+          <div className="panel-badge" style={{background:'var(--accent-yellow-dim)',color:'var(--accent-yellow)'}}>
+            {w.length} DEALS
+          </div>
+        </div>
+        {w.length === 0 ? <div className="loading">SCANNING MARKETS</div> :
+          w.map((whale, i) => {
+            const amtColor = whale.raw >= 10000000000 ? 'var(--accent-red)' :
+              whale.raw >= 1000000000 ? 'var(--accent-yellow)' : 'var(--accent-green)';
+            return (
+              <div className="whale-item" key={i}>
+                <div>
+                  <div className="whale-ent">{whale.entity}</div>
+                  <div className="whale-type">{whale.type}</div>
+                </div>
+                <div className="whale-amt" style={{color: amtColor}}>{whale.amount}</div>
+              </div>
+            );
+          })
+        }
+      </div>
+      <div className="bot-panel">
+        <div className="panel-hdr" style={{margin:'-10px -12px 8px',padding:'9px 12px'}}>
+          <div className="panel-title">PREDICTION MARKETS</div>
+          <div className="panel-badge" style={{background:'var(--accent-blue-dim)',color:'var(--accent-blue)'}}>LIVE</div>
+        </div>
+        {p.length === 0 ? <div className="loading">FETCHING ODDS</div> :
+          p.map((pred, i) => (
+            <div className="pred-item" key={i}>
+              <div className="pred-q">{pred.question}</div>
+              <div className="pred-bar-wrap">
+                <div className="pred-bar">
+                  <div className={`pred-fill ${pred.pctYes >= 50 ? 'fill-yes' : 'fill-no'}`}
+                    style={{width: pred.pctYes + '%'}}></div>
+                </div>
+                <div className="pred-pct" style={{color: pred.pctYes >= 50 ? 'var(--accent-green)' : 'var(--accent-red)'}}>
+                  {pred.pctYes}%
+                </div>
+              </div>
+              <div className="pred-meta">
+                <span>YES</span>
+                <span>{pred.volume} vol \u00B7 {pred.source}</span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  );
+}
+
+function Footer({ generatedAt }) {
+  return (
+    <div className="footer">
+      <span>Last update: {generatedAt ? new Date(generatedAt).toUTCString() : 'Loading...'}</span>
+      <span>Powered by <a href="/">DialectForge</a> Intelligence</span>
+    </div>
+  );
+}
+
+// ──────── APP ROOT ────────
+
+function App() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('intel');
+
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch(CONFIG.dataUrl + '?t=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      // Use fetched data, but fall back to defaults for any missing sections
+      const fallback = getFallbackData();
+      setData({
+        generated_at: json.generated_at || fallback.generated_at,
+        signals: json.signals || fallback.signals,
+        briefing: json.briefing || fallback.briefing,
+        news: json.news && json.news.length > 0 ? json.news : fallback.news,
+        whales: json.whales && json.whales.length > 0 ? json.whales : fallback.whales,
+        predictions: json.predictions && json.predictions.length > 0 ? json.predictions : fallback.predictions
+      });
+      setError(null);
+    } catch (err) {
+      console.warn('SitRoom data fetch failed, using fallback:', err.message);
+      if (!data) setData(getFallbackData());
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+    const id = setInterval(fetchData, CONFIG.refreshInterval);
+    return () => clearInterval(id);
+  }, [fetchData]);
+
+  const d = data || getFallbackData();
+  const tickerItems = d.briefing ? d.briefing.tickerItems : null;
+
+  return (
+    <>
+      <Ticker items={tickerItems} />
+      <SiteNav />
+      <SignalCards signals={d.signals} />
+      <MobileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="main">
+        <div className={`mpanel ${activeTab === 'intel' ? 'active' : ''}`}>
+          <BriefingPanel briefing={d.briefing} />
+        </div>
+        <div className={`mpanel ${activeTab === 'map' ? 'active' : ''}`}>
+          <MapPanel />
+        </div>
+        <div className={`mpanel ${activeTab === 'feed' ? 'active' : ''}`}>
+          <FeedPanel news={d.news} />
+        </div>
+      </div>
+      <div className={`mpanel ${activeTab === 'markets' || typeof window !== 'undefined' && window.innerWidth >= 900 ? 'active' : ''}`} style={{display: window.innerWidth >= 900 ? 'block' : (activeTab === 'markets' ? 'block' : 'none')}}>
+        <MarketsPanel whales={d.whales} predictions={d.predictions} />
+      </div>
+      <Footer generatedAt={d.generated_at} />
+    </>
+  );
+}
+
+// ── Mount ──
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// ── Service Worker Registration ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>
