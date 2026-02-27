@@ -124,8 +124,8 @@ async function callGemini() {
 
   // Parse the JSON - strip any markdown fences if present
   let jsonStr = textContent.trim();
-  if (jsonStr.startsWith('```')) {
-    jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+  if (jsonStr.startsWith('` + '``')) {
+    jsonStr = jsonStr.replace(/^` + '``(?:json)?\n?/', '').replace(/\n?` + '``$/', '');
   }
   
   const data = JSON.parse(jsonStr);
