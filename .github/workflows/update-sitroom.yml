@@ -19,7 +19,7 @@ jobs:
 
       - name: Generate sitroom data
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: node scripts/generate-sitroom.js
 
       - name: Commit and push

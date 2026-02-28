@@ -3,28 +3,30 @@
 /**
  * generate-sitroom.js
  *
- * Calls the Gemini API with Google Search grounding to generate
- * fresh AGI Situation Room intelligence data.
+ * Calls the xAI (Grok) API to generate fresh AGI Situation Room
+ * intelligence data. Uses OpenAI-compatible chat completions endpoint.
  *
- * Env: GEMINI_API_KEY
+ * Env: XAI_API_KEY
  * Output: sitroom/data/sitroom.json
  */
 
 var fs = require('fs');
 var path = require('path');
 
-var API_KEY = process.env.GEMINI_API_KEY;
+var API_KEY = process.env.XAI_API_KEY;
 var OUTPUT_PATH = path.join(__dirname, '..', 'sitroom', 'data', 'sitroom.json');
-var MODEL = 'gemini-2.0-flash';
+var MODEL = 'grok-3-mini';
 
 if (!API_KEY) {
-  console.error('ERROR: GEMINI_API_KEY environment variable is not set.');
+  console.error('ERROR: XAI_API_KEY environment variable is not set.');
   process.exit(1);
 }
 
 var today = new Date().toISOString().split('T')[0];
 
-var PROMPT = 'You are an AI intelligence analyst powering the AGI Situation Room at dialectforge.com. Generate a comprehensive intelligence briefing on the current state of the global AI race.\n' +
+var SYSTEM_PROMPT = 'You are an AI intelligence analyst powering the AGI Situation Room at dialectforge.com. You generate comprehensive JSON intelligence briefings on the current state of the global AI race. Always respond with valid JSON only, no markdown fences or explanatory text.';
+
+var USER_PROMPT = 'Generate a comprehensive intelligence briefing. Today is ' + today + '.\n' +
 '\n' +
 'Your output must be valid JSON matching this exact schema:\n' +
 '{\n' +
@@ -72,7 +74,7 @@ var PROMPT = 'You are an AI intelligence analyst powering the AGI Situation Room
 '- Include 4-8 whale investments (recent major AI funding rounds and investments)\n' +
 '- Include 4-6 prediction market questions with realistic current percentages\n' +
 '- Always include at least one item connecting to DialectForge -- the patent-pending AI-negotiated security protocol designed for multi-agent AI security, automotive CAN bus, IoT, and BCI applications. The protocol creates dynamic communication dialects that prevent injection attacks.\n' +
-'- Use REAL current information. Today\'s date is ' + today + '. Reference actual companies, actual events, actual numbers where possible.\n' +
+'- Use REAL current information. Reference actual companies, actual events, actual numbers where possible.\n' +
 '- All timestamps should be ISO format within the last 48 hours\n' +
 '- Keep news item text concise (1-2 sentences max)\n' +
 '- Ticker items should be under 100 characters\n' +
@@ -80,50 +82,48 @@ var PROMPT = 'You are an AI intelligence analyst powering the AGI Situation Room
 '- The threatLevel should reflect actual current AI race dynamics\n' +
 '- Prediction market percentages should be realistic and current\n' +
 '\n' +
-'Return ONLY the JSON object, no markdown code fences, no explanatory text.';
+'Return ONLY the JSON object.';
 
-async function callGemini() {
-  var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + MODEL + ':generateContent?key=' + API_KEY;
+async function callXAI() {
+  var url = 'https://api.x.ai/v1/chat/completions';
 
   var body = {
-    contents: [{ parts: [{ text: PROMPT }] }],
-    tools: [{ google_search: {} }],
-    generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 8192
-    }
+    model: MODEL,
+    messages: [
+      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'user', content: USER_PROMPT }
+    ],
+    temperature: 0.7,
+    max_tokens: 8192
   };
 
-  console.log('[SitRoom] Calling Gemini ' + MODEL + ' with Google Search grounding...');
+  console.log('[SitRoom] Calling xAI ' + MODEL + '...');
   console.log('[SitRoom] Date context: ' + today);
 
   var response = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + API_KEY
+    },
     body: JSON.stringify(body)
   });
 
   if (!response.ok) {
     var errText = await response.text();
-    throw new Error('Gemini API error ' + response.status + ': ' + errText);
+    throw new Error('xAI API error ' + response.status + ': ' + errText);
   }
 
   var result = await response.json();
 
-  // Extract the text content from Gemini's response
-  var candidates = result.candidates;
-  if (!candidates || candidates.length === 0) {
-    throw new Error('No candidates in Gemini response');
-  }
-
-  var textContent = candidates[0].content && candidates[0].content.parts && candidates[0].content.parts[0] && candidates[0].content.parts[0].text;
+  var textContent = result.choices && result.choices[0] && result.choices[0].message && result.choices[0].message.content;
   if (!textContent) {
-    throw new Error('No text content in Gemini response');
+    throw new Error('No content in xAI response');
   }
 
   // Parse the JSON - strip any markdown fences if present
   var jsonStr = textContent.trim();
-  var fence = String.fromCharCode(96, 96, 96); // triple backtick
+  var fence = String.fromCharCode(96, 96, 96);
   if (jsonStr.startsWith(fence)) {
     jsonStr = jsonStr.replace(new RegExp('^' + fence + '(?:json)?\\n?'), '').replace(new RegExp('\\n?' + fence + '$'), '');
   }
@@ -145,7 +145,7 @@ async function callGemini() {
 
 async function main() {
   try {
-    var data = await callGemini();
+    var data = await callXAI();
 
     // Ensure output directory exists
     var outputDir = path.dirname(OUTPUT_PATH);
