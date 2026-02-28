@@ -89,7 +89,6 @@ async function callGemini() {
     contents: [{ parts: [{ text: PROMPT }] }],
     tools: [{ google_search: {} }],
     generationConfig: {
-      responseMimeType: "application/json",
       temperature: 0.7,
       maxOutputTokens: 8192
     }
