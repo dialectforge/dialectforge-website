@@ -124,20 +124,6 @@
         .progress-label { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary); }
         .phase-name { color: var(--accent-blue); font-weight: 500; }
 
-        /* COBOL Viewer */
-        .cobol-section { padding: 2rem 0 6rem; }
-        .cobol-toggle { max-width: 960px; margin: 0 auto; }
-        .cobol-toggle-btn { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1.25rem 1.5rem;
-            color: var(--text); font-family: 'Inter', sans-serif; font-size: 1rem; cursor: pointer; width: 100%; text-align: left;
-            display: flex; align-items: center; justify-content: space-between; transition: all 0.3s; font-weight: 500; }
-        .cobol-toggle-btn:hover { border-color: var(--accent-blue); background: var(--bg-card-hover); }
-        .cobol-toggle-btn .arrow { transition: transform 0.3s; font-size: 0.8rem; color: var(--text-secondary); }
-        .cobol-toggle-btn.open .arrow { transform: rotate(180deg); }
-        .cobol-code { display: none; max-width: 960px; margin: 0 auto; background: var(--terminal-bg); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0 0 12px 12px; padding: 1.5rem; max-height: 600px; overflow-y: auto; }
-        .cobol-code.open { display: block; }
-        .cobol-code pre { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6; white-space: pre; overflow-x: auto; }
-
         /* Footer */
         footer { background: var(--bg-dark); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 3rem 0; text-align: center; }
         footer p { color: var(--text-secondary); font-size: 0.875rem; }
@@ -272,20 +258,6 @@
         </div>
     </section>
 
-    <!-- COBOL Source -->
-    <section class="cobol-section">
-        <div class="container">
-            <div class="cobol-toggle">
-                <button class="cobol-toggle-btn" onclick="toggleCobol(this)">
-                    <span>&#x1F4DC; View COBOL Source (DFWIRE.cbl &mdash; 819 lines)</span>
-                    <span class="arrow">&#x25BC;</span>
-                </button>
-                <div class="cobol-code" id="cobolCode">
-                    <pre id="cobolPre">Loading...</pre>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <footer>
         <div class="container">
@@ -801,82 +773,7 @@ function runAttackSequence(v) {
     }, 11000);
 }
 
-// ===== COBOL TOGGLE =====
-function toggleCobol(btn) {
-    var code = document.getElementById('cobolCode');
-    btn.classList.toggle('open');
-    code.classList.toggle('open');
-    if (code.classList.contains('open') && document.getElementById('cobolPre').textContent === 'Loading...') {
-        loadCobolSource();
-    }
-}
 
-function loadCobolSource() {
-    // Embed a trimmed version of the COBOL source for display
-    var src = "";
-    src += "      ******************************************************************\n";
-    src += "      * PROGRAM:    DFWIRE - DialectForge Secured Wire Transfer\n";
-    src += "      * AUTHOR:     Conceptual Demo for DialectForge Protocol\n";
-    src += "      * PURPOSE:    Demonstrates DialectForge emergent AI protocol\n";
-    src += "      *             applied to COBOL mainframe wire transfer processing\n";
-    src += "      *\n";
-    src += "      * PROTOCOL:   DialectForge (Patent Pending - John Dean Martin)\n";
-    src += "      *   - Decentralized seed-based dialect negotiation\n";
-    src += "      *   - Cyclic remapping of identifiers and payloads\n";
-    src += "      *   - XOR encryption with seed-derived session keys\n";
-    src += "      *   - Anomaly detection with quorum-validated lockdown\n";
-    src += "      *   - 2FA recovery with seed-phrase fallback\n";
-    src += "      *   - Self-healing echo frame redundancy\n";
-    src += "      ******************************************************************\n";
-    src += "\n";
-    src += "       IDENTIFICATION DIVISION.\n";
-    src += "       PROGRAM-ID.    DFWIRE.\n";
-    src += "       AUTHOR.        DIALECTFORGE-DEMO.\n";
-    src += "       DATE-WRITTEN.  2026-02-25.\n";
-    src += "\n";
-    src += "       DATA DIVISION.\n";
-    src += "       WORKING-STORAGE SECTION.\n";
-    src += "\n";
-    src += "       01  DF-PROTOCOL-VERSION        PIC X(10) VALUE \"DF-1.0\".\n";
-    src += "       01  DF-QUORUM-THRESHOLD        PIC 9V99  VALUE 0.70.\n";
-    src += "       01  DF-CYCLE-INTERVAL-MS       PIC 9(5)  VALUE 05000.\n";
-    src += "       01  DF-SHARED-SEED             PIC X(64).\n";
-    src += "\n";
-    src += "       01  NODE-A.\n";
-    src += "           05  NODE-A-ID              PIC X(20) VALUE \"SENDER-BANK-0001\".\n";
-    src += "           05  NODE-A-STATUS          PIC X(10) VALUE \"ACTIVE\".\n";
-    src += "           05  NODE-A-LOCKED          PIC 9(1)  VALUE 0.\n";
-    src += "\n";
-    src += "       01  NODE-B.\n";
-    src += "           05  NODE-B-ID              PIC X(20) VALUE \"RECEIVER-BANK-0002\".\n";
-    src += "           05  NODE-B-STATUS          PIC X(10) VALUE \"ACTIVE\".\n";
-    src += "           05  NODE-B-LOCKED          PIC 9(1)  VALUE 0.\n";
-    src += "\n";
-    src += "       01  WIRE-TRANSFER-REC.\n";
-    src += "           05  WT-MESSAGE-TYPE        PIC X(6)  VALUE \"MT103 \".\n";
-    src += "           05  WT-SENDER-BIC          PIC X(11).\n";
-    src += "           05  WT-RECEIVER-BIC        PIC X(11).\n";
-    src += "           05  WT-AMOUNT              PIC 9(13)V99.\n";
-    src += "           05  WT-CURRENCY            PIC X(3)  VALUE \"USD\".\n";
-    src += "\n";
-    src += "      * ... [819 lines total - Full source available on request]\n";
-    src += "\n";
-    src += "       PROCEDURE DIVISION.\n";
-    src += "       0000-MAIN-CONTROL.\n";
-    src += "           PERFORM 1000-DISPLAY-HEADER\n";
-    src += "           PERFORM 2000-SEED-GENERATION\n";
-    src += "           PERFORM 3000-DIALECT-NEGOTIATION\n";
-    src += "           PERFORM 4000-PROCESS-WIRE-TRANSFER\n";
-    src += "           PERFORM 5000-SIMULATE-SPOOF-ATTACK\n";
-    src += "           PERFORM 6000-ANOMALY-DETECTION\n";
-    src += "           PERFORM 7000-QUORUM-LOCKDOWN\n";
-    src += "           PERFORM 8000-2FA-RECOVERY\n";
-    src += "           PERFORM 9000-RE-NEGOTIATE-DIALECT\n";
-    src += "           PERFORM 9500-POST-RECOVERY-TRANSFER\n";
-    src += "           PERFORM 9900-DISPLAY-SUMMARY\n";
-    src += "           STOP RUN.\n";
-    document.getElementById('cobolPre').textContent = src;
-}
 </script>
 </body>
 </html>
