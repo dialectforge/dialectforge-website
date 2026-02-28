@@ -3,145 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Download DialectForge VPN - Invisible, censorship-resistant VPN for macOS, iOS, Windows, and Android.">
-    <title>Download DialectForge VPN</title>
+    <meta name="description" content="Download DialectForge apps - VPN for macOS and SnapGuard encrypted photo vault for iOS.">
+    <title>Downloads - DialectForge</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: #0a0a0f; 
-            color: #ffffff; 
-            min-height: 100vh;
-            padding: 2rem;
+        :root {
+            --primary: #00ff88;
+            --primary-dark: #00cc6a;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+            --accent-blue: #4da6ff;
+            --accent-purple: #a855f7;
         }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 3rem; }
-        .logo { font-size: 2rem; font-weight: 700; color: #00ff88; margin-bottom: 1rem; }
-        h1 {
-            font-size: 2.5rem; margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #fff 0%, #00ff88 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); min-height: 100vh; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(ellipse at 20% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 80%, rgba(77, 166, 255, 0.08) 0%, transparent 50%); }
+
+        /* Nav */
+        nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; flex-shrink: 0; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent-blue)); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .nav-links { display: flex; gap: 1.25rem; list-style: none; flex-wrap: wrap; justify-content: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s; font-size: 0.9rem; white-space: nowrap; }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Header */
+        .page-header { text-align: center; padding: 8rem 2rem 3rem; }
+        .page-header h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-header p { font-size: 1.1rem; color: var(--text-secondary); }
+
+        /* App Cards */
+        .apps { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+        .app-download {
+            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; padding: 2.5rem; transition: all 0.3s; position: relative; overflow: hidden;
         }
-        .subtitle { font-size: 1.1rem; color: #8b8b9a; }
-        .download-section {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
-        }
-        .platform-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-        .platform-icon { font-size: 2.5rem; }
-        .platform-info h2 { font-size: 1.5rem; margin-bottom: 0.25rem; }
-        .platform-info .version { color: #8b8b9a; font-size: 0.9rem; }
+        .app-download:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .app-download .app-top { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem; }
+        .app-download .app-icon-img { width: 72px; height: 72px; border-radius: 16px; }
+        .app-download .app-title h2 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+        .app-download .app-title .platform-tag { display: inline-block; font-size: 0.75rem; font-weight: 600;
+            padding: 0.2rem 0.6rem; border-radius: 50px; background: rgba(0, 255, 136, 0.1); color: var(--primary); }
+        .app-download .app-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .app-download .app-meta { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+
         .download-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-            color: #000; padding: 1rem 2rem; border-radius: 8px;
-            text-decoration: none; font-weight: 600; font-size: 1.1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.875rem 1.75rem; border-radius: 10px;
+            text-decoration: none; font-weight: 600; font-size: 1rem;
+            transition: all 0.3s;
         }
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3);
+        .download-btn.green { background: var(--primary); color: var(--bg-dark); }
+        .download-btn.green:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3); }
+        .download-btn.black { background: #000; color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .download-btn.black:hover { border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); }
+        .download-btn .apple-logo { width: 20px; height: 20px; }
+
+        .app-requirements { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.8rem; color: var(--text-secondary); }
+        .app-requirements strong { color: var(--text); font-weight: 600; }
+
+        /* Video */
+        .video-section {
+            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; text-align: center;
         }
-        .download-meta { margin-top: 1rem; font-size: 0.85rem; color: #8b8b9a; }
+        .video-section h3 { font-size: 1.3rem; margin-bottom: 1rem; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px; }
+
+        /* Coming Soon */
         .coming-soon {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
+            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; padding: 2rem; margin-bottom: 3rem;
         }
-        .coming-soon h3 { font-size: 1.2rem; margin-bottom: 1rem; color: #8b8b9a; }
+        .coming-soon h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--text-secondary); }
         .platform-list { display: flex; gap: 2rem; flex-wrap: wrap; }
         .platform-item { display: flex; align-items: center; gap: 0.5rem; color: #555; font-size: 1rem; }
         .platform-item span { font-size: 1.5rem; }
-        .requirements {
-            margin-top: 1.5rem; padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem; color: #8b8b9a;
-        }
-        .requirements strong { color: #fff; }
-        .back-link {
-            display: inline-block; color: #00ff88;
-            text-decoration: none; font-weight: 500; margin-top: 1rem;
-        }
+
+        .back-link { display: inline-block; color: var(--primary); text-decoration: none; font-weight: 500; margin-bottom: 4rem; }
         .back-link:hover { text-decoration: underline; }
-        .video-section {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
-            text-align: center;
-        }
-        .video-section h3 {
-            font-size: 1.3rem; margin-bottom: 1rem;
-            color: #fff;
-        }
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
-            border-radius: 12px;
+
+        @media (max-width: 768px) {
+            .apps { grid-template-columns: 1fr; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column;
+                background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; gap: 0.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+            .page-header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">DialectForge</div>
-            <h1>Download</h1>
-            <p class="subtitle">Invisible VPN protection for all your devices</p>
-        </div>
+    <div class="bg-animation"></div>
 
-        <!-- macOS -->
-        <div class="download-section">
-            <div class="platform-header">
-                <div class="platform-icon">🍎</div>
-                <div class="platform-info">
-                    <h2>macOS</h2>
-                    <div class="version">v1.0.3 · macOS 13.0 (Ventura) and later</div>
+    <nav>
+        <a href="/" class="logo">
+            <div class="logo-icon">&#x1F510;</div>
+            DialectForge
+        </a>
+        <ul class="nav-links">
+            <li><a href="/download" style="color: var(--primary); font-weight: 600;">Downloads</a></li>
+            <li><a href="/#protocol">The Protocol</a></li>
+            <li><a href="/#how-it-works">How It Works</a></li>
+            <li><a href="/#applications">Applications</a></li>
+            <li><a href="/ai-factory/" style="color: #ff6b35; font-weight: 600;">AI Factory</a></li>
+            <li><a href="/banking/" style="color: #4da6ff; font-weight: 600;">Banking</a></li>
+            <li><a href="/research" style="color: #4da6ff;">Research</a></li>
+            <li><a href="/sitroom" style="color: #06d6e0; font-weight: 600;">SitRoom</a></li>
+            <li><a href="/#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">&#x2630;</button>
+    </nav>
+
+    <div class="page-header">
+        <h1>Downloads</h1>
+        <p>DialectForge apps for your devices</p>
+    </div>
+
+    <div class="container">
+        <div class="apps">
+            <!-- macOS VPN -->
+            <div class="app-download">
+                <div class="app-top">
+                    <img src="/images/logo.png" alt="DialectForge VPN" class="app-icon-img" onerror="this.style.display='none'">
+                    <div class="app-title">
+                        <h2>DialectForge VPN</h2>
+                        <span class="platform-tag">macOS</span>
+                    </div>
+                </div>
+                <p class="app-desc">Censorship-resistant VPN that makes your traffic completely invisible. AI-negotiated protocol changes every 2 minutes.</p>
+                <div class="app-meta">v1.0.3 &middot; 7.3 MB &middot; Signed &amp; notarized by Apple</div>
+                <a href="https://github.com/dialectforge/dialectforge-website/releases/download/v1.0.3-macos/DialectForgeVPN.dmg" class="download-btn green">&#x2B07;&#xFE0F; Download DMG</a>
+                <div class="app-requirements">
+                    <strong>Requires:</strong> macOS 13.0 (Ventura) or later<br>
+                    <strong>Developer ID:</strong> John Martin
                 </div>
             </div>
-            <a href="https://github.com/dialectforge/dialectforge-website/releases/download/v1.0.3-macos/DialectForgeVPN.dmg" class="download-btn">⬇ Download DMG</a>
-            <div class="download-meta">
-                7.3 MB · Signed &amp; notarized by Apple · Developer ID: John Martin
-            </div>
-            <div class="requirements">
-                <strong>Installation:</strong> Open the DMG, drag to Applications, launch, and allow the System Extension when prompted (Settings → General → Login Items &amp; Extensions).
+
+            <!-- SnapGuard iOS -->
+            <div class="app-download">
+                <div class="app-top">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/4a/9a/58/4a9a58d4-0547-1fe0-4e6e-cc0760f5e898/AppIcon-0-0-1x_U007epad-0-1-85-220.png/230x0w.webp" alt="SnapGuard" class="app-icon-img">
+                    <div class="app-title">
+                        <h2>SnapGuard</h2>
+                        <span class="platform-tag">iOS</span>
+                    </div>
+                </div>
+                <p class="app-desc">Encrypted photo vault powered by DialectForge. Keep photos, videos, files, and notes behind AES-256 encryption. Zero data collection.</p>
+                <div class="app-meta">Free &middot; 7.5 MB &middot; Premium $3.99/mo</div>
+                <a href="https://apps.apple.com/us/app/snapguard/id6759138449" class="download-btn black">
+                    <svg class="apple-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                </a>
+                <div class="app-requirements">
+                    <strong>Requires:</strong> iOS 16.0 or later<br>
+                    <strong>Developer:</strong> John Martin
+                </div>
             </div>
         </div>
 
         <!-- Installation Guide Video -->
         <div class="video-section">
-            <h3>📺 Installation Guide</h3>
+            <h3>&#x1F4FA; VPN Installation Guide</h3>
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/ANoR7vNR31o?si=pLAExOrzrX-Y4Qw4" 
-                    title="DialectForge VPN Installation Guide" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    referrerpolicy="strict-origin-when-cross-origin" 
+                <iframe src="https://www.youtube.com/embed/ANoR7vNR31o?si=pLAExOrzrX-Y4Qw4"
+                    title="DialectForge VPN Installation Guide"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen></iframe>
             </div>
         </div>
 
         <!-- Coming Soon -->
         <div class="coming-soon">
-            <h3>Coming Soon</h3>
+            <h3>More Coming Soon</h3>
             <div class="platform-list">
-                <div class="platform-item"><span>📱</span> iOS</div>
-                <div class="platform-item"><span>🪟</span> Windows</div>
-                <div class="platform-item"><span>🤖</span> Android</div>
+                <div class="platform-item"><span>&#x1FA9F;</span> Windows VPN</div>
+                <div class="platform-item"><span>&#x1F4F1;</span> iOS VPN</div>
+                <div class="platform-item"><span>&#x1F916;</span> Android</div>
             </div>
         </div>
 
-        <a href="/" class="back-link">← Back to Home</a>
+        <a href="/" class="back-link">&#x2190; Back to Home</a>
     </div>
 </body>
 </html>
