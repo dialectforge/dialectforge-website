@@ -290,36 +290,43 @@
                     <div class="feature-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="1.5"><path d="M21 2v6h-6M3 22v-6h6M21 13a9 9 0 01-15.36 5.36L3 16M3 11A9 9 0 0118.36 5.64L21 8"/></svg></div>
                     <h3>Cyclic Protocol Refresh</h3>
                     <p>The encoding "dialect" changes every 2 minutes. By the time anyone analyzes your traffic pattern, it's already completely different.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; opacity: 0.8;">(Like changing the locks on your door every 2 minutes — even if someone picks the old lock, it's already gone.)</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/><circle cx="12" cy="12" r="3"/></svg></div>
                     <h3>AI-Negotiated Dialects</h3>
                     <p>Client and server create a unique "dialect" through seed-based negotiation. No two connections ever look alike. Pure emergent randomness.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; opacity: 0.8;">(Think of it like two devices inventing their own secret language every two minutes.)</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5"><path d="M2 12h2l3-7 4 14 4-10 3 6h4"/></svg></div>
                     <h3>True Random Noise</h3>
                     <p>Traffic appears as pure random data - not encrypted packets with headers, just noise. Deep Packet Inspection sees nothing to match against.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; opacity: 0.8;">(Your data looks like TV static to anyone watching — no patterns, no clues, nothing recognizable.)</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="1.5"><path d="M12 2l8 4v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></div>
                     <h3>Proprietary Protocol</h3>
                     <p>DialectForge is its own protocol - not built on WireGuard, OpenVPN, or anything else. A completely new approach to network security.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; opacity: 0.8;">(Built from scratch — not a tweak on existing VPN tech, but something entirely new.)</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="1.5"><path d="M12 2l10 5-10 5L2 7l10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
                     <h3>Protocol Agnostic</h3>
                     <p>Works with any underlying network: WiFi, Ethernet, Bluetooth, LoRa, cellular, CAN bus. The dialect layer sits on top of everything.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; opacity: 0.8;">(Doesn't matter how your devices talk — WiFi, Bluetooth, car networks — DialectForge wraps all of them.)</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffb84d" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
                     <h3>Minimal Overhead</h3>
                     <p>Designed for efficiency with less than 500&#x00B5;s processing overhead. Fast enough for real-time applications and IoT devices.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; opacity: 0.8;">(All this protection adds less than half a millisecond of delay — you won't notice it.)</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff4d6a" stroke-width="1.5"><path d="M12 2l8 4v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V6l8-4z"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div>
                     <h3>Injection Immune</h3>
                     <p>Injected packets are silently dropped — they don't speak the current dialect. Without the session seed, an attacker can't construct valid frames. Foreign data is rejected before it's ever processed.</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic; margin-top: 0.5rem; opacity: 0.8;">(If a hacker tries to sneak fake data into the conversation, it gets thrown out instantly — they don't know the secret language.)</p>
                 </div>
             </div>
         </div>
@@ -413,6 +420,13 @@
                     <p>Side-by-side hex dumps showing what WireGuard traffic looks like vs. DialectForge traffic on the wire.</p>
                     <span class="app-status">Interactive deep-dive</span>
                 </a>
+                <a href="/research" class="app-card" style="text-decoration: none; color: inherit;">
+                    <div class="app-badge" style="background: #4da6ff; color: white;">New Paper</div>
+                    <div class="app-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M10 13l2 2 4-4"/></svg></div>
+                    <h3>DialectForge Prompt</h3>
+                    <p>Apply the dialect concept to LLM inputs. If the model only accepts dialect-encoded prompts, injection becomes structurally impossible.</p>
+                    <span class="app-status">Prior art published &#xB7; Proof of concept spec</span>
+                </a>
                 <a href="/messenger/" class="app-card" style="text-decoration: none; color: inherit;">
                     <div class="app-badge dev">In Development</div>
                     <div class="app-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 10h8M8 13h5"/></svg></div>
@@ -433,13 +447,6 @@
                     <h3>DialectForge Terminal</h3>
                     <p>SSH wrapped in DialectForge. The connection itself is hidden from network monitors, not just the content.</p>
                     <span class="app-status">macOS app available</span>
-                </a>
-                <a href="/research" class="app-card" style="text-decoration: none; color: inherit;">
-                    <div class="app-badge" style="background: #4da6ff; color: white;">New Paper</div>
-                    <div class="app-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M10 13l2 2 4-4"/></svg></div>
-                    <h3>DialectForge Prompt</h3>
-                    <p>Apply the dialect concept to LLM inputs. If the model only accepts dialect-encoded prompts, injection becomes structurally impossible.</p>
-                    <span class="app-status">Prior art published &#xB7; Proof of concept spec</span>
                 </a>
                 <a href="/enterprise/" class="app-card" style="text-decoration: none; color: inherit;">
                     <div class="app-badge coming">Coming Soon</div>

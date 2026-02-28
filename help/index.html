@@ -56,6 +56,21 @@
         <h1>Help Center</h1>
         <p class="subtitle">Get help with DialectForge VPN</p>
 
+        <div style="margin-bottom: 2rem; position: relative;">
+            <input type="text" id="faq-search" placeholder="Search help articles..." oninput="filterFAQs(this.value)" style="width: 100%; padding: 1rem 1rem 1rem 3rem; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--text); font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b8b9a" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none;"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </div>
+
+        <!-- Quick Video Guide -->
+        <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
+            <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: var(--text);">How to Connect on macOS — 15 sec</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Watch the quick setup walkthrough</p>
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000;">
+                <!-- Replace the src below with your actual Loom embed URL -->
+                <iframe src="https://www.youtube.com/embed/ANoR7vNR31o?si=pLAExOrzrX-Y4Qw4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 10px;" title="How to Connect DialectForge VPN" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
         <div class="quick-links">
             <a href="#getting-started" class="quick-link">
                 <div class="quick-link-icon">🚀</div>
@@ -163,5 +178,16 @@
             <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a>
         </p>
     </div>
+<script>
+function filterFAQs(query) {
+    var q = query.toLowerCase().trim();
+    var items = document.querySelectorAll('.faq-item');
+    items.forEach(function(item) {
+        if (!q) { item.style.display = ''; return; }
+        var text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? '' : 'none';
+    });
+}
+</script>
 </body>
 </html>
