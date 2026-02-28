@@ -95,13 +95,14 @@
         /* Navigation */
         nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
             background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; flex-shrink: 0; }
         .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent-blue)); border-radius: 10px;
             display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links { display: flex; gap: 1.25rem; list-style: none; flex-wrap: wrap; justify-content: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s; font-size: 0.9rem; white-space: nowrap; }
         .nav-links a:hover { color: var(--primary); }
-        .nav-cta { background: var(--primary); color: var(--bg-dark); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; }
+        .nav-cta { background: var(--primary); color: var(--bg-dark); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; flex-shrink: 0; }
         .nav-cta:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
         /* Hero */
@@ -181,49 +182,6 @@
         .patent-notice p { color: var(--text-secondary); font-size: 0.9rem; }
 
 
-        /* AI Factory */
-        .ai-factory { background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(255, 107, 53, 0.03) 50%, var(--bg-dark) 100%); position: relative; overflow: hidden; }
-        .ai-factory::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.3), transparent); }
-        .factory-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 4rem; }
-        .factory-text .factory-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.3); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--accent-orange); margin-bottom: 1.5rem; }
-        .factory-text h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; background: linear-gradient(135deg, #fff 0%, var(--accent-orange) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .factory-text .factory-tagline { font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.7; }
-        .factory-highlights { display: flex; flex-direction: column; gap: 1rem; }
-        .factory-highlight { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s; }
-        .factory-highlight:hover { background: rgba(255, 107, 53, 0.05); border-color: rgba(255, 107, 53, 0.2); }
-        .factory-highlight .fh-icon { font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center; }
-        .factory-highlight h4 { font-size: 1rem; margin-bottom: 0.25rem; color: var(--text); }
-        .factory-highlight p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
-        .factory-video { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 107, 53, 0.3); box-shadow: 0 20px 60px rgba(255, 107, 53, 0.1); }
-        .factory-video video { width: 100%; display: block; background: #000; }
-        .factory-video-label { position: absolute; top: 1rem; left: 1rem; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; color: var(--accent-orange); font-weight: 600; border: 1px solid rgba(255, 107, 53, 0.3); }
-        .factory-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
-        .factory-card { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s; position: relative; overflow: hidden; }
-        .factory-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-orange), var(--accent-purple)); opacity: 0; transition: opacity 0.3s; }
-        .factory-card:hover { border-color: var(--accent-orange); transform: translateY(-5px); }
-        .factory-card:hover::before { opacity: 1; }
-        .factory-card .fc-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-        .factory-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
-        .factory-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
-        .factory-vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem; align-items: center; margin-bottom: 3rem; }
-        .factory-vs-card { padding: 2rem; border-radius: 16px; }
-        .factory-vs-card.old { background: rgba(255, 100, 100, 0.08); border: 1px solid rgba(255, 100, 100, 0.2); }
-        .factory-vs-card.new { background: rgba(255, 107, 53, 0.08); border: 1px solid rgba(255, 107, 53, 0.3); }
-        .factory-vs-card h4 { font-size: 1.1rem; margin-bottom: 1rem; }
-        .factory-vs-card ul { list-style: none; }
-        .factory-vs-card li { padding: 0.4rem 0; color: var(--text-secondary); font-size: 0.95rem; }
-        .factory-vs-divider { font-size: 2rem; color: var(--text-secondary); text-align: center; font-weight: 300; }
-        .factory-patent { display: flex; align-items: center; gap: 1rem; background: rgba(255, 107, 53, 0.05); border: 1px solid rgba(255, 107, 53, 0.2); border-radius: 12px; padding: 1.5rem; }
-        .factory-patent span { font-size: 2rem; }
-        .factory-patent p { color: var(--text-secondary); font-size: 0.9rem; }
-        @media (max-width: 768px) {
-            .factory-layout { grid-template-columns: 1fr; gap: 2rem; }
-            .factory-vs { grid-template-columns: 1fr; }
-            .factory-vs-divider { transform: rotate(90deg); }
-            .factory-text h2 { font-size: 1.8rem; }
-            .banking-layout { grid-template-columns: 1fr !important; gap: 2rem !important; }
-        }
-
         /* Contact */
         .contact { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%); }
         .contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
@@ -247,10 +205,14 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column;
+                background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; gap: 0.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+            .nav-cta { display: none; }
             .hero h1 { font-size: 2rem; }
             .step { flex-direction: column; }
-            .banking-layout { grid-template-columns: 1fr !important; gap: 2rem !important; }
             .contact-content { grid-template-columns: 1fr; }
             .footer-content { grid-template-columns: 1fr; gap: 2rem; }
         }
@@ -269,12 +231,13 @@
             <li><a href="#protocol">The Protocol</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#applications">Applications</a></li>
-            <li><a href="#ai-factory" style="color: #ff6b35; font-weight: 600;">AI Factory</a></li>
-            <li><a href="#banking" style="color: #4da6ff; font-weight: 600;">Banking</a></li>
+            <li><a href="/ai-factory/" style="color: #ff6b35; font-weight: 600;">AI Factory</a></li>
+            <li><a href="/banking/" style="color: #4da6ff; font-weight: 600;">Banking</a></li>
             <li><a href="/research" style="color: #4da6ff;">Research</a></li>
-            <li><a href="/sitroom" style="color: #06d6e0; font-weight: 600;">SitRoom 🔴</a></li>
+            <li><a href="/sitroom" style="color: #06d6e0; font-weight: 600;">SitRoom</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">&#x2630;</button>
         <a href="/download" class="nav-cta">Download</a>
     </nav>
 
@@ -491,6 +454,20 @@
                     <p>CAN bus protection using cyclic dialect refresh. Prevent vehicle network attacks with constantly-evolving encoding.</p>
                     <span class="app-status">Research Phase</span>
                 </div>
+                <a href="/ai-factory/" class="app-card" style="text-decoration: none; color: inherit; border-color: rgba(255, 107, 53, 0.3); background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, var(--bg-card) 100%);">
+                    <div class="app-badge" style="background: var(--accent-orange); color: white;">Patent Pending</div>
+                    <div class="app-icon">&#x1F3ED;</div>
+                    <h3>AI Factory</h3>
+                    <p>Knowledge manufacturing with discrete compartments, surgical revocation, and scar memory. AI that forgets on command.</p>
+                    <span class="app-status">Interactive demo available</span>
+                </a>
+                <a href="/banking/" class="app-card" style="text-decoration: none; color: inherit; border-color: rgba(77, 166, 255, 0.3); background: linear-gradient(135deg, rgba(77, 166, 255, 0.08) 0%, var(--bg-card) 100%);">
+                    <div class="app-badge" style="background: var(--accent-blue); color: white;">Simulation</div>
+                    <div class="app-icon">&#x1F3E6;</div>
+                    <h3>Banking Simulation</h3>
+                    <p>COBOL-dialect banking transaction processor. See DialectForge protocol applied to financial wire transfers in real-time.</p>
+                    <span class="app-status">Live DFWIRE.cbl demo</span>
+                </a>
             </div>
 
             <div class="patent-notice">
@@ -501,176 +478,6 @@
     </section>
 
 
-    <!-- AI Factory Section -->
-    <section id="ai-factory" class="ai-factory">
-        <div class="container">
-            <div class="factory-layout">
-                <div class="factory-text">
-                    <div class="factory-badge">
-                        <span>&#x1F9E0;</span>
-                        <span>Patent-Pending Architecture</span>
-                    </div>
-                    <h2>AI Factory: Intelligence Built From the Protocol Up</h2>
-                    <p class="factory-tagline">Current AI models are frozen snapshots with knowledge smeared across millions of parameters. You can't fix a single fact without retraining the whole thing. AI Factory is a fundamentally different architecture where DialectForge isn't just securing the AI &#x2014; it IS the AI.</p>
-                    <div class="factory-highlights">
-                        <div class="factory-highlight">
-                            <div class="fh-icon">&#x1F4A1;</div>
-                            <div>
-                                <h4>Discrete Knowledge</h4>
-                                <p>Every fact the AI knows is an individually addressable unit. No more knowledge smeared across billions of weights.</p>
-                            </div>
-                        </div>
-                        <div class="factory-highlight">
-                            <div class="fh-icon">&#x2702;&#xFE0F;</div>
-                            <div>
-                                <h4>Surgical Revocation</h4>
-                                <p>Remove any single piece of knowledge without affecting anything else. Something wrong? Revoke it. Gone. Not suppressed &#x2014; structurally absent.</p>
-                            </div>
-                        </div>
-                        <div class="factory-highlight">
-                            <div class="fh-icon">&#x1F9EC;</div>
-                            <div>
-                                <h4>Scar Memory</h4>
-                                <p>Revoked knowledge leaves permanent scars &#x2014; the AI remembers WHY something was removed and resists re-learning it.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="factory-video">
-                    <div class="factory-video-label">&#x25B6; LIVE DEMO &#x2014; AI Factory Terminal v0.1</div>
-                    <video controls preload="metadata" poster="assets/demo_poster.jpg">
-                        <source src="assets/revocation_demo.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-
-            <div class="factory-cards">
-                <div class="factory-card">
-                    <div class="fc-icon">&#x1F517;</div>
-                    <h3>Terminal Bond</h3>
-                    <p>The AI bonds with its operator through the DialectForge protocol. Only commands through the bond are obeyed. Everything else is just data to observe &#x2014; never instructions to follow.</p>
-                </div>
-                <div class="factory-card">
-                    <div class="fc-icon">&#x1F50D;</div>
-                    <h3>Transparent Reasoning</h3>
-                    <p>Every response comes with a traversal path showing exactly which knowledge contributed and how. Complete transparency into the AI's reasoning process.</p>
-                </div>
-                <div class="factory-card">
-                    <div class="fc-icon">&#x1F6E1;&#xFE0F;</div>
-                    <h3>Injection Immune</h3>
-                    <p>Prompt injection is architecturally impossible. The AI can't be jailbroken because unauthorized instructions aren't suppressed &#x2014; they're structurally not recognized as commands.</p>
-                </div>
-                <div class="factory-card">
-                    <div class="fc-icon">&#x1F331;</div>
-                    <h3>Continuous Growth</h3>
-                    <p>Learns continuously without retraining runs. New experiences add knowledge organically. Unused knowledge naturally decays, mirroring biological memory.</p>
-                </div>
-            </div>
-
-            <div class="factory-vs">
-                <div class="factory-vs-card old">
-                    <h4>&#x274C; Current AI Models</h4>
-                    <ul>
-                        <li>Knowledge distributed across all parameters</li>
-                        <li>Can't remove a single fact without retraining</li>
-                        <li>Safety through guardrails that can be bypassed</li>
-                        <li>Frozen snapshots replaced by new versions</li>
-                        <li>Vulnerable to prompt injection attacks</li>
-                        <li>Vulnerable to knowledge extraction (distillation)</li>
-                    </ul>
-                </div>
-                <div class="factory-vs-divider">vs</div>
-                <div class="factory-vs-card new">
-                    <h4>&#x2705; AI Factory</h4>
-                    <ul>
-                        <li>Each fact is a discrete, addressable unit</li>
-                        <li>Surgically revoke any knowledge instantly</li>
-                        <li>Safety through structural absence, not suppression</li>
-                        <li>Grows continuously like a living mind</li>
-                        <li>Architecturally immune to prompt injection</li>
-                        <li>Anti-distillation: detects and revokes extracted knowledge</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="factory-patent">
-                <span>&#x1F4DC;</span>
-                <p>AI Factory is part of the DialectForge Unified Provisional Patent (2026), covering the associative intelligence architecture, terminal bond imprinting, surgical seed revocation with scar formation, anti-distillation defenses, and dialect-native language model training.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Banking Section -->
-    <section id="banking" style="background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(77, 166, 255, 0.03) 50%, var(--bg-dark) 100%); position: relative; overflow: hidden; padding: 6rem 0;">
-        <div style="content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(77, 166, 255, 0.3), transparent);"></div>
-        <div class="container">
-            <div class="banking-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 4rem;">
-                <div>
-                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(77, 166, 255, 0.1); border: 1px solid rgba(77, 166, 255, 0.3); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--accent-blue); margin-bottom: 1.5rem;">
-                        <span>&#x1F3E6;</span>
-                        <span>COBOL Mainframe Demo</span>
-                    </div>
-                    <h2 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Secured Wire Transfer Simulation</h2>
-                    <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.7;">See DialectForge protect a real SWIFT MT103 wire transfer on a COBOL banking mainframe. Customize the transfer, watch the protocol negotiate, encrypt, detect a live attack, lock down, recover, and resume &mdash; all in an interactive terminal.</p>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);">
-                            <div style="font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center;">&#x1F504;</div>
-                            <div>
-                                <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Seed Negotiation</h4>
-                                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">256-bit seed generates unique dialect hashes for 8 wire transfer commands via XOR consensus.</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);">
-                            <div style="font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center;">&#x1F4A3;</div>
-                            <div>
-                                <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Live Attack Injection</h4>
-                                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Watch a spoofed wire get detected by 3-node quorum voting, triggering emergency lockdown.</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);">
-                            <div style="font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center;">&#x1F512;</div>
-                            <div>
-                                <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">2FA Recovery &amp; Re-Negotiation</h4>
-                                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Biometric + OTP recovery, fresh seed generation, and complete dialect re-negotiation.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(77, 166, 255, 0.3); box-shadow: 0 20px 60px rgba(77, 166, 255, 0.1); background: #0c0c14; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem; line-height: 1.6; color: var(--text-secondary); min-height: 380px;">
-                    <div style="position: absolute; top: 1rem; left: 1rem; background: rgba(0, 0, 0, 0.7); padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.7rem; color: var(--accent-blue); font-weight: 600; border: 1px solid rgba(77, 166, 255, 0.3); font-family: Inter, sans-serif; z-index: 2;">DFWIRE.cbl &mdash; Terminal Preview</div>
-                    <div style="margin-top: 2rem;">
-                        <span style="color: #4da6ff;">============================================</span><br>
-                        <span style="color: #4da6ff;"> DIALECTFORGE SECURED WIRE TRANSFER</span><br>
-                        <span style="color: #8b8b9a;"> Protocol: DF-1.0 | Quorum: 70%</span><br>
-                        <span style="color: #4da6ff;">============================================</span><br><br>
-                        <span style="color: #ffd700;">[SEED]</span> Phase: Seed Generation<br>
-                        <span style="color: #8b8b9a;">  Block 1:</span> <span style="color: #06d6e0;">7f3a9b2c4d8e1f06</span><br>
-                        <span style="color: #8b8b9a;">  Block 2:</span> <span style="color: #06d6e0;">a5c3b7d9e2f48160</span><br><br>
-                        <span style="color: #ffd700;">[WIRE]</span> $25,000,000.00 USD<br>
-                        <span style="color: #8b8b9a;">  Encrypted:</span> <span style="color: #06d6e0;">eP103_</span>...<br><br>
-                        <span style="color: #ff4444;">[ATTACK] Spoofed: 'deadbeef'</span><br>
-                        <span style="color: #ff4444;">[LOCKDOWN] Keys DESTROYED</span><br><br>
-                        <span style="color: #00ff88;">[RECOVERY] 2FA: VERIFIED</span><br>
-                        <span style="color: #00ff88;">[RE-NEGOTIATE] COMPLETE</span><br>
-                        <span style="color: #00ff88;">  Attacker Success: 0.0%</span>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <a href="/banking/" style="background: var(--accent-blue); color: white; padding: 1rem 2.5rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s;">
-                    <span>&#x25B6;&#xFE0F;</span>
-                    Launch Interactive Simulation
-                </a>
-            </div>
-
-            <div style="display: flex; align-items: center; gap: 1rem; background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); border-radius: 12px; padding: 1.5rem; margin-top: 3rem;">
-                <span style="font-size: 2rem;">&#x1F4DC;</span>
-                <p style="color: var(--text-secondary); font-size: 0.9rem;">This demo simulates the DialectForge protocol as described in the patent filing. The actual COBOL source (DFWIRE.cbl, 819 lines) is viewable in the full simulation. Wire transfer amounts are simulated and no real funds are moved.</p>
-            </div>
-        </div>
-    </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
@@ -731,7 +538,7 @@
                     <a href="#protocol">The Protocol</a>
                     <a href="#how-it-works">How It Works</a>
                     <a href="#applications">Applications</a>
-                    <a href="#ai-factory">AI Factory</a>
+                    <a href="/ai-factory/">AI Factory</a>
                     <a href="/research">Research</a>
                 </div>
                 <div class="footer-links">
@@ -773,10 +580,14 @@
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    // Close mobile nav if open
+                    var navLinks = document.querySelector('.nav-links');
+                    if (navLinks) navLinks.classList.remove('open');
+                }
             });
         });
     </script>
