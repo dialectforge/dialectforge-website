@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DialectForge - Secured Wire Transfer Simulation</title>
+    <meta name="description" content="Interactive demonstration of DialectForge protocol securing SWIFT-style wire transfers on COBOL mainframes. See real-time seed negotiation, encryption, attack detection, and recovery.">
+    <link rel="canonical" href="https://dialectforge.com/banking/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #00ff88;
+            --primary-dark: #00cc6a;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a25;
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+            --accent-blue: #4da6ff;
+            --accent-purple: #a855f7;
+            --accent-orange: #ff6b35;
+            --accent-red: #ff4444;
+            --accent-yellow: #ffd700;
+            --terminal-bg: #0c0c14;
+            --terminal-green: #00ff88;
+            --terminal-amber: #ffb347;
+            --terminal-red: #ff4444;
+            --terminal-cyan: #06d6e0;
+            --terminal-blue: #4da6ff;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(ellipse at 20% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 80%, rgba(77, 166, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 50%); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--accent-blue)); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-cta { background: var(--primary); color: var(--bg-dark); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .nav-cta:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* Page Header */
+        .page-header { padding: 8rem 2rem 3rem; text-align: center; }
+        .page-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(77, 166, 255, 0.1); border: 1px solid rgba(77, 166, 255, 0.3);
+            padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--accent-blue); margin-bottom: 1.5rem; }
+        .page-header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 50%, var(--primary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-header p { font-size: 1.1rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; }
+
+        /* Transfer Form */
+        .form-section { padding: 2rem 0 4rem; }
+        .form-card { background: var(--bg-card); border: 1px solid rgba(77, 166, 255, 0.2); border-radius: 20px; padding: 2.5rem; max-width: 900px; margin: 0 auto; }
+        .form-card h2 { font-size: 1.5rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem; }
+        .form-card .form-subtitle { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+        .form-group input, .form-group select { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;
+            padding: 0.85rem 1rem; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; transition: border-color 0.3s; outline: none; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--accent-blue); }
+        .form-group select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b8b9a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+        .form-group select option { background: var(--bg-card); color: var(--text); }
+        .form-actions { display: flex; gap: 1rem; margin-top: 2rem; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 1rem 2rem; border-radius: 10px; font-weight: 600; font-size: 1rem; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; font-family: 'Inter', sans-serif; }
+        .btn-run { background: var(--primary); color: var(--bg-dark); }
+        .btn-run:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3); }
+        .btn-attack { background: var(--accent-red); color: white; }
+        .btn-attack:hover { background: #cc3333; transform: translateY(-2px); box-shadow: 0 10px 40px rgba(255, 68, 68, 0.3); }
+        .btn-attack:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-reset { background: transparent; color: var(--text-secondary); border: 2px solid rgba(255, 255, 255, 0.15); }
+        .btn-reset:hover { border-color: var(--text); color: var(--text); }
+
+        /* Terminal */
+        .terminal-section { padding: 0 0 4rem; }
+        .terminal-wrapper { max-width: 960px; margin: 0 auto; }
+        .terminal { background: var(--terminal-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+        .terminal-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background: rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .terminal-dot.red { background: #ff5f57; }
+        .terminal-dot.yellow { background: #febc2e; }
+        .terminal-dot.green { background: #28c840; }
+        .terminal-title { flex: 1; text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
+        .terminal-body { padding: 1.5rem; min-height: 500px; max-height: 700px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.7; }
+        .terminal-body::-webkit-scrollbar { width: 6px; }
+        .terminal-body::-webkit-scrollbar-track { background: transparent; }
+        .terminal-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
+
+        /* Terminal line styles */
+        .t-line { white-space: pre-wrap; word-break: break-all; opacity: 0; animation: typeFade 0.15s forwards; }
+        @keyframes typeFade { to { opacity: 1; } }
+        .t-sep { color: var(--accent-blue); font-weight: 600; }
+        .t-header { color: var(--accent-blue); font-weight: 600; }
+        .t-phase { color: var(--accent-yellow); font-weight: 600; }
+        .t-label { color: var(--text-secondary); }
+        .t-value { color: var(--terminal-green); }
+        .t-hash { color: var(--terminal-cyan); font-weight: 500; }
+        .t-warn { color: var(--terminal-amber); }
+        .t-error { color: var(--terminal-red); font-weight: 600; }
+        .t-success { color: var(--terminal-green); font-weight: 600; }
+        .t-attack { color: var(--terminal-red); }
+        .t-table-header { color: var(--accent-blue); text-decoration: underline; }
+        .t-dim { color: #555570; }
+        .t-cursor { display: inline-block; width: 8px; height: 16px; background: var(--terminal-green); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Progress */
+        .sim-progress { max-width: 960px; margin: 0 auto 1.5rem; }
+        .progress-bar { background: rgba(255, 255, 255, 0.05); border-radius: 8px; height: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--accent-blue), var(--primary)); width: 0%; transition: width 0.5s ease; }
+        .progress-label { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary); }
+        .phase-name { color: var(--accent-blue); font-weight: 500; }
+
+        /* COBOL Viewer */
+        .cobol-section { padding: 2rem 0 6rem; }
+        .cobol-toggle { max-width: 960px; margin: 0 auto; }
+        .cobol-toggle-btn { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1.25rem 1.5rem;
+            color: var(--text); font-family: 'Inter', sans-serif; font-size: 1rem; cursor: pointer; width: 100%; text-align: left;
+            display: flex; align-items: center; justify-content: space-between; transition: all 0.3s; font-weight: 500; }
+        .cobol-toggle-btn:hover { border-color: var(--accent-blue); background: var(--bg-card-hover); }
+        .cobol-toggle-btn .arrow { transition: transform 0.3s; font-size: 0.8rem; color: var(--text-secondary); }
+        .cobol-toggle-btn.open .arrow { transform: rotate(180deg); }
+        .cobol-code { display: none; max-width: 960px; margin: 0 auto; background: var(--terminal-bg); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0 0 12px 12px; padding: 1.5rem; max-height: 600px; overflow-y: auto; }
+        .cobol-code.open { display: block; }
+        .cobol-code pre { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.6; white-space: pre; overflow-x: auto; }
+
+        /* Footer */
+        footer { background: var(--bg-dark); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 3rem 0; text-align: center; }
+        footer p { color: var(--text-secondary); font-size: 0.875rem; }
+        footer a { color: var(--primary); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .form-grid { grid-template-columns: 1fr; }
+            .terminal-body { font-size: 0.72rem; min-height: 400px; }
+            .form-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <nav>
+        <a href="/" class="logo">
+            <div class="logo-icon">&#x1F510;</div>
+            DialectForge
+        </a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#protocol">Protocol</a></li>
+            <li><a href="/#ai-factory" style="color: #ff6b35;">AI Factory</a></li>
+            <li><a href="/banking" style="color: #4da6ff; font-weight: 600;">Banking Demo</a></li>
+            <li><a href="/sitroom" style="color: #06d6e0;">SitRoom</a></li>
+        </ul>
+        <a href="/download" class="nav-cta">Download</a>
+    </nav>
+
+    <!-- Header -->
+    <section class="page-header">
+        <div class="page-badge">
+            <span>&#x1F3E6;</span>
+            <span>COBOL Mainframe Wire Transfer</span>
+        </div>
+        <h1>Secured Wire Transfer Simulation</h1>
+        <p>Watch DialectForge protect a SWIFT MT103 wire transfer on a COBOL banking mainframe. Customize the transfer, then see real-time seed negotiation, encryption, attack detection, and recovery.</p>
+    </section>
+
+    <!-- Transfer Form -->
+    <section class="form-section">
+        <div class="container">
+            <div class="form-card">
+                <h2>&#x1F4B8; Configure Your Transfer</h2>
+                <p class="form-subtitle">Enter your wire transfer details below. These values will appear in the live terminal simulation.</p>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Sender Bank (BIC)</label>
+                        <select id="senderBic">
+                            <option value="CHASUS33XXX">JPMorgan Chase (CHASUS33XXX)</option>
+                            <option value="BOFAUS3NXXX">Bank of America (BOFAUS3NXXX)</option>
+                            <option value="CITIUS33XXX">Citibank (CITIUS33XXX)</option>
+                            <option value="WFBIUS6SXXX">Wells Fargo (WFBIUS6SXXX)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Receiver Bank (BIC)</label>
+                        <select id="receiverBic">
+                            <option value="DEUTDEFFXXX">Deutsche Bank (DEUTDEFFXXX)</option>
+                            <option value="BNPAFRPPXXX">BNP Paribas (BNPAFRPPXXX)</option>
+                            <option value="HSBCGB2LXXX">HSBC (HSBCGB2LXXX)</option>
+                            <option value="BARCGB22XXX">Barclays (BARCGB22XXX)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sender Account</label>
+                        <input type="text" id="senderAcct" value="US33000012345678" maxlength="20" placeholder="Account number">
+                    </div>
+                    <div class="form-group">
+                        <label>Receiver Account</label>
+                        <input type="text" id="receiverAcct" value="DE89370400440532013" maxlength="20" placeholder="Account number">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount (USD)</label>
+                        <input type="number" id="amount" value="25000000" min="1" max="999999999" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Reference</label>
+                        <input type="text" id="reference" value="INV-2026-0042" maxlength="16" placeholder="Payment reference">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Remittance Info</label>
+                        <input type="text" id="remitInfo" value="PAYMENT FOR INVOICE INV-2026-0042" maxlength="35" placeholder="Description">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-run" id="btnRun" onclick="startSimulation()">
+                        &#x25B6;&#xFE0F; Run Simulation
+                    </button>
+                    <button class="btn btn-attack" id="btnAttack" onclick="injectAttack()" disabled>
+                        &#x1F4A3; Inject Attack
+                    </button>
+                    <button class="btn btn-reset" onclick="resetTerminal()">
+                        &#x1F504; Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress -->
+    <div class="container">
+        <div class="sim-progress">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-label">
+                <span class="phase-name" id="phaseName">Ready</span>
+                <span id="phasePercent">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal -->
+    <section class="terminal-section">
+        <div class="container">
+            <div class="terminal-wrapper">
+                <div class="terminal">
+                    <div class="terminal-bar">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                        <div class="terminal-title">DFWIRE.cbl &mdash; COBOL Mainframe Terminal</div>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="t-line t-dim">Awaiting transfer configuration...</div>
+                        <div class="t-line t-dim"><span class="t-cursor"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COBOL Source -->
+    <section class="cobol-section">
+        <div class="container">
+            <div class="cobol-toggle">
+                <button class="cobol-toggle-btn" onclick="toggleCobol(this)">
+                    <span>&#x1F4DC; View COBOL Source (DFWIRE.cbl &mdash; 819 lines)</span>
+                    <span class="arrow">&#x25BC;</span>
+                </button>
+                <div class="cobol-code" id="cobolCode">
+                    <pre id="cobolPre">Loading...</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>DialectForge &mdash; Patent Pending &bull; Inventor: John Dean Martin &bull; <a href="/">dialectforge.com</a></p>
+        </div>
+    </footer>
+
+<script>
+// ===== SIMULATION ENGINE =====
+var simRunning = false;
+var simPhase = 0;
+var attackInjected = false;
+var lineQueue = [];
+var typeTimer = null;
+
+function getFormValues() {
+    return {
+        senderBic: document.getElementById('senderBic').value,
+        receiverBic: document.getElementById('receiverBic').value,
+        senderAcct: document.getElementById('senderAcct').value,
+        receiverAcct: document.getElementById('receiverAcct').value,
+        amount: parseInt(document.getElementById('amount').value) || 25000000,
+        reference: document.getElementById('reference').value || 'REF-0001',
+        remitInfo: document.getElementById('remitInfo').value || 'PAYMENT'
+    };
+}
+
+function formatAmount(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function pseudoHash(input, len) {
+    var h = 0;
+    for (var i = 0; i < input.length; i++) {
+        h = ((h << 5) - h + input.charCodeAt(i)) | 0;
+    }
+    var hex = Math.abs(h).toString(16);
+    while (hex.length < len) hex = hex + hex;
+    return hex.substring(0, len);
+}
+
+function generateSeed() {
+    var chars = '0123456789abcdef';
+    var s = '';
+    for (var i = 0; i < 64; i++) s += chars[Math.floor(Math.random() * 16)];
+    return s;
+}
+
+function xorHex(a, b) {
+    var result = '';
+    for (var i = 0; i < Math.min(a.length, b.length); i++) {
+        result += (parseInt(a[i], 16) ^ parseInt(b[i], 16)).toString(16);
+    }
+    return result;
+}
+
+function scrambleText(text) {
+    var from = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ';
+    var to   = 'qwrtypskjhgfdzxcvbnmelaiouQWRTPYSKJHGFDZXCVBNMELAIOUqwrtypskjh_';
+    var out = '';
+    for (var i = 0; i < text.length; i++) {
+        var idx = from.indexOf(text[i]);
+        out += idx >= 0 ? to[idx] : text[i];
+    }
+    return out;
+}
+
+function setProgress(pct, label) {
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('phaseName').textContent = label;
+    document.getElementById('phasePercent').textContent = pct + '%';
+}
+
+function addLine(html, cls) {
+    lineQueue.push({html: html, cls: cls || ''});
+}
+
+function processQueue() {
+    if (lineQueue.length === 0) {
+        typeTimer = null;
+        return;
+    }
+    var item = lineQueue.shift();
+    var body = document.getElementById('terminalBody');
+
+    // Remove any cursor lines
+    var cursors = body.querySelectorAll('.t-cursor-line');
+    cursors.forEach(function(c) { c.remove(); });
+
+    var div = document.createElement('div');
+    div.className = 't-line ' + item.cls;
+    div.innerHTML = item.html;
+    body.appendChild(div);
+
+    // Add cursor
+    var cursorLine = document.createElement('div');
+    cursorLine.className = 't-line t-cursor-line';
+    cursorLine.innerHTML = '<span class="t-cursor"></span>';
+    body.appendChild(cursorLine);
+
+    body.scrollTop = body.scrollHeight;
+
+    var delay = item.cls.indexOf('t-sep') >= 0 ? 30 : (item.cls.indexOf('t-phase') >= 0 ? 80 : 40);
+    typeTimer = setTimeout(processQueue, delay);
+}
+
+function flushLines() {
+    if (!typeTimer) {
+        processQueue();
+    }
+}
+
+function clearTerminal() {
+    lineQueue = [];
+    if (typeTimer) { clearTimeout(typeTimer); typeTimer = null; }
+    document.getElementById('terminalBody').innerHTML = '';
+}
+
+function resetTerminal() {
+    clearTerminal();
+    simRunning = false;
+    simPhase = 0;
+    attackInjected = false;
+    document.getElementById('btnRun').disabled = false;
+    document.getElementById('btnAttack').disabled = true;
+    setProgress(0, 'Ready');
+    var body = document.getElementById('terminalBody');
+    body.innerHTML = '<div class="t-line t-dim">Awaiting transfer configuration...</div><div class="t-line t-dim"><span class="t-cursor"></span></div>';
+}
+
+// ===== PHASE GENERATORS =====
+
+function phaseHeader() {
+    var sep = '============================================================';
+    addLine(sep, 't-sep');
+    addLine(' DIALECTFORGE SECURED WIRE TRANSFER SYSTEM', 't-header');
+    addLine(' Protocol: DF-1.0 | Quorum: 70% | Cycle: 5000ms', 't-label');
+    addLine(' Banking COBOL Mainframe Implementation', 't-label');
+    addLine(sep, 't-sep');
+    addLine(' ', '');
+}
+
+function phaseSeedGeneration(seed) {
+    var subsep = '------------------------------------------------------------';
+    addLine('<span class="t-phase">[SEED] Phase: Seed Generation &amp; Distribution</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  256-bit Seed Generated (entropy source: TPM)', 't-label');
+    addLine('  Block 1: <span class="t-hash">' + seed.substring(0,16) + '</span>', '');
+    addLine('  Block 2: <span class="t-hash">' + seed.substring(16,32) + '</span>', '');
+    addLine('  Block 3: <span class="t-hash">' + seed.substring(32,48) + '</span>', '');
+    addLine('  Block 4: <span class="t-hash">' + seed.substring(48,64) + '</span>', '');
+    addLine('  Broadcast: PMF-protected priority frame', 't-label');
+    addLine('  Latency: &lt;50ms', 't-label');
+    addLine('  Nodes synchronized: SENDER-BANK &lt;-&gt; RECEIVER-BANK', 't-value');
+    addLine(' ', '');
+}
+
+function phaseDialectNegotiation(seed, v) {
+    var subsep = '------------------------------------------------------------';
+    var commands = ['WIRE-INIT   ','WIRE-AUTH   ','WIRE-DATA   ','WIRE-ACK    ','WIRE-NACK   ','WIRE-CONFIRM','WIRE-HALT   ','HEARTBEAT   '];
+    addLine('<span class="t-phase">[NEGOTIATE] Phase: Dialect Negotiation</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  Session Key Derived: <span class="t-hash">' + seed.substring(0,4) + '...</span>[seed-derived, ephemeral]', '');
+    addLine(' ', '');
+    addLine('  Negotiation Rounds: 05', 't-label');
+    addLine('  Total Overhead: &lt;100ms', 't-label');
+    addLine('  Network Utilization: &lt;1%', 't-label');
+    addLine(' ', '');
+    addLine('  <span class="t-table-header">COMMAND       NODE-A    NODE-B    CONSENSUS</span>', '');
+    addLine('  ------------ -------- -------- --------', 't-dim');
+    v.dialectTable = [];
+    for (var i = 0; i < 8; i++) {
+        var cmd = commands[i];
+        var hA = pseudoHash(seed + cmd + 'A' + i, 8);
+        var hB = pseudoHash(seed + cmd + 'B' + i, 8);
+        var hC = xorHex(hA, hB);
+        while (hC.length < 8) hC += '0';
+        hC = hC.substring(0,8);
+        v.dialectTable.push({cmd: cmd.trim(), hA: hA, hB: hB, hC: hC});
+        addLine('  ' + cmd + ' <span class="t-hash">' + hA + '</span> <span class="t-hash">' + hB + '</span> <span class="t-hash">' + hC + '</span>', '');
+    }
+    addLine(' ', '');
+    addLine('  Heartbeat sync: ACK within 0010ms window', 't-label');
+    addLine('  <span class="t-success">Dialect ACTIVE - cycle 000001</span>', '');
+    addLine(' ', '');
+}
+
+function phaseWireTransfer(v) {
+    var f = v.form;
+    var subsep = '------------------------------------------------------------';
+    var amtStr = '$' + formatAmount(f.amount) + '.00';
+    addLine('<span class="t-phase">[WIRE] Phase: DialectForge Wire Transfer</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  Transaction Details (PLAINTEXT - internal):', 't-label');
+    addLine('    Type:       MT103', 't-value');
+    addLine('    From BIC:   <span class="t-value">' + f.senderBic + '</span>', '');
+    addLine('    To BIC:     <span class="t-value">' + f.receiverBic + '</span>', '');
+    addLine('    From Acct:  <span class="t-value">' + f.senderAcct + '</span>', '');
+    addLine('    To Acct:    <span class="t-value">' + f.receiverAcct + '</span>', '');
+    addLine('    Amount:     <span class="t-value">' + amtStr + ' USD</span>', '');
+    addLine('    Reference:  <span class="t-value">' + f.reference + '</span>', '');
+    addLine('    Remittance: <span class="t-value">' + f.remitInfo + '</span>', '');
+    addLine('    Charges:    SHA', 't-label');
+    addLine(' ', '');
+
+    // Step 1: Dialect encode
+    var initHash = v.dialectTable[0].hC;
+    addLine('  Step 1: Dialect Encoding', 't-label');
+    addLine('    WIRE-INIT -&gt; <span class="t-hash">' + initHash + '</span> (consensus hash)', '');
+
+    // Step 2: Remap ID
+    var remappedId = pseudoHash(v.seed + f.reference, 8);
+    addLine('  Step 2: ID Remapping', 't-label');
+    addLine('    remapped_id = base_id XOR int(shared_seed) mod addr_space', 't-dim');
+    addLine('    Original ID: ' + f.reference, 't-label');
+    addLine('    Remapped ID: <span class="t-hash">' + remappedId + '</span>', '');
+
+    // Step 3: Encrypt
+    var plainSample = ('MT103 ' + f.senderBic + f.receiverBic).substring(0, 40);
+    var encSample = scrambleText(plainSample);
+    addLine('  Step 3: XOR Encryption (seed-derived key)', 't-label');
+    addLine('    Plaintext:  <span class="t-value">' + plainSample + '...</span>', '');
+    addLine('    Encrypted:  <span class="t-hash">' + encSample + '...</span>', '');
+    addLine('    Cipher:     XOR (sub-microsecond latency)', 't-dim');
+
+    // Step 4: Frame assembly
+    var nonce = pseudoHash(v.seed + 'nonce' + Date.now(), 16);
+    addLine('  Step 4: DF Frame Assembly', 't-label');
+    addLine('    [Header: <span class="t-hash">' + remappedId + '</span> | <span class="t-hash">' + initHash + '</span> | 000001]', '');
+    addLine('    [Payload: ***ENCRYPTED*** 200 bytes]', 't-warn');
+    addLine('    [Footer: Nonce=<span class="t-hash">' + nonce.substring(0,8) + '...</span> | Echo=YES]', '');
+
+    // Step 5: Decrypt
+    addLine('  Step 5: Receiver Decrypts', 't-label');
+    addLine('    Decrypted:  <span class="t-value">' + plainSample + '...</span>', '');
+
+    // Step 6: Verify
+    addLine('  Step 6: <span class="t-success">INTEGRITY VERIFIED</span> - Match', '');
+    addLine('    ACK -&gt; <span class="t-hash">' + v.dialectTable[3].hC + '</span> (dialect-encoded WIRE-ACK)', '');
+    addLine(' ', '');
+    addLine('  <span class="t-success">Wire Transfer COMPLETE</span>', '');
+    addLine('    <span class="t-value">' + amtStr + ' USD transferred securely</span>', '');
+    addLine('    Overhead: &lt;500 microseconds', 't-label');
+    addLine('    Attack surface: dialect + encryption = dual-layer obfuscation', 't-dim');
+    addLine(' ', '');
+}
+
+function phaseSpoofAttack() {
+    var subsep = '------------------------------------------------------------';
+    addLine('<span class="t-error">[ATTACK] Phase: Spoofed Wire Injection</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  <span class="t-attack">Attacker intercepted frame structure</span>', '');
+    addLine('  <span class="t-attack">Attacker sends fraudulent WIRE-DATA</span>', '');
+    addLine('    Spoofed dialect cmd: <span class="t-error">\'deadbeef\'</span>', '');
+    addLine('    Spoofed payload: <span class="t-error">$9,999,999.99 to attacker account</span>', '');
+    addLine('    Spoofed nonce: <span class="t-error">0000000000000000</span>', '');
+    addLine(' ', '');
+}
+
+function phaseAnomalyDetection(v) {
+    var subsep = '------------------------------------------------------------';
+    var expected = v.dialectTable[2].hC;
+    addLine('<span class="t-phase">[DETECT] Phase: Anomaly Detection</span>', '');
+    addLine(subsep, 't-dim');
+
+    addLine('  Node A: <span class="t-error">ANOMALY DETECTED</span>', '');
+    addLine('    Expected: <span class="t-hash">' + expected + '</span>', '');
+    addLine('    Received: <span class="t-error">deadbeef</span>', '');
+    addLine('    Score: &gt;3 sigma - <span class="t-error">FLAGGED</span>', '');
+
+    addLine('  Node B: <span class="t-error">ANOMALY DETECTED</span>', '');
+    addLine('    Nonce hash invalid - <span class="t-error">FLAGGED</span>', '');
+
+    addLine('  Monitor: <span class="t-error">ANOMALY DETECTED</span>', '');
+    addLine('    Timing anomaly + dialect mismatch', 't-label');
+    addLine(' ', '');
+
+    addLine('  Quorum Vote Results:', 't-label');
+    addLine('    Node A:   <span class="t-error">1</span>', '');
+    addLine('    Node B:   <span class="t-error">1</span>', '');
+    addLine('    Monitor:  <span class="t-error">1</span>', '');
+    addLine('    Agreement: 3/3 (1.00)', 't-warn');
+    addLine('    Threshold: 0.70', 't-label');
+    addLine('    <span class="t-error">&gt;&gt; QUORUM REACHED - LOCKDOWN AUTHORIZED &lt;&lt;</span>', '');
+    addLine(' ', '');
+}
+
+function phaseLockdown(v) {
+    var subsep = '------------------------------------------------------------';
+    addLine('<span class="t-error">[LOCKDOWN] Phase: Emergency Lockdown</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  HALT frame issued: <span class="t-hash">' + v.dialectTable[6].hC + '</span> (dialect-encoded WIRE-HALT)', '');
+    addLine('  Node A: <span class="t-error">LOCKED</span> - dialect wiped, keys destroyed', '');
+    addLine('  Node B: <span class="t-error">LOCKED</span> - dialect wiped, keys destroyed', '');
+    addLine('  Session keys: <span class="t-error">DESTROYED</span>', '');
+    addLine('  Active transfers: <span class="t-warn">FROZEN</span>', '');
+    addLine('  Spoofed transfer: <span class="t-error">REJECTED</span>', '');
+    addLine('    Attacker transfer: <span class="t-success">$0.00 (blocked)</span>', '');
+    addLine(' ', '');
+    addLine('  <span class="t-error">&gt;&gt; All nodes in SAFE MODE &lt;&lt;</span>', '');
+    addLine('  <span class="t-warn">&gt;&gt; 2FA required to resume  &lt;&lt;</span>', '');
+    addLine(' ', '');
+}
+
+function phase2FARecovery() {
+    var subsep = '------------------------------------------------------------';
+    addLine('<span class="t-phase">[RECOVERY] Phase: 2FA Authentication</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  Factor 1: Biometric verification', 't-label');
+    addLine('    Biometric: <span class="t-success">VERIFIED</span>', '');
+    addLine('  Factor 2: OTP verification', 't-label');
+    addLine('    OTP Code 483721: <span class="t-success">VERIFIED</span>', '');
+    addLine('  Seed phrase backup: available', 't-label');
+    addLine('    BIP39: abandon ability able about above abs...', 't-dim');
+    addLine(' ', '');
+    addLine('  <span class="t-success">&gt;&gt; 2FA AUTHENTICATION SUCCESSFUL &lt;&lt;</span>', '');
+    addLine('  Nodes unlocked: <span class="t-success">ACTIVE / ACTIVE</span>', '');
+    addLine(' ', '');
+}
+
+function phaseReNegotiate(v) {
+    var subsep = '------------------------------------------------------------';
+    var newSeed = generateSeed();
+    addLine('<span class="t-phase">[RE-NEGOTIATE] Phase: Fresh Dialect</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  New 256-bit seed generated', 't-label');
+    addLine('  Block 1: <span class="t-hash">' + newSeed.substring(0,16) + '</span>', '');
+    addLine('  Block 2: <span class="t-hash">' + newSeed.substring(16,32) + '</span>', '');
+    addLine('  New session key derived', 't-label');
+    addLine(' ', '');
+
+    var cmds = ['WIRE-INIT','WIRE-AUTH','WIRE-DATA','WIRE-ACK','HEARTBEAT'];
+    addLine('  <span class="t-success">New Dialect Active (cycle 000002):</span>', '');
+    for (var i = 0; i < cmds.length; i++) {
+        var h = pseudoHash(newSeed + cmds[i] + 'new' + i, 8);
+        addLine('    ' + cmds[i].padEnd(13) + '-&gt; <span class="t-hash">' + h + '</span>', '');
+    }
+    addLine(' ', '');
+    addLine('  Previous dialect: <span class="t-error">DESTROYED</span>', '');
+    addLine('  Previous attacker knowledge: <span class="t-error">USELESS</span>', '');
+    addLine('  <span class="t-success">&gt;&gt; RE-NEGOTIATION COMPLETE &lt;&lt;</span>', '');
+    addLine(' ', '');
+}
+
+function phasePostRecovery(v) {
+    var subsep = '------------------------------------------------------------';
+    var amtStr = '$' + formatAmount(v.form.amount) + '.00';
+    addLine('<span class="t-phase">[POST-RECOVERY] Verification Transfer</span>', '');
+    addLine(subsep, 't-dim');
+    addLine('  Re-encrypted with new dialect: <span class="t-success">OK</span>', '');
+    addLine('  Decrypted at receiver: <span class="t-success">OK</span>', '');
+    addLine('  Integrity check: <span class="t-success">PASSED</span>', '');
+    addLine('  <span class="t-success">Wire transfer resumed successfully</span>', '');
+    addLine(' ', '');
+}
+
+function phaseSummary(v) {
+    var sep = '============================================================';
+    var f = v.form;
+    var amtStr = '$' + formatAmount(f.amount) + '.00';
+    addLine(sep, 't-sep');
+    addLine(' DIALECTFORGE WIRE TRANSFER - RESULTS', 't-header');
+    addLine(sep, 't-sep');
+    addLine(' ', '');
+    addLine('  Protocol Version:    DF-1.0', 't-label');
+    addLine('  Nodes:               2 (Sender + Receiver)', 't-label');
+    addLine('  Monitor Nodes:       1', 't-label');
+    addLine('  Transfer Amount:     <span class="t-value">' + amtStr + ' USD</span>', '');
+    addLine('  Encryption:          XOR (seed-derived)', 't-label');
+    addLine('  Dialect Commands:    8 remapped', 't-label');
+    addLine('  Negotiation Rounds:  05', 't-label');
+    addLine(' ', '');
+    addLine('  <span class="t-warn">SECURITY EVENTS:</span>', '');
+    addLine('    Spoof Attempted:   <span class="t-error">YES</span>', '');
+    addLine('    Anomaly Detected:  <span class="t-error">YES (all 3 nodes)</span>', '');
+    addLine('    Quorum Reached:    <span class="t-success">YES (100% &gt; 70%)</span>', '');
+    addLine('    Lockdown Executed: <span class="t-success">YES</span>', '');
+    addLine('    2FA Recovery:      <span class="t-success">VERIFIED</span>', '');
+    addLine('    Re-negotiation:    <span class="t-success">COMPLETE</span>', '');
+    addLine('    Post-recovery TX:  <span class="t-success">VERIFIED</span>', '');
+    addLine('    Attacker Success:  <span class="t-success">0.0%</span>', '');
+    addLine(' ', '');
+    addLine('  PERFORMANCE:', 't-label');
+    addLine('    Negotiation:       &lt;100ms', 't-dim');
+    addLine('    Encryption:        &lt;1 microsecond (XOR)', 't-dim');
+    addLine('    Total Overhead:    &lt;500 microseconds', 't-dim');
+    addLine('    Bandwidth Impact:  &lt;5%', 't-dim');
+    addLine(' ', '');
+    addLine('  COMPLIANCE TARGETS:', 't-label');
+    addLine('    FIPS 140-3         (Government)', 't-dim');
+    addLine('    ISO 27001          (Banking)', 't-dim');
+    addLine('    PCI DSS 4.0        (Payment Card)', 't-dim');
+    addLine('    SWIFT CSP          (Wire Transfer)', 't-dim');
+    addLine(' ', '');
+    addLine(sep, 't-sep');
+    addLine(' <span class="t-success">DialectForge: Patent Pending</span>', '');
+    addLine(' Inventor: John Dean Martin', 't-label');
+    addLine(sep, 't-sep');
+}
+
+// ===== MAIN SIMULATION =====
+
+function startSimulation() {
+    if (simRunning) return;
+    simRunning = true;
+    attackInjected = false;
+    clearTerminal();
+    document.getElementById('btnRun').disabled = true;
+
+    var v = {};
+    v.form = getFormValues();
+    v.seed = generateSeed();
+    v.dialectTable = [];
+
+    // Phase 0: Header
+    setProgress(5, 'Initializing...');
+    phaseHeader();
+    flushLines();
+
+    // Phase 1: Seed
+    setTimeout(function() {
+        setProgress(15, 'Seed Generation');
+        phaseSeedGeneration(v.seed);
+        flushLines();
+    }, 800);
+
+    // Phase 2: Negotiation
+    setTimeout(function() {
+        setProgress(30, 'Dialect Negotiation');
+        phaseDialectNegotiation(v.seed, v);
+        flushLines();
+    }, 2500);
+
+    // Phase 3: Wire Transfer
+    setTimeout(function() {
+        setProgress(50, 'Wire Transfer');
+        phaseWireTransfer(v);
+        flushLines();
+        // Enable attack button
+        document.getElementById('btnAttack').disabled = false;
+    }, 5500);
+
+    // Phase 4: Auto-inject attack after pause
+    setTimeout(function() {
+        if (!attackInjected) {
+            attackInjected = true;
+            runAttackSequence(v);
+        }
+    }, 9000);
+}
+
+function injectAttack() {
+    if (attackInjected) return;
+    attackInjected = true;
+    document.getElementById('btnAttack').disabled = true;
+    // We need the simulation vars; use a fallback
+    var v = { form: getFormValues(), seed: generateSeed(), dialectTable: [] };
+    // Re-generate dialect table
+    var commands = ['WIRE-INIT','WIRE-AUTH','WIRE-DATA','WIRE-ACK','WIRE-NACK','WIRE-CONFIRM','WIRE-HALT','HEARTBEAT'];
+    for (var i = 0; i < 8; i++) {
+        var hA = pseudoHash(v.seed + commands[i] + 'A' + i, 8);
+        var hB = pseudoHash(v.seed + commands[i] + 'B' + i, 8);
+        var hC = xorHex(hA, hB);
+        while (hC.length < 8) hC += '0';
+        v.dialectTable.push({cmd: commands[i], hA: hA, hB: hB, hC: hC.substring(0,8)});
+    }
+    runAttackSequence(v);
+}
+
+function runAttackSequence(v) {
+    document.getElementById('btnAttack').disabled = true;
+
+    setProgress(55, 'Spoof Attack Detected!');
+    phaseSpoofAttack();
+    flushLines();
+
+    setTimeout(function() {
+        setProgress(65, 'Anomaly Detection');
+        phaseAnomalyDetection(v);
+        flushLines();
+    }, 2000);
+
+    setTimeout(function() {
+        setProgress(75, 'Emergency Lockdown');
+        phaseLockdown(v);
+        flushLines();
+    }, 4000);
+
+    setTimeout(function() {
+        setProgress(82, '2FA Recovery');
+        phase2FARecovery();
+        flushLines();
+    }, 6000);
+
+    setTimeout(function() {
+        setProgress(90, 'Re-Negotiation');
+        phaseReNegotiate(v);
+        flushLines();
+    }, 8000);
+
+    setTimeout(function() {
+        setProgress(95, 'Post-Recovery Transfer');
+        phasePostRecovery(v);
+        flushLines();
+    }, 9500);
+
+    setTimeout(function() {
+        setProgress(100, 'Complete');
+        phaseSummary(v);
+        flushLines();
+        simRunning = false;
+        document.getElementById('btnRun').disabled = false;
+    }, 11000);
+}
+
+// ===== COBOL TOGGLE =====
+function toggleCobol(btn) {
+    var code = document.getElementById('cobolCode');
+    btn.classList.toggle('open');
+    code.classList.toggle('open');
+    if (code.classList.contains('open') && document.getElementById('cobolPre').textContent === 'Loading...') {
+        loadCobolSource();
+    }
+}
+
+function loadCobolSource() {
+    // Embed a trimmed version of the COBOL source for display
+    var src = "";
+    src += "      ******************************************************************\n";
+    src += "      * PROGRAM:    DFWIRE - DialectForge Secured Wire Transfer\n";
+    src += "      * AUTHOR:     Conceptual Demo for DialectForge Protocol\n";
+    src += "      * PURPOSE:    Demonstrates DialectForge emergent AI protocol\n";
+    src += "      *             applied to COBOL mainframe wire transfer processing\n";
+    src += "      *\n";
+    src += "      * PROTOCOL:   DialectForge (Patent Pending - John Dean Martin)\n";
+    src += "      *   - Decentralized seed-based dialect negotiation\n";
+    src += "      *   - Cyclic remapping of identifiers and payloads\n";
+    src += "      *   - XOR encryption with seed-derived session keys\n";
+    src += "      *   - Anomaly detection with quorum-validated lockdown\n";
+    src += "      *   - 2FA recovery with seed-phrase fallback\n";
+    src += "      *   - Self-healing echo frame redundancy\n";
+    src += "      ******************************************************************\n";
+    src += "\n";
+    src += "       IDENTIFICATION DIVISION.\n";
+    src += "       PROGRAM-ID.    DFWIRE.\n";
+    src += "       AUTHOR.        DIALECTFORGE-DEMO.\n";
+    src += "       DATE-WRITTEN.  2026-02-25.\n";
+    src += "\n";
+    src += "       DATA DIVISION.\n";
+    src += "       WORKING-STORAGE SECTION.\n";
+    src += "\n";
+    src += "       01  DF-PROTOCOL-VERSION        PIC X(10) VALUE \"DF-1.0\".\n";
+    src += "       01  DF-QUORUM-THRESHOLD        PIC 9V99  VALUE 0.70.\n";
+    src += "       01  DF-CYCLE-INTERVAL-MS       PIC 9(5)  VALUE 05000.\n";
+    src += "       01  DF-SHARED-SEED             PIC X(64).\n";
+    src += "\n";
+    src += "       01  NODE-A.\n";
+    src += "           05  NODE-A-ID              PIC X(20) VALUE \"SENDER-BANK-0001\".\n";
+    src += "           05  NODE-A-STATUS          PIC X(10) VALUE \"ACTIVE\".\n";
+    src += "           05  NODE-A-LOCKED          PIC 9(1)  VALUE 0.\n";
+    src += "\n";
+    src += "       01  NODE-B.\n";
+    src += "           05  NODE-B-ID              PIC X(20) VALUE \"RECEIVER-BANK-0002\".\n";
+    src += "           05  NODE-B-STATUS          PIC X(10) VALUE \"ACTIVE\".\n";
+    src += "           05  NODE-B-LOCKED          PIC 9(1)  VALUE 0.\n";
+    src += "\n";
+    src += "       01  WIRE-TRANSFER-REC.\n";
+    src += "           05  WT-MESSAGE-TYPE        PIC X(6)  VALUE \"MT103 \".\n";
+    src += "           05  WT-SENDER-BIC          PIC X(11).\n";
+    src += "           05  WT-RECEIVER-BIC        PIC X(11).\n";
+    src += "           05  WT-AMOUNT              PIC 9(13)V99.\n";
+    src += "           05  WT-CURRENCY            PIC X(3)  VALUE \"USD\".\n";
+    src += "\n";
+    src += "      * ... [819 lines total - Full source available on request]\n";
+    src += "\n";
+    src += "       PROCEDURE DIVISION.\n";
+    src += "       0000-MAIN-CONTROL.\n";
+    src += "           PERFORM 1000-DISPLAY-HEADER\n";
+    src += "           PERFORM 2000-SEED-GENERATION\n";
+    src += "           PERFORM 3000-DIALECT-NEGOTIATION\n";
+    src += "           PERFORM 4000-PROCESS-WIRE-TRANSFER\n";
+    src += "           PERFORM 5000-SIMULATE-SPOOF-ATTACK\n";
+    src += "           PERFORM 6000-ANOMALY-DETECTION\n";
+    src += "           PERFORM 7000-QUORUM-LOCKDOWN\n";
+    src += "           PERFORM 8000-2FA-RECOVERY\n";
+    src += "           PERFORM 9000-RE-NEGOTIATE-DIALECT\n";
+    src += "           PERFORM 9500-POST-RECOVERY-TRANSFER\n";
+    src += "           PERFORM 9900-DISPLAY-SUMMARY\n";
+    src += "           STOP RUN.\n";
+    document.getElementById('cobolPre').textContent = src;
+}
+</script>
+</body>
+</html>

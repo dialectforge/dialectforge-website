@@ -221,6 +221,7 @@
             .factory-vs { grid-template-columns: 1fr; }
             .factory-vs-divider { transform: rotate(90deg); }
             .factory-text h2 { font-size: 1.8rem; }
+            .banking-layout { grid-template-columns: 1fr !important; gap: 2rem !important; }
         }
 
         /* Contact */
@@ -249,6 +250,7 @@
             .nav-links { display: none; }
             .hero h1 { font-size: 2rem; }
             .step { flex-direction: column; }
+            .banking-layout { grid-template-columns: 1fr !important; gap: 2rem !important; }
             .contact-content { grid-template-columns: 1fr; }
             .footer-content { grid-template-columns: 1fr; gap: 2rem; }
         }
@@ -268,7 +270,8 @@
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#applications">Applications</a></li>
             <li><a href="#ai-factory" style="color: #ff6b35; font-weight: 600;">AI Factory</a></li>
-            <li><a href="/research" style="color: #4da6ff; font-weight: 600;">Research</a></li>
+            <li><a href="#banking" style="color: #4da6ff; font-weight: 600;">Banking</a></li>
+            <li><a href="/research" style="color: #4da6ff;">Research</a></li>
             <li><a href="/sitroom" style="color: #06d6e0; font-weight: 600;">SitRoom 🔴</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -594,6 +597,77 @@
             <div class="factory-patent">
                 <span>&#x1F4DC;</span>
                 <p>AI Factory is part of the DialectForge Unified Provisional Patent (2026), covering the associative intelligence architecture, terminal bond imprinting, surgical seed revocation with scar formation, anti-distillation defenses, and dialect-native language model training.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banking Section -->
+    <section id="banking" style="background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(77, 166, 255, 0.03) 50%, var(--bg-dark) 100%); position: relative; overflow: hidden; padding: 6rem 0;">
+        <div style="content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(77, 166, 255, 0.3), transparent);"></div>
+        <div class="container">
+            <div class="banking-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 4rem;">
+                <div>
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(77, 166, 255, 0.1); border: 1px solid rgba(77, 166, 255, 0.3); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--accent-blue); margin-bottom: 1.5rem;">
+                        <span>&#x1F3E6;</span>
+                        <span>COBOL Mainframe Demo</span>
+                    </div>
+                    <h2 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Secured Wire Transfer Simulation</h2>
+                    <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.7;">See DialectForge protect a real SWIFT MT103 wire transfer on a COBOL banking mainframe. Customize the transfer, watch the protocol negotiate, encrypt, detect a live attack, lock down, recover, and resume &mdash; all in an interactive terminal.</p>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                            <div style="font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center;">&#x1F504;</div>
+                            <div>
+                                <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Seed Negotiation</h4>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">256-bit seed generates unique dialect hashes for 8 wire transfer commands via XOR consensus.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                            <div style="font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center;">&#x1F4A3;</div>
+                            <div>
+                                <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Live Attack Injection</h4>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Watch a spoofed wire get detected by 3-node quorum voting, triggering emergency lockdown.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                            <div style="font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center;">&#x1F512;</div>
+                            <div>
+                                <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">2FA Recovery &amp; Re-Negotiation</h4>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">Biometric + OTP recovery, fresh seed generation, and complete dialect re-negotiation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(77, 166, 255, 0.3); box-shadow: 0 20px 60px rgba(77, 166, 255, 0.1); background: #0c0c14; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem; line-height: 1.6; color: var(--text-secondary); min-height: 380px;">
+                    <div style="position: absolute; top: 1rem; left: 1rem; background: rgba(0, 0, 0, 0.7); padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.7rem; color: var(--accent-blue); font-weight: 600; border: 1px solid rgba(77, 166, 255, 0.3); font-family: Inter, sans-serif; z-index: 2;">DFWIRE.cbl &mdash; Terminal Preview</div>
+                    <div style="margin-top: 2rem;">
+                        <span style="color: #4da6ff;">============================================</span><br>
+                        <span style="color: #4da6ff;"> DIALECTFORGE SECURED WIRE TRANSFER</span><br>
+                        <span style="color: #8b8b9a;"> Protocol: DF-1.0 | Quorum: 70%</span><br>
+                        <span style="color: #4da6ff;">============================================</span><br><br>
+                        <span style="color: #ffd700;">[SEED]</span> Phase: Seed Generation<br>
+                        <span style="color: #8b8b9a;">  Block 1:</span> <span style="color: #06d6e0;">7f3a9b2c4d8e1f06</span><br>
+                        <span style="color: #8b8b9a;">  Block 2:</span> <span style="color: #06d6e0;">a5c3b7d9e2f48160</span><br><br>
+                        <span style="color: #ffd700;">[WIRE]</span> $25,000,000.00 USD<br>
+                        <span style="color: #8b8b9a;">  Encrypted:</span> <span style="color: #06d6e0;">eP103_</span>...<br><br>
+                        <span style="color: #ff4444;">[ATTACK] Spoofed: 'deadbeef'</span><br>
+                        <span style="color: #ff4444;">[LOCKDOWN] Keys DESTROYED</span><br><br>
+                        <span style="color: #00ff88;">[RECOVERY] 2FA: VERIFIED</span><br>
+                        <span style="color: #00ff88;">[RE-NEGOTIATE] COMPLETE</span><br>
+                        <span style="color: #00ff88;">  Attacker Success: 0.0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="/banking/" style="background: var(--accent-blue); color: white; padding: 1rem 2.5rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s;">
+                    <span>&#x25B6;&#xFE0F;</span>
+                    Launch Interactive Simulation
+                </a>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem; background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); border-radius: 12px; padding: 1.5rem; margin-top: 3rem;">
+                <span style="font-size: 2rem;">&#x1F4DC;</span>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">This demo simulates the DialectForge protocol as described in the patent filing. The actual COBOL source (DFWIRE.cbl, 819 lines) is viewable in the full simulation. Wire transfer amounts are simulated and no real funds are moved.</p>
             </div>
         </div>
     </section>
