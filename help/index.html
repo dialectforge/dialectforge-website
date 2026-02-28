@@ -65,8 +65,8 @@
         <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
             <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: var(--text);">How to Connect on macOS — 15 sec</h2>
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Watch the quick setup walkthrough</p>
-            <!-- Thumbnail link (always visible) + iframe embed as fallback -->
-            <a href="https://www.youtube.com/watch?v=ANoR7vNR31o" target="_blank" rel="noopener" id="video-fallback" style="display: block; position: relative; border-radius: 10px; overflow: hidden; background: #000; aspect-ratio: 16/9; text-decoration: none;">
+            <!-- Click-to-play: thumbnail always visible, click opens YouTube -->
+            <a href="https://www.youtube.com/watch?v=ANoR7vNR31o" target="_blank" rel="noopener" style="display: block; position: relative; border-radius: 10px; overflow: hidden; background: #000; aspect-ratio: 16/9; text-decoration: none;">
                 <img src="https://img.youtube.com/vi/ANoR7vNR31o/hqdefault.jpg" alt="How to Connect DialectForge VPN" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; opacity: 0.85; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
                 <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
                     <div style="width: 68px; height: 48px; background: rgba(255,0,0,0.85); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
@@ -74,34 +74,6 @@
                     </div>
                 </div>
             </a>
-            <!-- Try to upgrade to embedded player for users without blockers -->
-            <script>
-            (function() {
-                var container = document.getElementById('video-fallback');
-                var iframe = document.createElement('iframe');
-                iframe.src = 'https://www.youtube.com/embed/ANoR7vNR31o?si=pLAExOrzrX-Y4Qw4';
-                iframe.style.cssText = 'width:100%;aspect-ratio:16/9;border:none;border-radius:10px;display:block;';
-                iframe.title = 'How to Connect DialectForge VPN';
-                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-                iframe.allowFullscreen = true;
-                iframe.onload = function() {
-                    try { container.parentNode.replaceChild(iframe, container); } catch(e) {}
-                };
-                iframe.onerror = function() { /* thumbnail stays visible */ };
-                // Attempt to load iframe in background
-                var temp = document.createElement('div');
-                temp.style.display = 'none';
-                temp.appendChild(iframe);
-                document.body.appendChild(temp);
-                // Give it 3 seconds to load, then swap if successful
-                setTimeout(function() {
-                    if (iframe.contentWindow) {
-                        try { container.parentNode.replaceChild(iframe, container); } catch(e) {}
-                    }
-                    if (temp.parentNode) temp.parentNode.removeChild(temp);
-                }, 3000);
-            })();
-            </script>
         </div>
 
         <div class="quick-links">
