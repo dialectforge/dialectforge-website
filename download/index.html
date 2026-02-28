@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Download DialectForge apps - VPN for macOS and SnapGuard encrypted photo vault for iOS.">
+    <meta name="description" content="Download DialectForge apps - VPN for macOS, SnapGuard, ScanSmith, VoxBitz, PixelSmith, Quick Export, and Workshop Blast for iOS. Zero data collection.">
     <title>Downloads - DialectForge</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
             --text: #ffffff;
             --text-secondary: #8b8b9a;
             --accent-blue: #4da6ff;
-            --accent-purple: #a855f7;
+            --accent-orange: #ff6b35;
         }
         body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); min-height: 100vh; }
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -36,70 +36,81 @@
         .nav-links a:hover { color: var(--primary); }
         .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
 
         /* Header */
-        .page-header { text-align: center; padding: 8rem 2rem 3rem; }
+        .page-header { text-align: center; padding: 8rem 2rem 2rem; }
         .page-header h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .page-header p { font-size: 1.1rem; color: var(--text-secondary); }
+        .page-header p { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
 
-        /* App Cards */
-        .apps { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+        /* Section headers */
+        .section-label { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .section-label .label-tag { font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem;
+            border-radius: 50px; margin-left: 0.5rem; vertical-align: middle; }
+
+        /* Privacy banner */
+        .privacy-banner { display: flex; align-items: flex-start; gap: 1rem; background: rgba(0, 255, 136, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.15); border-radius: 14px; padding: 1.5rem; margin-bottom: 2.5rem; }
+        .privacy-banner .pb-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .privacy-banner h3 { font-size: 1rem; margin-bottom: 0.25rem; color: var(--primary); }
+        .privacy-banner p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* App grid */
+        .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
         .app-download {
             background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 2.5rem; transition: all 0.3s; position: relative; overflow: hidden;
+            border-radius: 16px; padding: 2rem; transition: all 0.3s; display: flex; flex-direction: column;
         }
-        .app-download:hover { border-color: var(--primary); transform: translateY(-3px); }
-        .app-download .app-top { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem; }
-        .app-download .app-icon-img { width: 72px; height: 72px; border-radius: 16px; }
-        .app-download .app-title h2 { font-size: 1.4rem; margin-bottom: 0.25rem; }
-        .app-download .app-title .platform-tag { display: inline-block; font-size: 0.75rem; font-weight: 600;
-            padding: 0.2rem 0.6rem; border-radius: 50px; background: rgba(0, 255, 136, 0.1); color: var(--primary); }
-        .app-download .app-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
-        .app-download .app-meta { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .app-download:hover { border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        .app-download.featured { border-color: rgba(0, 255, 136, 0.3); background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, var(--bg-card) 100%); }
+        .app-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .app-icon-img { width: 60px; height: 60px; border-radius: 14px; flex-shrink: 0; }
+        .app-title h2 { font-size: 1.2rem; margin-bottom: 0.2rem; }
+        .platform-tag { display: inline-block; font-size: 0.7rem; font-weight: 600;
+            padding: 0.15rem 0.5rem; border-radius: 50px; }
+        .platform-tag.macos { background: rgba(0, 255, 136, 0.1); color: var(--primary); }
+        .platform-tag.ios { background: rgba(77, 166, 255, 0.1); color: var(--accent-blue); }
+        .app-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; }
+        .app-meta { font-size: 0.78rem; color: #555; margin-bottom: 1rem; }
 
         .download-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.875rem 1.75rem; border-radius: 10px;
-            text-decoration: none; font-weight: 600; font-size: 1rem;
-            transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 0.5rem; width: fit-content;
+            padding: 0.7rem 1.25rem; border-radius: 8px;
+            text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s;
         }
         .download-btn.green { background: var(--primary); color: var(--bg-dark); }
-        .download-btn.green:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3); }
+        .download-btn.green:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 255, 136, 0.25); }
         .download-btn.black { background: #000; color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .download-btn.black:hover { border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); }
-        .download-btn .apple-logo { width: 20px; height: 20px; }
-
-        .app-requirements { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.06);
-            font-size: 0.8rem; color: var(--text-secondary); }
-        .app-requirements strong { color: var(--text); font-weight: 600; }
+        .download-btn.black:hover { border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); }
+        .download-btn .apple-logo { width: 18px; height: 18px; }
 
         /* Video */
         .video-section {
             background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; text-align: center;
+            border-radius: 16px; padding: 2rem; margin-bottom: 3rem; text-align: center;
         }
-        .video-section h3 { font-size: 1.3rem; margin-bottom: 1rem; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px; }
+        .video-section h3 { font-size: 1.15rem; margin-bottom: 1rem; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 10px; }
 
         /* Coming Soon */
         .coming-soon {
             background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 2rem; margin-bottom: 3rem;
+            border-radius: 16px; padding: 1.5rem; margin-bottom: 3rem;
         }
-        .coming-soon h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--text-secondary); }
+        .coming-soon h3 { font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-secondary); }
         .platform-list { display: flex; gap: 2rem; flex-wrap: wrap; }
-        .platform-item { display: flex; align-items: center; gap: 0.5rem; color: #555; font-size: 1rem; }
-        .platform-item span { font-size: 1.5rem; }
+        .platform-item { display: flex; align-items: center; gap: 0.5rem; color: #555; font-size: 0.95rem; }
+        .platform-item span { font-size: 1.3rem; }
 
         .back-link { display: inline-block; color: var(--primary); text-decoration: none; font-weight: 500; margin-bottom: 4rem; }
         .back-link:hover { text-decoration: underline; }
 
         @media (max-width: 768px) {
-            .apps { grid-template-columns: 1fr; }
+            .apps-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column;
                 background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; gap: 0.5rem;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
@@ -133,48 +144,143 @@
 
     <div class="page-header">
         <h1>Downloads</h1>
-        <p>DialectForge apps for your devices</p>
+        <p>Apps from the developer behind DialectForge</p>
     </div>
 
     <div class="container">
-        <div class="apps">
+
+        <!-- Privacy Banner -->
+        <div class="privacy-banner">
+            <div class="pb-icon">&#x1F6E1;&#xFE0F;</div>
+            <div>
+                <h3>Built different. No data collection. Ever.</h3>
+                <p>Every app here collects zero user data. Your files, photos, recordings, and documents stay on your device. No cloud uploads, no analytics tracking, no absurd subscription fees, no predatory in-app purchases. Just tools that respect you.</p>
+            </div>
+        </div>
+
+        <!-- DialectForge Apps -->
+        <h2 class="section-label">DialectForge Apps <span class="label-tag" style="background: rgba(0, 255, 136, 0.1); color: var(--primary);">Protocol-Powered</span></h2>
+
+        <div class="apps-grid" style="margin-bottom: 2.5rem;">
             <!-- macOS VPN -->
-            <div class="app-download">
+            <div class="app-download featured">
                 <div class="app-top">
-                    <img src="/images/logo.png" alt="DialectForge VPN" class="app-icon-img" onerror="this.style.display='none'">
+                    <img src="/images/logo.png" alt="DialectForge VPN" class="app-icon-img" onerror="this.style.background='linear-gradient(135deg,#00ff88,#4da6ff)';this.style.display='block';">
                     <div class="app-title">
                         <h2>DialectForge VPN</h2>
-                        <span class="platform-tag">macOS</span>
+                        <span class="platform-tag macos">macOS</span>
                     </div>
                 </div>
-                <p class="app-desc">Censorship-resistant VPN that makes your traffic completely invisible. AI-negotiated protocol changes every 2 minutes.</p>
+                <p class="app-desc">Censorship-resistant VPN that makes your traffic completely invisible. AI-negotiated protocol changes every 2 minutes. Censors can't fingerprint what keeps evolving.</p>
                 <div class="app-meta">v1.0.3 &middot; 7.3 MB &middot; Signed &amp; notarized by Apple</div>
                 <a href="https://github.com/dialectforge/dialectforge-website/releases/download/v1.0.3-macos/DialectForgeVPN.dmg" class="download-btn green">&#x2B07;&#xFE0F; Download DMG</a>
-                <div class="app-requirements">
-                    <strong>Requires:</strong> macOS 13.0 (Ventura) or later<br>
-                    <strong>Developer ID:</strong> John Martin
-                </div>
             </div>
 
-            <!-- SnapGuard iOS -->
-            <div class="app-download">
+            <!-- SnapGuard -->
+            <div class="app-download featured">
                 <div class="app-top">
                     <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/4a/9a/58/4a9a58d4-0547-1fe0-4e6e-cc0760f5e898/AppIcon-0-0-1x_U007epad-0-1-85-220.png/230x0w.webp" alt="SnapGuard" class="app-icon-img">
                     <div class="app-title">
                         <h2>SnapGuard</h2>
-                        <span class="platform-tag">iOS</span>
+                        <span class="platform-tag ios">iOS</span>
                     </div>
                 </div>
-                <p class="app-desc">Encrypted photo vault powered by DialectForge. Keep photos, videos, files, and notes behind AES-256 encryption. Zero data collection.</p>
+                <p class="app-desc">Encrypted photo vault powered by DialectForge. Keep photos, videos, files, notes, and audio recordings behind AES-256 encryption. Everything stays on your device.</p>
                 <div class="app-meta">Free &middot; 7.5 MB &middot; Premium $3.99/mo</div>
                 <a href="https://apps.apple.com/us/app/snapguard/id6759138449" class="download-btn black">
                     <svg class="apple-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     App Store
                 </a>
-                <div class="app-requirements">
-                    <strong>Requires:</strong> iOS 16.0 or later<br>
-                    <strong>Developer:</strong> John Martin
+            </div>
+        </div>
+
+        <!-- iOS Apps Portfolio -->
+        <h2 class="section-label">iOS Apps <span class="label-tag" style="background: rgba(77, 166, 255, 0.1); color: var(--accent-blue);">By the Same Developer</span></h2>
+
+        <div class="apps-grid">
+            <!-- ScanSmith -->
+            <div class="app-download">
+                <div class="app-top">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f1/ae/df/f1aedf93-b78d-0601-8ebb-a78d088e02bc/AppIcon-0-0-1x_U007emarketing-0-8-0-P3-85-220.png/230x0w.webp" alt="ScanSmith" class="app-icon-img">
+                    <div class="app-title">
+                        <h2>ScanSmith</h2>
+                        <span class="platform-tag ios">iOS</span>
+                    </div>
                 </div>
+                <p class="app-desc">Professional document scanner with automatic edge detection, OCR text extraction, and digital signing. One-time purchase, no subscription. All processing on-device.</p>
+                <div class="app-meta">$4.99 &middot; 2.7 MB</div>
+                <a href="https://apps.apple.com/us/app/scansmith/id6759459781" class="download-btn black">
+                    <svg class="apple-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                </a>
+            </div>
+
+            <!-- VoxBitz -->
+            <div class="app-download">
+                <div class="app-top">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/1a/91/13/1a911353-54ff-e405-ecdd-eecb65a1dae4/AppIcon-0-0-1x_U007emarketing-0-8-0-P3-85-220.png/230x0w.webp" alt="VoxBitz" class="app-icon-img">
+                    <div class="app-title">
+                        <h2>VoxBitz</h2>
+                        <span class="platform-tag ios">iOS</span>
+                    </div>
+                </div>
+                <p class="app-desc">Voice recorder with on-device transcription using Apple's speech recognition. Record, transcribe, and organize audio files locally. No cloud, no internet required.</p>
+                <div class="app-meta">$3.99 &middot; 3.3 MB</div>
+                <a href="https://apps.apple.com/us/app/voxbitz/id6759455569" class="download-btn black">
+                    <svg class="apple-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                </a>
+            </div>
+
+            <!-- PixelSmith -->
+            <div class="app-download">
+                <div class="app-top">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/95/86/1c/95861c71-bc95-a898-ed8b-ad7d18536bc3/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/230x0w.webp" alt="PixelSmith" class="app-icon-img">
+                    <div class="app-title">
+                        <h2>PixelSmith</h2>
+                        <span class="platform-tag ios">iOS</span>
+                    </div>
+                </div>
+                <p class="app-desc">Image toolkit for creators and developers. Resize, compress, convert formats, generate app icons, and remove backgrounds. 100% on-device processing.</p>
+                <div class="app-meta">Free &middot; 2.6 MB &middot; Pro $9.99</div>
+                <a href="https://apps.apple.com/us/app/pixelsmith/id6758932412" class="download-btn black">
+                    <svg class="apple-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                </a>
+            </div>
+
+            <!-- Quick Export -->
+            <div class="app-download">
+                <div class="app-top">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fb/2b/3f/fb2b3fa4-1a77-02c5-f6e1-cfb7f70eb8cd/AppIcon-0-0-1x_U007epad-0-1-85-220.png/230x0w.webp" alt="Quick Export" class="app-icon-img">
+                    <div class="app-title">
+                        <h2>Quick Export</h2>
+                        <span class="platform-tag ios">iOS</span>
+                    </div>
+                </div>
+                <p class="app-desc">Turn clipboard content into formatted documents. Detects file types automatically, exports text and images as PDFs with customizable layouts. Built-in OCR and rich text editing.</p>
+                <div class="app-meta">$1.99 &middot; 3.8 MB</div>
+                <a href="https://apps.apple.com/us/app/quick-export/id6757448707" class="download-btn black">
+                    <svg class="apple-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                </a>
+            </div>
+
+            <!-- Workshop Blast -->
+            <div class="app-download">
+                <div class="app-top">
+                    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/49/35/eb/4935eb1f-b8c8-68b8-f7ab-c8927362370e/AppIcon-0-0-1x_U007emarketing-0-8-0-P3-85-220.png/230x0w.webp" alt="Workshop Blast" class="app-icon-img">
+                    <div class="app-title">
+                        <h2>Workshop Blast</h2>
+                        <span class="platform-tag ios">iOS</span>
+                    </div>
+                </div>
+                <p class="app-desc">Tile-matching puzzle game with 200 handcrafted levels. Match tiles, earn stars, and upgrade your workshop. No ads, no data collection, just a fun game.</p>
+                <div class="app-meta">Free &middot; 14.2 MB &middot; Full game $5.99</div>
+                <a href="https://apps.apple.com/us/app/workshop-blast/id6759474289" class="download-btn black">
+                    <svg class="apple-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                </a>
             </div>
         </div>
 
