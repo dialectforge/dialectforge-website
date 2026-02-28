@@ -30,6 +30,8 @@
   nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
     background: rgba(10,10,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
   .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--green); text-decoration: none; }
+        .logo-img { height: 36px; width: auto; display: block; }
+        .logo-icon { display: none; }
   .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--green), var(--blue)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a { color: var(--dim); text-decoration: none; font-weight: 500; transition: color 0.3s; }
@@ -83,7 +85,9 @@
 </head>
 <body>
 <nav>
-  <a href="/" class="logo"><div class="logo-icon">&#x1F510;</div>DialectForge</a>
+  <a href="/" class="logo">
+            <img src="/assets/logo.svg" alt="DialectForge" class="logo-img">
+        </a>
   <ul class="nav-links">
     <li><a href="/download" style="color:var(--green);font-weight:600;">Download</a></li>
     <li><a href="/vpn" class="active">VPN</a></li>
