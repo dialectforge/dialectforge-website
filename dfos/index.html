@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SDLC9S27DQ');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DialectForge OS — Linux with Dialect-Encrypted Memory</title>
+    <meta name="description" content="DialectForge OS is a custom Linux distribution with kernel-level dialect encryption. Memory protection, encrypted filesystems, and a full pentest suite — built to be broken.">
+    <meta name="keywords" content="DialectForge OS, DFoS, secure linux, encrypted memory, kernel encryption, pentest distro, dialect protocol, memory protection, custom linux">
+    <meta name="author" content="DialectForge">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dialectforge.com/dfos/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dialectforge.com/dfos/">
+    <meta property="og:title" content="DialectForge OS — Linux with Dialect-Encrypted Memory">
+    <meta property="og:description" content="A custom Linux kernel with built-in dialect encryption. Every process gets its own seed. Memory is encrypted at the page level. Ship includes a full pentest suite to attack it.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DialectForge OS — Linux with Dialect-Encrypted Memory">
+    <meta name="twitter:description" content="Custom Linux kernel with dialect-encrypted memory. Ships with pentest tools pre-loaded to attack its own protocol.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #12121a; --border: #1e1e2e; --text: #e0e0e8; --dim: #6a6a80;
+    --green: #00ff88; --green-dark: #00cc6a; --green-glow: rgba(0,255,136,0.12);
+    --red: #ff4d6a; --red-glow: rgba(255,77,106,0.15);
+    --amber: #ffb84d; --blue: #4da6ff; --purple: #a855f7; --orange: #ff6b35;
+    --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none; z-index: -1;
+  }
+
+  /* Nav */
+  nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+    background: rgba(10,10,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--green); text-decoration: none; }
+  .logo-img { height: 36px; width: auto; display: block; }
+  .nav-links { display: flex; gap: 1.25rem; list-style: none; flex-wrap: wrap; justify-content: center; }
+  .nav-links a { color: var(--dim); text-decoration: none; font-weight: 500; transition: color 0.3s; font-size: 0.9rem; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background: var(--green); color: var(--bg); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+  .nav-cta:hover { background: var(--green-dark); }
+  .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; }
+
+  /* Layout */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  .section-title { font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 1rem; }
+  .section-subtitle { font-size: 1.1rem; color: var(--dim); text-align: center; max-width: 700px; margin: 0 auto 3rem; }
+
+  /* Hero */
+  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 4rem; }
+  .hero-content { max-width: 900px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3);
+    padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--green); margin-bottom: 2rem; }
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, var(--green) 50%, var(--blue) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { font-size: 1.25rem; color: var(--dim); max-width: 700px; margin: 0 auto 2.5rem; }
+  .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--green); color: var(--bg); padding: 1rem 2rem; border-radius: 10px; text-decoration: none;
+    font-weight: 600; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,255,136,0.3); }
+  .btn-secondary { background: transparent; color: var(--text); padding: 1rem 2rem; border-radius: 10px; text-decoration: none;
+    font-weight: 600; font-size: 1.1rem; border: 2px solid rgba(255,255,255,0.2); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; }
+  .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+</style>
+<style>
+  /* Terminal */
+  .terminal { background: #0d0d14; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 3rem; }
+  .terminal-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+  .terminal-title { color: var(--dim); font-size: 0.8rem; font-family: var(--mono); margin-left: 0.5rem; }
+  .terminal-body { padding: 1.5rem; font-family: var(--mono); font-size: 0.85rem; line-height: 2; overflow-x: auto; }
+  .terminal-body .prompt { color: var(--green); } .terminal-body .cmd { color: var(--text); }
+  .terminal-body .output { color: var(--dim); } .terminal-body .highlight { color: var(--amber); }
+  .terminal-body .success { color: var(--green); } .terminal-body .info { color: var(--blue); }
+
+  /* Architecture cards */
+  .arch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+  .arch-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.3s; }
+  .arch-card:hover { border-color: var(--green); transform: translateY(-5px); }
+  .arch-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .arch-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+  .arch-card p { color: var(--dim); font-size: 0.95rem; }
+  .arch-card code { font-family: var(--mono); font-size: 0.8rem; background: rgba(0,255,136,0.1); color: var(--green); padding: 2px 6px; border-radius: 4px; }
+
+  /* Stack */
+  .stack-section { background: var(--surface); padding: 5rem 0; }
+  .stack-layers { display: flex; flex-direction: column; gap: 0; max-width: 800px; margin: 0 auto; }
+  .stack-layer { display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem 2rem; border: 1px solid var(--border); position: relative; }
+  .stack-layer:first-child { border-radius: 16px 16px 0 0; }
+  .stack-layer:last-child { border-radius: 0 0 16px 16px; }
+  .stack-layer + .stack-layer { border-top: none; }
+  .stack-layer .layer-name { font-weight: 700; font-size: 1rem; min-width: 160px; }
+  .stack-layer .layer-desc { color: var(--dim); font-size: 0.9rem; }
+  .stack-layer .layer-badge { font-family: var(--mono); font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; margin-left: auto; white-space: nowrap; }
+  .badge-kernel { background: rgba(0,255,136,0.15); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+  .badge-user { background: rgba(77,166,255,0.15); color: var(--blue); border: 1px solid rgba(77,166,255,0.2); }
+  .badge-fs { background: rgba(168,85,247,0.15); color: var(--purple); border: 1px solid rgba(168,85,247,0.2); }
+
+  /* Challenge */
+  .challenge { background: linear-gradient(135deg, rgba(255,77,106,0.05), rgba(0,255,136,0.05)); border: 1px solid var(--border); border-radius: 20px; padding: 3rem; text-align: center; margin: 3rem 0; }
+  .challenge h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; }
+  .challenge p { color: var(--dim); max-width: 600px; margin: 0 auto 2rem; font-size: 1.05rem; }
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 700px; margin: 0 auto; }
+  .tool-tag { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; font-family: var(--mono); font-size: 0.85rem; color: var(--dim); transition: all 0.3s; }
+  .tool-tag:hover { border-color: var(--red); color: var(--red); }
+  .tool-tag span { display: block; color: var(--text); font-weight: 600; margin-bottom: 0.25rem; font-family: var(--sans); }
+
+  /* Patent */
+  .patent-notice { display: flex; align-items: center; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-top: 3rem; }
+  .patent-notice p { color: var(--dim); font-size: 0.9rem; }
+
+  /* Footer */
+  footer { background: var(--bg); border-top: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem 1.5rem; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .footer-inner a { color: var(--dim); text-decoration: none; font-size: 0.875rem; } .footer-inner a:hover { color: var(--green); }
+  .footer-copy { color: var(--dim); font-size: 0.875rem; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(10,10,15,0.95); padding: 1rem 2rem; gap: 1rem; }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .hero h1 { font-size: 2rem; }
+    .arch-grid { grid-template-columns: 1fr; }
+    .stack-layer { flex-direction: column; text-align: center; gap: 0.5rem; }
+    .stack-layer .layer-badge { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo"><img src="/assets/logo.svg" alt="DialectForge" class="logo-img"></a>
+  <ul class="nav-links">
+    <li><a href="/download" style="color:var(--green);font-weight:600;">Downloads</a></li>
+    <li><a href="/#protocol">The Protocol</a></li>
+    <li><a href="/dfos/" style="color:var(--amber);font-weight:600;">DFoS</a></li>
+    <li><a href="/ai-factory/" style="color:var(--orange);font-weight:600;">AI Factory</a></li>
+    <li><a href="/banking/" style="color:var(--blue);font-weight:600;">Banking</a></li>
+    <li><a href="/research" style="color:var(--blue);">Research</a></li>
+    <li><a href="/sitroom" style="color:#06d6e0;font-weight:600;">SitRoom</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+  <a href="/download" class="nav-cta">Downloads</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">&#x1f6e1;&#xfe0f; Patent Pending &mdash; Kernel-Level Dialect Encryption</div>
+    <h1>DialectForge OS</h1>
+    <p>A custom Linux kernel where every process gets its own dialect seed. Memory is encrypted at the page level. The filesystem speaks dialect natively. And it ships with every tool you need to try to break it.</p>
+    <div class="hero-buttons">
+      <a href="https://github.com/dialectforge/DFoS" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <a href="#architecture" class="btn-secondary">See the Architecture &darr;</a>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div>
+        <span class="terminal-title">dfos v1.0 &mdash; kernel 6.12.12-df</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">root@dfos:~# </span><span class="cmd">uname -r</span></div>
+        <div><span class="output">6.12.12-df</span></div>
+        <div><span class="prompt">root@dfos:~# </span><span class="cmd">cat /proc/df_mem_enable</span></div>
+        <div><span class="success">1</span></div>
+        <div><span class="prompt">root@dfos:~# </span><span class="cmd">dfctl status</span></div>
+        <div><span class="info">dialect:</span> <span class="output">active | seed: 7a3f...c812 | cycle: 120s</span></div>
+        <div><span class="info">cipher:</span> <span class="output">AES-256-GCM | pages encrypted: 41,293</span></div>
+        <div><span class="info">lsm:</span> <span class="output">dialectforge | zones: 3 | quarantined: 0</span></div>
+        <div><span class="info">tunnel:</span> <span class="output">listening 10.1.0.1:51830 | peers: 0</span></div>
+        <div><span class="prompt">root@dfos:~# </span><span class="cmd">dfpkg list --installed</span></div>
+        <div><span class="output">metasploit nmap sqlmap wireshark john hashcat aircrack-ng</span></div>
+        <div><span class="highlight">[7 packages]</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture Section -->
+<section id="architecture" style="padding: 6rem 0;">
+  <div class="container">
+    <h2 class="section-title">What's Inside the Kernel</h2>
+    <p class="section-subtitle">DialectForge isn't a userspace wrapper. It's built directly into the Linux 6.12.12 kernel as a subsystem.</p>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="arch-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Hierarchical Seeds</h3>
+        <p>HKDF-SHA256 derivation tree. Root seed branches into volume, directory, and file seeds. Every process inherits a unique dialect at <code>fork()</code>.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>df_mem Page Encryption</h3>
+        <p>Memory pages encrypted transparently using dialect-derived keys. AES-256-GCM for secure path, HMAC-SHA256 XOR keystream for fast path. Zero userspace changes needed.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 3v18"/></svg></div>
+        <h3>dialectfs VFS</h3>
+        <p>Native kernel VFS stacking filesystem. No FUSE. Files encrypted on write, decrypted on read, using the seed hierarchy. Transparent to applications.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff4d6a" stroke-width="1.5"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M12 8v4M12 16h.01"/></svg></div>
+        <h3>Quarantine Engine</h3>
+        <p>Three-tier software model: Native, Adopted, Quarantine. Untrusted processes get ephemeral seeds with TTL expiry. Nuke all quarantine zones in one revocation.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffb84d" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <h3>DialectForge LSM</h3>
+        <p>Linux Security Module with 10 hooks. Blocks cross-dialect ptrace, isolates network sockets per seed, enforces quarantine tier on exec, file open, and IPC.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#06d6e0" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>Anomaly Detection</h3>
+        <p>Per-PID behavioral scoring. Weighted events for socket creation, blocked file access, cross-dialect ptrace. Automatic lockdown at threshold.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stack Section -->
+<section class="stack-section">
+  <div class="container">
+    <h2 class="section-title">The Full Stack</h2>
+    <p class="section-subtitle">From hardware to userspace, every layer is dialect-aware.</p>
+
+    <div class="stack-layers">
+      <div class="stack-layer" style="background: rgba(77,166,255,0.08);">
+        <span class="layer-name">dfctl CLI</span>
+        <span class="layer-desc">Userspace control tool. View seed trees, manage zones, toggle cipher modes.</span>
+        <span class="layer-badge badge-user">userspace</span>
+      </div>
+      <div class="stack-layer" style="background: rgba(77,166,255,0.06);">
+        <span class="layer-name">dfpkg</span>
+        <span class="layer-desc">Package manager for DFoS-specific tools and pen-test suites.</span>
+        <span class="layer-badge badge-user">userspace</span>
+      </div>
+      <div class="stack-layer" style="background: rgba(77,166,255,0.04);">
+        <span class="layer-name">df_tunnel</span>
+        <span class="layer-desc">Statically compiled tunnel daemon. Pure noise on the wire. No headers, no fingerprint.</span>
+        <span class="layer-badge badge-user">userspace</span>
+      </div>
+      <div class="stack-layer" style="background: rgba(168,85,247,0.08);">
+        <span class="layer-name">dialectfs</span>
+        <span class="layer-desc">Native VFS stacking filesystem. Encrypt-on-write, decrypt-on-read.</span>
+        <span class="layer-badge badge-fs">filesystem</span>
+      </div>
+      <div class="stack-layer" style="background: rgba(0,255,136,0.08);">
+        <span class="layer-name">DialectForge LSM</span>
+        <span class="layer-desc">Security module enforcing seed isolation across all system boundaries.</span>
+        <span class="layer-badge badge-kernel">kernel</span>
+      </div>
+      <div class="stack-layer" style="background: rgba(0,255,136,0.06);">
+        <span class="layer-name">df_mem</span>
+        <span class="layer-desc">Page-level memory encryption with dialect-derived keys.</span>
+        <span class="layer-badge badge-kernel">kernel</span>
+      </div>
+      <div class="stack-layer" style="background: rgba(0,255,136,0.04);">
+        <span class="layer-name">Core Subsystem</span>
+        <span class="layer-desc">Seed manager, cipher engine, cycle refresh, anomaly detection, sysctl tunables.</span>
+        <span class="layer-badge badge-kernel">kernel</span>
+      </div>
+      <div class="stack-layer" style="background: rgba(0,255,136,0.02);">
+        <span class="layer-name">Linux 6.12.12</span>
+        <span class="layer-desc">Upstream stable kernel. GPU drivers (i915, amdgpu, nouveau). Standard hardware support.</span>
+        <span class="layer-badge badge-kernel">kernel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Break Me Challenge -->
+<section style="padding: 6rem 0;">
+  <div class="container">
+    <div class="challenge">
+      <h3>v1.0 is a &ldquo;Break Me&rdquo; Release</h3>
+      <p>DFoS ships with a full pentest arsenal pre-installed. The challenge: use these tools to attack the dialect encryption that's protecting the very system you're running on.</p>
+      <div class="tool-grid">
+        <div class="tool-tag"><span>Metasploit</span>Framework exploits</div>
+        <div class="tool-tag"><span>Nmap</span>Network scanning</div>
+        <div class="tool-tag"><span>sqlmap</span>Injection testing</div>
+        <div class="tool-tag"><span>Wireshark</span>Packet analysis</div>
+        <div class="tool-tag"><span>John / Hashcat</span>Password cracking</div>
+        <div class="tool-tag"><span>Aircrack-ng</span>Wireless auditing</div>
+        <div class="tool-tag"><span>df_pentest.sh</span>Custom DF attack suite</div>
+        <div class="tool-tag"><span>dfctl</span>Protocol introspection</div>
+      </div>
+    </div>
+
+    <div class="patent-notice">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6a6a80" stroke-width="1.5" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h4"/></svg>
+      <p>DialectForge OS kernel technology is protected by provisional patent (filed February 25, 2026) covering dialect-based memory encryption, hierarchical seed derivation, cyclic cipher refresh, quarantine zones, and kernel-integrated anomaly detection.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/download">Downloads</a>
+      <a href="/research">Research</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 DialectForge. All rights reserved.</div>
+  </div>
+</footer>
+</body>
+</html>
