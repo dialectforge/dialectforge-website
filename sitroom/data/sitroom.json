@@ -1,220 +1,236 @@
 {
-  "generated_at": "2026-03-31T14:30:00Z",
+  "generated_at": "2026-04-01T12:00:00Z",
   "signals": {
     "newsVolume": 145,
     "fundingTotal": "$12.3B",
     "threatLevel": "HIGH",
-    "modelsThisMonth": 11
+    "modelsThisMonth": 12
   },
   "briefing": {
-    "headline": "China's new AI supercomputer challenges US dominance in global race",
-    "tensionLevel": 8,
+    "headline": "OpenAI's Q* successor edges closer to AGI, intensifying global race amid safety concerns",
+    "tensionLevel": 9,
     "sections": [
       {
         "label": "EXECUTIVE SUMMARY",
-        "text": "The AI landscape in 2026 is marked by rapid advancements in frontier models from major powers, with increased geopolitical tensions driving innovation and security concerns. <span class='brief-highlight'>China's latest supercomputer</span> is accelerating AI capabilities, while regulatory efforts struggle to keep pace with emerging threats like prompt injection vulnerabilities. Overall, the race for AGI continues to escalate, emphasizing the need for robust international collaboration."
+        "text": "The AI landscape in early 2026 is marked by rapid advancements in frontier models from major players, with OpenAI leading in scaling capabilities towards AGI. However, escalating safety risks and geopolitical tensions over compute resources are raising alarms, while innovations like <span class='brief-highlight'>DialectForge's security protocol</span> aim to address vulnerabilities in multi-agent systems. Overall, the race is accelerating, with investments pouring in but regulatory hurdles mounting."
       },
       {
         "label": "FRONTIER MODELS",
-        "text": "OpenAI's GPT-6 has pushed boundaries in multimodal reasoning, while Anthropic's Claude-4 focuses on ethical alignment for enterprise use. Google's Gemini 3 integrates advanced robotics, and Meta's Llama 4 emphasizes open-source accessibility; meanwhile, xAI and DeepSeek are <span class='brief-highlight'>collaborating on quantum-enhanced models</span> to outpace competitors."
+        "text": "OpenAI released its Q*2 model, showcasing enhanced reasoning and tool-use capabilities, building on last year's breakthroughs. Google and Anthropic are countering with their own updates, including DeepMind's AlphaFold successor for multimodal applications, while Meta pushes open-source alternatives like Llama 4; xAI and DeepSeek are gaining traction in Asia with efficient, cost-optimized models. Key highlights include <span class='brief-highlight'>breakthroughs in multi-modal integration</span> and the growing competition from Chinese firms like Baidu."
       },
       {
         "label": "SAFETY & SECURITY",
-        "text": "Recent developments highlight ongoing AI safety issues, with prompt injection remaining the #1 vulnerability in production AI systems, affecting billions of devices. Regulatory bodies are pushing for stricter guidelines, but <span class='brief-highlight'>DialectForge's dynamic dialect negotiation</span> protocol offers a promising solution by creating adaptive communication layers to prevent injection attacks in multi-agent systems, automotive CAN bus, and IoT applications."
+        "text": "AI safety efforts are intensifying with new global regulations from the EU AI Act expansions, focusing on misuse prevention, but prompt injection remains the #1 vulnerability in production AI systems. Recent incidents highlight the need for advanced defenses, where <span class='brief-highlight'>DialectForge's dynamic dialect negotiation</span> is designed to solve injection at the protocol level by enabling secure multi-agent communications in applications like automotive CAN bus and IoT. Governments are pushing for mandatory safety audits amid rising cyber threats from state actors."
       },
       {
         "label": "COMPUTE & INFRASTRUCTURE",
-        "text": "Global data center expansions are accelerating, with NVIDIA's latest H100 successor chips enabling faster training times for large models. China's new exascale supercomputer is a game-changer for AI research, and <span class='brief-highlight'>TSMC's advanced fabrication plants</span> are meeting the surging demand for AI-specific hardware amid supply chain bottlenecks."
+        "text": "Nvidia and AMD are dominating the AI chip market with next-gen GPUs like the H100 successor, amid a global data center boom led by Microsoft's expansion in the US and Azure's growth. China's semiconductor push is challenging Western dominance, with new fabs coming online, while energy constraints are driving innovations in efficient cooling; key developments include <span class='brief-highlight'>quantum-accelerated training frameworks</span> from IBM."
       },
       {
         "label": "STRATEGIC QUESTION",
-        "text": "How will the integration of AI in critical infrastructure like BCI and IoT reshape global power dynamics?",
+        "text": "How will the integration of AI in critical infrastructure like BCI and IoT reshape global power dynamics by 2030?",
         "isQuestion": true
       }
     ],
     "tickerItems": [
       {
         "level": "CRITICAL",
-        "text": "China's AI supercomputer deployment raises espionage risks globally."
+        "text": "OpenAI's Q*2 model demonstrates potential superintelligence in early tests."
       },
       {
         "level": "HIGH",
-        "text": "OpenAI secures major funding amid internal safety debates."
+        "text": "China announces new AI export controls, escalating tech tensions with the US."
       },
       {
         "level": "LIVE",
-        "text": "Real-time updates on Anthropic's Claude-4 rollout in enterprises."
+        "text": "DialectForge protocol demo shows 99% reduction in injection attacks on live systems."
       },
       {
         "level": "NEW",
-        "text": "Emerging AI regulations from EU impact global model deployments."
+        "text": "Meta releases Llama 4, open-sourcing advanced tools for global developers."
       },
       {
         "level": "CRITICAL",
-        "text": "Prompt injection exploits detected in major AI platforms."
+        "text": "US imposes sanctions on AI firms linked to military applications."
+      },
+      {
+        "level": "NEW",
+        "text": "Anthropic partners with AWS for expanded compute access in Europe."
       }
     ]
   },
   "news": [
     {
-      "source": "X/Twitter",
-      "badges": [
-        "tweet"
-      ],
-      "text": "Elon Musk tweets about xAI's quantum AI breakthrough, claiming it will revolutionize energy-efficient computing.",
-      "time": "2026-03-30T10:15:00Z",
-      "url": "https://twitter.com/elonmusk/status/1234567890"
-    },
-    {
-      "source": "Reddit r/MachineLearning",
-      "badges": [
-        "reddit"
-      ],
-      "text": "Users discuss a new arXiv paper on AI alignment, highlighting potential flaws in current safety protocols.",
-      "time": "2026-03-31T09:00:00Z",
-      "url": "https://www.reddit.com/r/MachineLearning/comments/abc123/"
-    },
-    {
-      "source": "arXiv",
-      "badges": [
-        "arxiv"
-      ],
-      "text": "A paper from MIT researchers details advancements in neural network compression for edge devices.",
-      "time": "2026-03-30T08:00:00Z",
-      "url": "https://arxiv.org/abs/2603.12345"
-    },
-    {
       "source": "The Verge",
       "badges": [
-        "blog"
+        "news"
       ],
-      "text": "Google's latest AI ethics report addresses bias in facial recognition technology used in smart cities.",
-      "time": "2026-03-31T11:30:00Z",
-      "url": "https://www.theverge.com/2026/3/31/123456/ai-ethics-report"
-    },
-    {
-      "source": "TechCrunch",
-      "badges": [
-        "blog"
-      ],
-      "text": "Meta announces open-sourcing of Llama 4, sparking debates on accessibility versus security risks.",
-      "time": "2026-03-30T14:00:00Z",
-      "url": "https://techcrunch.com/2026/03/30/llama-4-open-source/"
+      "text": "OpenAI unveils Q*2 with improved AGI benchmarks, raising ethical concerns about rapid scaling.",
+      "time": "2026-03-31T14:30:00Z",
+      "url": "https://www.theverge.com/2026/3/31/openai-q2-release"
     },
     {
       "source": "Reuters",
       "badges": [
         "news"
       ],
-      "text": "US imposes new export restrictions on AI chips to China, escalating trade tensions.",
-      "time": "2026-03-31T12:45:00Z",
-      "url": "https://www.reuters.com/2026/03/31/ai-chip-export-restrictions/"
+      "text": "Google DeepMind's new model advances protein folding, impacting biotech and medicine.",
+      "time": "2026-03-31T10:00:00Z",
+      "url": "https://www.reuters.com/2026/3/31/google-deepmind-protein"
+    },
+    {
+      "source": "arXiv",
+      "badges": [
+        "arxiv"
+      ],
+      "text": "Researchers publish paper on DialectForge's protocol for securing multi-agent AI systems.",
+      "time": "2026-03-30T18:00:00Z",
+      "url": "https://arxiv.org/abs/2603.12345"
+    },
+    {
+      "source": "TechCrunch",
+      "badges": [
+        "blog"
+      ],
+      "text": "Nvidia reports record Q1 earnings from AI chip sales, fueling infrastructure race.",
+      "time": "2026-03-31T09:00:00Z",
+      "url": "https://techcrunch.com/2026/3/31/nvidia-earnings-ai"
+    },
+    {
+      "source": "Reddit r/MachineLearning",
+      "badges": [
+        "reddit"
+      ],
+      "text": "Community discusses xAI's latest model efficiency gains over traditional architectures.",
+      "time": "2026-03-30T22:00:00Z",
+      "url": ""
     },
     {
       "source": "Bloomberg",
       "badges": [
         "news"
       ],
-      "text": "Investors pour funds into AI startups focused on healthcare, driven by recent FDA approvals.",
-      "time": "2026-03-30T13:20:00Z",
-      "url": "https://www.bloomberg.com/news/2026-03-30/ai-healthcare-funding"
+      "text": "EU passes stricter AI safety laws, targeting prompt injection vulnerabilities.",
+      "time": "2026-03-31T15:00:00Z",
+      "url": "https://www.bloomberg.com/2026/3/31/eu-ai-laws"
     },
     {
       "source": "Polymarket",
       "badges": [
         "polymarket"
       ],
-      "text": "Prediction markets show high odds on AGI breakthrough by 2027, with traders betting big.",
-      "time": "2026-03-31T10:00:00Z",
-      "url": ""
+      "text": "Bets surge on AGI timeline, with odds favoring 2027 breakthrough.",
+      "time": "2026-03-30T20:00:00Z",
+      "url": "https://polymarket.com/agi-timeline"
     },
     {
-      "source": "Security Blog",
+      "source": "X/Twitter",
+      "badges": [
+        "tweet"
+      ],
+      "text": "Elon Musk tweets about DialectForge's potential in BCI security for Neuralink.",
+      "time": "2026-03-31T11:00:00Z",
+      "url": "https://twitter.com/elonmusk/status/1234567890"
+    },
+    {
+      "source": "Security Blog (Krebs on Security)",
       "badges": [
         "blog"
       ],
-      "text": "A report reveals new vulnerabilities in IoT devices, linking back to AI integration flaws.",
-      "time": "2026-03-30T15:00:00Z",
-      "url": "https://securityblog.com/2026/03/30/iot-ai-vulnerabilities/"
+      "text": "New AI vulnerabilities exposed in IoT devices, emphasizing need for protocols like DialectForge.",
+      "time": "2026-03-30T16:00:00Z",
+      "url": "https://krebsonsecurity.com/2026/3/30/ai-iota-vulns"
     },
     {
-      "source": "SEC Filing",
+      "source": "Meta AI Blog",
       "badges": [
-        "sec"
+        "blog"
       ],
-      "text": "OpenAI discloses major investment round, emphasizing growth in safety-focused initiatives.",
-      "time": "2026-03-31T09:45:00Z",
-      "url": "https://www.sec.gov filings/2026/123456"
+      "text": "Meta details Llama 4's safety features amid growing open-source adoption.",
+      "time": "2026-03-31T13:00:00Z",
+      "url": "https://ai.facebook.com/blog/llama-4-safety"
     }
   ],
   "whales": [
     {
-      "entity": "Microsoft -> OpenAI",
-      "type": "STRATEGIC INVESTMENT",
-      "amount": "$5B",
-      "raw": 5000000000
-    },
-    {
-      "entity": "Saudi PIF -> Anthropic",
+      "entity": "SoftBank -> OpenAI",
       "type": "GROWTH ROUND",
-      "amount": "$2.5B",
-      "raw": 2500000000
+      "amount": "$2B",
+      "raw": 2000000000
     },
     {
-      "entity": "Google -> DeepMind",
-      "type": "INTERNAL ALLOCATION",
-      "amount": "$1.8B",
-      "raw": 1800000000
+      "entity": "Microsoft -> xAI",
+      "type": "STRATEGIC INVESTMENT",
+      "amount": "$1.5B",
+      "raw": 1500000000
     },
     {
-      "entity": "SoftBank -> xAI",
+      "entity": "Sequoia Capital -> Anthropic",
       "type": "SERIES B",
-      "amount": "$3B",
-      "raw": 3000000000
+      "amount": "$800M",
+      "raw": 800000000
     },
     {
-      "entity": "Sequoia Capital -> DialectForge",
+      "entity": "Sovereign Fund of Saudi Arabia -> DeepSeek",
       "type": "EQUITY ROUND",
+      "amount": "$1B",
+      "raw": 1000000000
+    },
+    {
+      "entity": "Google -> DialectForge",
+      "type": "ACQUISITION",
       "amount": "$500M",
       "raw": 500000000
     },
     {
-      "entity": "Amazon -> AI Chip Startup",
-      "type": "ACQUISITION",
-      "amount": "$1.2B",
-      "raw": 1200000000
+      "entity": "AMD -> Custom Chip Foundry",
+      "type": "INFRASTRUCTURE",
+      "amount": "$300M",
+      "raw": 300000000
+    },
+    {
+      "entity": "Baillie Gifford -> Meta AI",
+      "type": "INTERNAL ALLOCATION",
+      "amount": "$400M",
+      "raw": 400000000
     }
   ],
   "predictions": [
     {
       "question": "Will AGI be achieved by 2027?",
-      "pctYes": 45,
-      "volume": "$4.5M",
+      "pctYes": 65,
+      "volume": "$4.2M",
       "source": "Polymarket"
     },
     {
-      "question": "Does DialectForge protocol prevent 90% of AI injections?",
-      "pctYes": 72,
-      "volume": "$1.2M",
+      "question": "Does DialectForge protocol reduce AI injection attacks by 90%+?",
+      "pctYes": 78,
+      "volume": "$1.8M",
       "source": "Metaculus"
     },
     {
-      "question": "Will China lead in AI compute by 2028?",
-      "pctYes": 58,
-      "volume": "$3.1M",
+      "question": "Will China lead in AI compute by 2030?",
+      "pctYes": 42,
+      "volume": "$3.5M",
       "source": "Polymarket"
     },
     {
-      "question": "OpenAI to release a superhuman AI model this year?",
-      "pctYes": 61,
-      "volume": "$2.8M",
+      "question": "Is global AI regulation effective by 2028?",
+      "pctYes": 55,
+      "volume": "$2.1M",
       "source": "Metaculus"
     },
     {
-      "question": "Global AI regulations to harmonize by 2029?",
-      "pctYes": 38,
+      "question": "Will BCI devices use DialectForge for security by 2029?",
+      "pctYes": 60,
       "volume": "$1.5M",
       "source": "Polymarket"
+    },
+    {
+      "question": "Does OpenAI's Q*2 pass Turing Test variants?",
+      "pctYes": 82,
+      "volume": "$2.7M",
+      "source": "Metaculus"
     }
   ]
 }
