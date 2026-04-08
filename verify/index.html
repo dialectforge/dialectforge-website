@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DialectForge Verify — Module Isolation for Proof Checkers</title>
+    <meta name="description" content="One bug shouldn't break all trust. DialectForge Verify isolates proof checker modules so bugs can't cascade. Surgical revocation with scar tracking.">
+    <link rel="canonical" href="https://dialectforge.com/verify/">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #22d3ee;
+            --cyan-dim: #0e7490;
+            --green: #10b981;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --purple: #a78bfa;
+            --bg: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-dim: #94a3b8;
+            --text-muted: #64748b;
+            --border: #1e293b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        a { color: var(--cyan); text-decoration: none; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+        nav { padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(10,10,15,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            position: fixed; top: 0; width: 100%; z-index: 100; }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--cyan); }
+        .logo span { color: var(--text-dim); font-weight: 400; }
+        .nav-back { color: var(--text-dim); font-size: 0.9rem; }
+
+        .hero { padding: 8rem 2rem 4rem; text-align: center; }
+        .hero-badge { display: inline-block; background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.3);
+            padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; color: var(--cyan); margin-bottom: 1.5rem; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.15; margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.15rem; color: var(--text-dim); max-width: 650px; margin: 0 auto 2rem; }
+
+        .section { padding: 4rem 2rem; }
+        .section-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); }
+
+        .problem-box { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); border-left: 3px solid var(--red);
+            border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+        .problem-box h3 { color: var(--red); margin-bottom: 0.5rem; }
+        .problem-box p { color: var(--text-dim); font-size: 0.95rem; }
+
+        .solution-box { background: rgba(34,211,238,0.06); border: 1px solid rgba(34,211,238,0.2); border-left: 3px solid var(--cyan);
+            border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .solution-box h3 { color: var(--cyan); margin-bottom: 0.5rem; }
+        .solution-box p { color: var(--text-dim); font-size: 0.95rem; }
+
+        .demo-output { background: #0c0c14; border: 1px solid var(--border); border-radius: 8px;
+            padding: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+            line-height: 1.7; color: var(--text-dim); overflow-x: auto; white-space: pre; margin: 2rem 0; }
+        .demo-output .ok { color: var(--green); }
+        .demo-output .fail { color: var(--red); }
+        .demo-output .warn { color: var(--amber); }
+        .demo-output .cyan { color: var(--cyan); }
+        .demo-output .heading { color: var(--text); font-weight: 600; }
+
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; text-align: center; }
+        .stat .num { font-size: 2rem; font-weight: 800; }
+        .stat .label { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.25rem; }
+
+        .cta-box { background: rgba(34,211,238,0.08); border: 1px solid rgba(34,211,238,0.25);
+            border-radius: 12px; padding: 2.5rem; text-align: center; margin: 3rem 0; }
+        .cta-box h2 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+        .cta-box p { color: var(--text-dim); margin-bottom: 1.5rem; }
+        .cta-btn { display: inline-block; background: var(--cyan); color: var(--bg); padding: 0.85rem 2rem;
+            border-radius: 8px; font-weight: 700; font-size: 1rem; transition: all 0.3s; }
+        .cta-btn:hover { background: #06b6d4; transform: translateY(-2px); }
+
+        .how-list { list-style: none; counter-reset: step; }
+        .how-list li { counter-increment: step; padding: 1rem 0 1rem 3.5rem; position: relative;
+            border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 0.95rem; }
+        .how-list li::before { content: counter(step); position: absolute; left: 0; top: 1rem;
+            width: 2rem; height: 2rem; background: rgba(34,211,238,0.15); border: 1px solid var(--cyan);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--cyan); font-weight: 700; font-size: 0.85rem; }
+        .how-list li strong { color: var(--text); }
+
+        .who-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .who-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; }
+        .who-card h4 { color: var(--cyan); font-size: 0.95rem; margin-bottom: 0.4rem; }
+        .who-card p { color: var(--text-dim); font-size: 0.85rem; }
+
+        .patent-note { color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 2rem;
+            border-top: 1px solid var(--border); margin-top: 3rem; }
+
+        @media (max-width: 600px) {
+            .hero { padding: 6rem 1rem 3rem; }
+            .section { padding: 2.5rem 1rem; }
+            .demo-output { font-size: 0.7rem; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">DialectForge <span>Verify</span></a>
+    <a href="/" class="nav-back">&larr; Back to DialectForge</a>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">Patent Pending &middot; API Access</div>
+        <h1>One bug shouldn't break all trust.</h1>
+        <p>Proof checkers verify that software is correct. But when the checker itself has a bug, every theorem it ever approved becomes suspect. DialectForge Verify contains the damage so one bug doesn't cascade into a full re-audit.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">The Problem</h2>
+        <div class="problem-box">
+            <h3>37 years, still unsolved</h3>
+            <p>Proof assistants like Lean, Coq, and Bend2 rely on a trusted kernel to verify theorems. When a soundness bug is found in any part of that kernel, there's no way to know which theorems were affected. The only option is a full re-audit of every theorem ever verified. For a project like Mathlib with over a million lines of formalized math, that's catastrophic.</p>
+        </div>
+        <div class="problem-box">
+            <h3>The industry response: make the checker smaller</h3>
+            <p>For decades, the answer has been to shrink the trusted kernel and try to prove it correct. Lean was built because Coq had bugs. Then Lean 4 got soundness bugs too. The Lean4Lean project is now trying to verify the verifier. It's checkers all the way down, and bugs still get through.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+    <div class="container">
+        <h2 class="section-title">The Solution</h2>
+        <div class="solution-box">
+            <h3>Module Isolation</h3>
+            <p>Each proof checker module (equality checker, type checker, consistency checker) runs in its own seed-derived scope. A bug in one module can't contaminate another because cross-module state access is structurally impossible — not blocked by a guard, but inexpressible in the module's dialect.</p>
+        </div>
+        <div class="solution-box">
+            <h3>Theorem Lineage</h3>
+            <p>Every verified theorem is stamped with which module verified it, when, and with what seed. When something goes wrong, you know exactly which theorems were touched by the affected component.</p>
+        </div>
+        <div class="solution-box">
+            <h3>Surgical Revocation</h3>
+            <p>When a bug is found, you revoke that module's seed. Only the theorems it verified get scarred. Theorems that depend on scarred theorems get transitively scarred. Everything else stays verified. Zero full re-audits.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background: rgba(34,211,238,0.03); padding-top: 3rem; padding-bottom: 3rem;">
+    <div class="container">
+        <h2 class="section-title">Live Output</h2>
+        <p style="color: var(--text-dim); margin-bottom: 1rem;">This is real output from DialectForge Verify running against HVM-compiled Bend code.</p>
+        <div class="demo-output"><span class="heading">━━━ BUG DISCOVERED IN @eq_check ━━━</span>
+<span class="warn">  ⚠ Soundness bug: eq_check accepts false equality proofs</span>
+<span class="warn">  ⚠ In monolithic checker: ALL 8 theorems are now suspect</span>
+
+<span class="heading">━━━ Surgical Revocation with DialectForge Verify ━━━</span>
+<span class="fail">  🔪 REVOKED: @eq_check (seed: ee0821fca494e0e3)</span>
+
+  Directly scarred theorems (3):
+<span class="fail">    ✗ Nat.add_comm (t1)</span>
+<span class="fail">    ✗ List.sort_preserves_length (t2)</span>
+<span class="fail">    ✗ Bool.demorgan (t3)</span>
+
+  Transitively scarred theorems (1):
+<span class="warn">    ⚡ Sort.correct_and_complete (t8)</span>
+
+  Preserved theorems (4):
+<span class="ok">    ✓ Vec.map_id (t4) — UNTOUCHED</span>
+<span class="ok">    ✓ Pair.swap_involutive (t5) — UNTOUCHED</span>
+<span class="ok">    ✓ Tree.balance_preserves (t6) — UNTOUCHED</span>
+<span class="ok">    ✓ IO.bind_assoc (t7) — UNTOUCHED</span>
+
+<span class="heading">━━━ RESULTS ━━━</span>
+<span class="cyan">  Total theorems:          8</span>
+<span class="fail">  Directly scarred:        3</span>
+<span class="warn">  Transitively scarred:    1</span>
+<span class="ok">  Preserved (untouched):   4</span>
+<span class="ok">  Full re-audits needed:   0</span></div>
+
+        <div class="stats">
+            <div class="stat"><div class="num" style="color: var(--red);">3</div><div class="label">Directly Scarred</div></div>
+            <div class="stat"><div class="num" style="color: var(--amber);">1</div><div class="label">Transitively Scarred</div></div>
+            <div class="stat"><div class="num" style="color: var(--green);">4</div><div class="label">Preserved</div></div>
+            <div class="stat"><div class="num" style="color: var(--cyan);">0</div><div class="label">Full Re-Audits</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <ol class="how-list">
+            <li><strong>Install the SDK.</strong> Add the DialectForge Verify client library to your proof checker project. One dependency, no configuration.</li>
+            <li><strong>Register your modules.</strong> Tag each component of your proof checker (equality, type checking, consistency). A few lines at startup.</li>
+            <li><strong>Hook the boundaries.</strong> Add a verification call where one module calls another. One line per boundary. Your team knows where these are.</li>
+            <li><strong>Theorems get tracked automatically.</strong> Every verified theorem is logged with which module checked it and when. This happens in the background.</li>
+            <li><strong>When a bug is found, revoke.</strong> One API call. The system identifies every affected theorem, marks them as scarred, and preserves everything else.</li>
+        </ol>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+    <div class="container">
+        <h2 class="section-title">Who This Is For</h2>
+        <div class="who-grid">
+            <div class="who-card">
+                <h4>Proof Languages</h4>
+                <p>Lean, Coq, Bend2, Agda, Idris — any system with a trusted kernel that verifies theorems.</p>
+            </div>
+            <div class="who-card">
+                <h4>AI Code Verification</h4>
+                <p>Companies verifying AI-generated code. Protect synthesis engines from systematic extraction.</p>
+            </div>
+            <div class="who-card">
+                <h4>Safety-Critical Systems</h4>
+                <p>Aerospace, automotive, defense — anywhere formal verification is used for certification.</p>
+            </div>
+            <div class="who-card">
+                <h4>Smart Contract Verification</h4>
+                <p>Blockchain and DeFi projects using formal methods to verify contract correctness.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+    <div class="container">
+        <div class="cta-box">
+            <h2>Request Trial Access</h2>
+            <p>DialectForge Verify is available by invitation. We provide an API key, SDK, and integration support.</p>
+            <a href="mailto:info@dialectforge.com?subject=DialectForge Verify — Trial Access" class="cta-btn">Contact for Access</a>
+        </div>
+    </div>
+</section>
+
+<div class="patent-note">
+    DialectForge Verify is protected by pending patents (App 63/990,122).<br>
+    &copy; 2026 DialectForge. All rights reserved.<br>
+    <a href="/" style="color: var(--text-muted);">dialectforge.com</a>
+</div>
+
+</body>
+</html>
