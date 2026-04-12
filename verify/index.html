@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DialectForge Verify - Module Isolation for Proof Infrastructure</title>
+<meta name="description" content="Seed-scoped module isolation and surgical revocation for formal verification pipelines. Track theorem lineage, contain regression blast radius.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--surface:#141414;--border:#222;--text:#e0e0e0;--muted:#888;--accent:#00d4aa;--accent-dim:#00d4aa22;--red:#ff4444;--yellow:#e8a830}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+nav{border-bottom:1px solid var(--border);padding:16px 0}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:18px;letter-spacing:-0.5px}
+.logo span{color:var(--accent)}
+nav a.cta-sm{background:var(--accent);color:#000;padding:8px 16px;border-radius:4px;font-size:14px;font-weight:600}
+nav a.cta-sm:hover{text-decoration:none;opacity:0.9}
+</style>
+<style>
+.hero{padding:80px 0 60px;text-align:left}
+.hero h1{font-size:clamp(32px,5vw,48px);font-weight:700;letter-spacing:-1px;line-height:1.15;margin-bottom:20px}
+.hero h1 span{color:var(--accent)}
+.hero p.sub{font-size:18px;color:var(--muted);max-width:600px;margin-bottom:12px}
+.hero .patent{font-size:13px;color:var(--muted);margin-bottom:32px}
+.hero .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#000;padding:12px 24px;border-radius:4px;font-size:15px;font-weight:600;display:inline-block}
+.btn-primary:hover{opacity:0.9;text-decoration:none}
+.btn-secondary{border:1px solid var(--border);color:var(--text);padding:12px 24px;border-radius:4px;font-size:15px;display:inline-block}
+.btn-secondary:hover{border-color:var(--accent);text-decoration:none}
+.problem{padding:60px 0;border-top:1px solid var(--border)}
+.problem h2{font-size:24px;font-weight:700;margin-bottom:24px;letter-spacing:-0.5px}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.problem-card{padding:24px;border:1px solid var(--border);border-radius:6px;background:var(--surface)}
+.problem-card .label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.problem-card .label.without{color:var(--red)}
+.problem-card .label.with{color:var(--accent)}
+.problem-card p{color:var(--muted);font-size:15px}
+.how{padding:60px 0;border-top:1px solid var(--border)}
+.how h2{font-size:24px;font-weight:700;margin-bottom:32px;letter-spacing:-0.5px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.step{padding:20px;border:1px solid var(--border);border-radius:6px;background:var(--surface)}
+.step .num{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.step h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.step p{font-size:13px;color:var(--muted)}
+</style>
+<style>
+.demos{padding:60px 0;border-top:1px solid var(--border)}
+.demos h2{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-0.5px}
+.demos .sub{color:var(--muted);margin-bottom:24px;font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:0.5px}
+td{padding:10px 12px;border-bottom:1px solid var(--border)}
+td.scarred{color:var(--red);font-weight:600}
+td.preserved{color:var(--accent);font-weight:600}
+td.pct{font-weight:700}
+.api{padding:60px 0;border-top:1px solid var(--border)}
+.api h2{font-size:24px;font-weight:700;margin-bottom:24px;letter-spacing:-0.5px}
+.code-block{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:20px;font-family:"SF Mono",Consolas,"Liberation Mono",Menlo,monospace;font-size:13px;line-height:1.7;overflow-x:auto;white-space:pre;color:var(--muted)}
+.code-block .comment{color:#555}
+.code-block .method{color:var(--accent)}
+.code-block .url{color:var(--yellow)}
+.code-block .key{color:#cc99ff}
+.pricing{padding:60px 0;border-top:1px solid var(--border)}
+.pricing h2{font-size:24px;font-weight:700;margin-bottom:32px;letter-spacing:-0.5px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tier{padding:28px;border:1px solid var(--border);border-radius:6px;background:var(--surface)}
+.tier.featured{border-color:var(--accent)}
+.tier h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.tier .price{font-size:28px;font-weight:700;margin-bottom:4px}
+.tier .price span{font-size:14px;color:var(--muted);font-weight:400}
+.tier .desc{color:var(--muted);font-size:14px;margin-bottom:16px}
+.tier ul{list-style:none;font-size:14px}
+.tier li{padding:4px 0;color:var(--muted)}
+.tier li::before{content:">";color:var(--accent);margin-right:8px;font-weight:700}
+</style>
+<style>
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center}
+footer p{color:var(--muted);font-size:14px;margin-bottom:8px}
+footer .contact{font-size:15px;margin-bottom:4px}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);margin-bottom:24px}
+.status .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+@media(max-width:768px){
+  .problem-grid,.steps,.pricing-grid{grid-template-columns:1fr}
+  .hero{padding:48px 0 40px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="logo">Dialect<span>Forge</span> Verify</div>
+    <a href="mailto:john@dialectforge.com" class="cta-sm">Get a Demo</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="status"><span class="dot"></span> API live</div>
+    <h1>When a module breaks,<br>know <span>exactly</span> which proofs<br>are still trustworthy.</h1>
+    <p class="sub">Seed-scoped module isolation and surgical revocation for formal verification pipelines. Register modules, track theorem lineage, revoke with precision.</p>
+    <p class="patent">Patent pending -- Application 63/990,122</p>
+    <div class="cta-row">
+      <a href="mailto:john@dialectforge.com?subject=DFV%20Demo%20Request" class="btn-primary">Request Trial Key</a>
+      <a href="#api" class="btn-secondary">See the API</a>
+    </div>
+  </div>
+</section>
+
+<section class="problem">
+  <div class="container">
+    <h2>The problem with verification pipelines</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="label without">Without DFV</div>
+        <p>A component regresses. You re-run everything from scratch. Hours of SMT solving. Every proof is suspect until proven otherwise. Clients wait.</p>
+      </div>
+      <div class="problem-card">
+        <div class="label with">With DFV</div>
+        <p>A component regresses. You revoke it. DFV tells you in milliseconds: 3 proofs scarred, 7 preserved. You fix only what's broken. Clients stay informed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="container">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>Register Modules</h3>
+        <p>Each component in your pipeline gets a seed-scoped isolation boundary. Parser, compiler, prover, backends -- all tracked independently.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>Register Theorems</h3>
+        <p>Every proof or finding gets registered with lineage back to the modules that produced it. Dependencies are explicit.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>Revoke</h3>
+        <p>When a module has a regression, revoke it. DFV walks the dependency graph and marks affected theorems as scarred.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <h3>Blast Radius</h3>
+        <p>Instant report: which proofs are scarred, which are preserved. No guesswork. Surgical precision.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demos">
+  <div class="container">
+    <h2>Live demo results</h2>
+    <p class="sub">Every row below came from a real API call. Not a mockup.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Pipeline</th>
+          <th>Modules</th>
+          <th>Theorems</th>
+          <th>Revoked</th>
+          <th>Scarred</th>
+          <th>Preserved</th>
+          <th>Clean</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Certora Prover</td>
+          <td>4</td>
+          <td>10</td>
+          <td>VC Generator</td>
+          <td class="scarred">3</td>
+          <td class="preserved">7</td>
+          <td class="pct">70%</td>
+        </tr>
+        <tr>
+          <td>Slither (Trail of Bits)</td>
+          <td>14</td>
+          <td>25</td>
+          <td>Reentrancy detector</td>
+          <td class="scarred">1</td>
+          <td class="preserved">24</td>
+          <td class="pct">96%</td>
+        </tr>
+        <tr>
+          <td>Echidna (Trail of Bits)</td>
+          <td>7</td>
+          <td>7</td>
+          <td>Coverage tracker</td>
+          <td class="scarred">1</td>
+          <td class="preserved">6</td>
+          <td class="pct">86%</td>
+        </tr>
+        <tr>
+          <td>OpenZeppelin</td>
+          <td>6</td>
+          <td>12</td>
+          <td>Proxy Upgradeable</td>
+          <td class="scarred">3</td>
+          <td class="preserved">9</td>
+          <td class="pct">75%</td>
+        </tr>
+        <tr>
+          <td>K Framework (RV)</td>
+          <td>6</td>
+          <td>12</td>
+          <td>Haskell backend</td>
+          <td class="scarred">5</td>
+          <td class="preserved">7</td>
+          <td class="pct">58%</td>
+        </tr>
+        <tr>
+          <td>Lean4 / Axiom</td>
+          <td>6</td>
+          <td>12</td>
+          <td>Elaborator</td>
+          <td class="scarred">1</td>
+          <td class="preserved">11</td>
+          <td class="pct">92%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="api" id="api">
+  <div class="container">
+    <h2>REST API</h2>
+    <div class="code-block"><span class="comment"># Health check</span>
+<span class="method">GET</span> <span class="url">/health</span>
+
+<span class="comment"># Initialize a verification context</span>
+<span class="method">POST</span> <span class="url">/api/v1/init</span>
+  { <span class="key">"master_seed"</span>: "my-project-audit-2026" }
+
+<span class="comment"># Register a module</span>
+<span class="method">POST</span> <span class="url">/api/v1/modules/register</span>
+  { <span class="key">"context_id"</span>: "...", <span class="key">"module_id"</span>: "smt_solver", <span class="key">"version"</span>: "4.8.0",
+    <span class="key">"description"</span>: "Z3 SMT solver", <span class="key">"bond_type"</span>: "command" }
+
+<span class="comment"># Register a theorem with lineage</span>
+<span class="method">POST</span> <span class="url">/api/v1/theorems/register</span>
+  { <span class="key">"context_id"</span>: "...", <span class="key">"theorem_id"</span>: "transfer_safe",
+    <span class="key">"name"</span>: "Transfer No Overflow", <span class="key">"verified_by"</span>: "smt_solver",
+    <span class="key">"description"</span>: "...", <span class="key">"depends_on"</span>: ["vc_generator"] }
+
+<span class="comment"># Revoke a module and get blast radius</span>
+<span class="method">POST</span> <span class="url">/api/v1/revoke</span>
+  { <span class="key">"context_id"</span>: "...", <span class="key">"module_id"</span>: "vc_generator",
+    <span class="key">"reason"</span>: "Storage aliasing regression in v4.8.0" }
+
+<span class="comment"># Response: { "directly_scarred": 3, "preserved": 7, "total_theorems": 10 }</span></div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2>Pricing</h2>
+    <div class="pricing-grid">
+      <div class="tier">
+        <h3>Trial</h3>
+        <div class="price">Free</div>
+        <div class="desc">Kick the tires</div>
+        <ul>
+          <li>100 API calls/month</li>
+          <li>1 context at a time</li>
+          <li>Community support</li>
+        </ul>
+      </div>
+      <div class="tier featured">
+        <h3>Team</h3>
+        <div class="price">$499<span>/mo</span></div>
+        <div class="desc">For security teams</div>
+        <ul>
+          <li>10,000 API calls/month</li>
+          <li>Unlimited contexts</li>
+          <li>Lineage history (6 months)</li>
+          <li>Email support</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <h3>Enterprise</h3>
+        <div class="price">Custom</div>
+        <div class="desc">For verification infrastructure</div>
+        <ul>
+          <li>Unlimited everything</li>
+          <li>On-prem deployment</li>
+          <li>Custom SLAs</li>
+          <li>Dedicated support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p class="contact"><a href="mailto:john@dialectforge.com">john@dialectforge.com</a></p>
+    <p>DialectForge LLC -- Patent Pending (App 63/990,122)</p>
+    <p>API: verify.dialectforge.com</p>
+  </div>
+</footer>
+
+</body>
+</html>
