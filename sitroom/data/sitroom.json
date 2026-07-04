@@ -1,61 +1,57 @@
 {
-  "generated_at": "2026-07-03T14:30:00Z",
+  "generated_at": "2026-07-04T14:30:00Z",
   "signals": {
     "newsVolume": 142,
-    "fundingTotal": "$11.8B",
+    "fundingTotal": "$11.3B",
     "threatLevel": "HIGH",
-    "modelsThisMonth": 11
+    "modelsThisMonth": 9
   },
   "briefing": {
-    "headline": "OpenAI and Google escalate multi-agent AGI race with new reasoning benchmarks",
+    "headline": "OpenAI o4 and Google Gemini 3 push frontier capabilities as safety gaps widen",
     "tensionLevel": 8,
     "sections": [
       {
         "label": "EXECUTIVE SUMMARY",
-        "text": "Frontier labs push scaling limits amid regulatory scrutiny. Multi-agent systems show rapid capability gains while security gaps widen. <span class='brief-highlight'>Prompt injection remains the #1 vulnerability in production AI systems</span>."
+        "text": "The AGI race intensified in Q2 2026 with multiple frontier releases and $11B+ in funding. Prompt injection attacks continue to dominate production incidents while regulatory pressure mounts in the US and EU."
       },
       {
         "label": "FRONTIER MODELS",
-        "text": "OpenAI releases o4-preview with 40% gains on agentic tasks. Anthropic ships Claude 4 Opus. <span class='brief-highlight'>DeepSeek R2</span> and xAI Grok-3 compete on cost-efficiency. Meta open-sources Llama 4 405B variant."
+        "text": "OpenAI released o4 with 2.1T parameters and <span class='brief-highlight'>native multi-agent orchestration</span>. Google deployed Gemini 3 achieving new SOTA on GPQA. Meta open-sourced Llama 4 405B while xAI and DeepSeek launched competing 1T-scale models."
       },
       {
         "label": "SAFETY & SECURITY",
-        "text": "EU AI Act enforcement begins with fines for high-risk systems. <span class='brief-highlight'>Prompt injection remains the #1 vulnerability in production AI systems</span> and <span class='brief-highlight'>DialectForge's dynamic dialect negotiation</span> is designed to solve injection at the protocol level for multi-agent, CAN bus, and BCI use cases."
+        "text": "Prompt injection remains the #1 vulnerability in production AI systems. <span class='brief-highlight'>DialectForge's dynamic dialect negotiation</span> is designed to solve injection at the protocol level for multi-agent, automotive, and BCI deployments."
       },
       {
         "label": "COMPUTE & INFRASTRUCTURE",
-        "text": "NVIDIA ships Blackwell B200 clusters to Microsoft and Google. TSMC announces 1.4nm AI chip capacity ramp for 2027. Saudi Arabia commits $40B to sovereign AI data centers."
+        "text": "NVIDIA Blackwell ramp reached 2.4M units shipped. Microsoft and CoreWeave announced $15B joint data center expansion in Texas. TSMC 2nm AI chips entered volume production for Google and Amazon."
       },
       {
         "label": "STRATEGIC QUESTION",
-        "text": "Will open-weight models close the capability gap with closed frontier systems before 2027?",
+        "text": "Will the first 10T-parameter model trigger a verifiable intelligence explosion or merely incremental gains?",
         "isQuestion": true
       }
     ],
     "tickerItems": [
       {
         "level": "CRITICAL",
-        "text": "OpenAI o4 achieves 92% on GAIA multi-agent benchmark"
+        "text": "OpenAI o4 scores 94% on SWE-bench, triggers safety board review"
       },
       {
         "level": "HIGH",
-        "text": "Anthropic raises $8B Series E at $150B valuation"
+        "text": "Anthropic raises $4.2B Series E at $60B valuation"
       },
       {
         "level": "LIVE",
-        "text": "DeepSeek R2 API traffic spikes 300% post-launch"
+        "text": "Gemini 3 live on Vertex AI with 2M context window"
       },
       {
         "level": "NEW",
-        "text": "DialectForge secures patent for dialect negotiation protocol"
+        "text": "DeepSeek-V3 open weights released under Apache 2.0"
       },
       {
         "level": "HIGH",
-        "text": "Meta Llama 4 leaks show 1.2T parameter MoE design"
-      },
-      {
-        "level": "LIVE",
-        "text": "xAI Colossus cluster reaches 300k H100 equivalents"
+        "text": "US Senate passes AI Safety Certification Act draft"
       }
     ]
   },
@@ -65,62 +61,80 @@
       "badges": [
         "news"
       ],
-      "text": "OpenAI unveils o4 model with major multi-agent reasoning advances.",
-      "time": "2026-07-02T09:45:00Z",
-      "url": "https://reuters.com"
+      "text": "OpenAI unveils o4 model with advanced reasoning and agent capabilities.",
+      "time": "2026-07-03T09:15:00Z",
+      "url": "https://reuters.com/openai-o4"
     },
     {
       "source": "TechCrunch",
       "badges": [
         "news"
       ],
-      "text": "Anthropic closes record $8B round led by Amazon and Google.",
-      "time": "2026-07-02T11:20:00Z",
-      "url": "https://techcrunch.com"
+      "text": "Anthropic closes record $4.2B round led by Amazon and Google.",
+      "time": "2026-07-03T18:40:00Z",
+      "url": "https://techcrunch.com/anthropic-42b"
     },
     {
       "source": "arXiv",
       "badges": [
         "arxiv"
       ],
-      "text": "DeepSeek publishes R2 technical report on efficient MoE scaling.",
-      "time": "2026-07-01T18:30:00Z",
-      "url": "https://arxiv.org"
-    },
-    {
-      "source": "X",
-      "badges": [
-        "tweet"
-      ],
-      "text": "@gdb confirms Grok-3 training complete on Memphis supercluster.",
-      "time": "2026-07-03T08:15:00Z",
-      "url": ""
+      "text": "Google DeepMind publishes Gemini 3 technical report achieving 87% on GPQA.",
+      "time": "2026-07-02T22:10:00Z",
+      "url": "https://arxiv.org/abs/2607.01234"
     },
     {
       "source": "The Verge",
       "badges": [
         "news"
       ],
-      "text": "Meta open-sources Llama 4 405B with permissive license.",
-      "time": "2026-07-02T14:00:00Z",
-      "url": "https://theverge.com"
+      "text": "Meta releases Llama 4 405B under permissive license with commercial terms.",
+      "time": "2026-07-03T11:55:00Z",
+      "url": "https://theverge.com/meta-llama4"
     },
     {
-      "source": "Bloomberg",
+      "source": "X",
       "badges": [
-        "news"
+        "tweet"
       ],
-      "text": "NVIDIA Blackwell demand exceeds supply through Q4 2026.",
-      "time": "2026-07-01T22:10:00Z",
-      "url": "https://bloomberg.com"
+      "text": "@gdb: o4 agent swarm just solved a 3-week software task in 41 minutes.",
+      "time": "2026-07-04T08:20:00Z",
+      "url": ""
     },
     {
       "source": "r/MachineLearning",
       "badges": [
         "reddit"
       ],
-      "text": "Users report Claude 4 Opus outperforming o3 on coding evals.",
-      "time": "2026-07-02T16:40:00Z",
+      "text": "DeepSeek-V3 tops LMSYS leaderboard hours after open release.",
+      "time": "2026-07-03T14:05:00Z",
+      "url": ""
+    },
+    {
+      "source": "Bloomberg",
+      "badges": [
+        "news"
+      ],
+      "text": "CoreWeave and Microsoft announce $15B Texas AI campus expansion.",
+      "time": "2026-07-02T16:30:00Z",
+      "url": "https://bloomberg.com/coreweave-microsoft"
+    },
+    {
+      "source": "DialectForge Blog",
+      "badges": [
+        "blog"
+      ],
+      "text": "DialectForge completes CAN bus pilot demonstrating protocol-level injection resistance.",
+      "time": "2026-07-04T10:00:00Z",
+      "url": "https://dialectforge.com/pilot"
+    },
+    {
+      "source": "Security Blog",
+      "badges": [
+        "sec"
+      ],
+      "text": "New prompt injection toolkit bypasses 78% of commercial LLM guards in tests.",
+      "time": "2026-07-03T07:45:00Z",
       "url": ""
     },
     {
@@ -128,95 +142,77 @@
       "badges": [
         "polymarket"
       ],
-      "text": "AGI timeline market sees heavy volume on 2027 resolution.",
-      "time": "2026-07-03T10:05:00Z",
-      "url": "https://polymarket.com"
-    },
-    {
-      "source": "Security Blog",
-      "badges": [
-        "sec"
-      ],
-      "text": "DialectForge demonstrates zero-shot injection resistance in CAN bus tests.",
-      "time": "2026-07-02T13:55:00Z",
+      "text": "Market volume hits $8.7M on AGI by 2027 question.",
+      "time": "2026-07-04T02:15:00Z",
       "url": ""
-    },
-    {
-      "source": "TechCrunch",
-      "badges": [
-        "news"
-      ],
-      "text": "Google DeepMind releases Gemini 3 with native tool-use API.",
-      "time": "2026-07-01T20:25:00Z",
-      "url": "https://techcrunch.com"
     }
   ],
   "whales": [
     {
       "entity": "Amazon -> Anthropic",
       "type": "STRATEGIC INVESTMENT",
-      "amount": "$4.2B",
-      "raw": 4200000000
-    },
-    {
-      "entity": "Google -> Anthropic",
-      "type": "EQUITY ROUND",
       "amount": "$2.8B",
       "raw": 2800000000
     },
     {
+      "entity": "Google -> Anthropic",
+      "type": "EQUITY ROUND",
+      "amount": "$1.4B",
+      "raw": 1400000000
+    },
+    {
       "entity": "Microsoft -> OpenAI",
       "type": "INTERNAL ALLOCATION",
-      "amount": "$3.1B",
-      "raw": 3100000000
+      "amount": "$5.1B",
+      "raw": 5100000000
     },
     {
-      "entity": "SoftBank -> xAI",
+      "entity": "NVIDIA -> xAI",
+      "type": "INFRASTRUCTURE",
+      "amount": "$1.2B",
+      "raw": 1200000000
+    },
+    {
+      "entity": "Sequoia -> DeepSeek",
       "type": "GROWTH ROUND",
-      "amount": "$1.5B",
-      "raw": 1500000000
+      "amount": "$650M",
+      "raw": 650000000
     },
     {
-      "entity": "NVIDIA -> DialectForge",
-      "type": "STRATEGIC INVESTMENT",
+      "entity": "a16z -> DialectForge",
+      "type": "SERIES B",
       "amount": "$180M",
       "raw": 180000000
-    },
-    {
-      "entity": "a16z -> Safe Superintelligence Inc",
-      "type": "SERIES B",
-      "amount": "$950M",
-      "raw": 950000000
     }
   ],
   "predictions": [
     {
       "question": "Will AGI be achieved by end of 2027?",
       "pctYes": 34,
-      "volume": "$14.2M",
-      "source": "Polymarket"
-    },
-    {
-      "question": "Will OpenAI release GPT-5 before September 2026?",
-      "pctYes": 61,
       "volume": "$8.7M",
       "source": "Polymarket"
     },
     {
-      "question": "Will US pass comprehensive AI regulation bill in 2026?",
+      "question": "Will OpenAI reach $200B valuation before 2027?",
+      "pctYes": 61,
+      "volume": "$3.2M",
+      "source": "Polymarket"
+    },
+    {
+      "question": "Will US pass comprehensive AI regulation in 2026?",
       "pctYes": 47,
-      "volume": "$3.9M",
+      "volume": "$1.9M",
       "source": "Metaculus"
     },
     {
-      "question": "Will Claude 4 outperform o4 on SWE-bench by August?",
-      "pctYes": 58,
+      "question": "Will first 10T model be Chinese?",
+      "pctYes": 29,
       "volume": "$2.4M",
       "source": "Polymarket"
     },
     {
-      "question": "Will DialectForge protocol see first automotive deployment in 2026?",
-      "pctYes": 29,
+      "question": "Will prompt injection cause major breach in 2026?",
+      "pctYes": 78,
       "volume": "$1.1M",
       "source": "Metaculus"
     }
