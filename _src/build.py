@@ -16,7 +16,7 @@ def header(active):
     items = "".join(f'<a href="{h}"{" aria-current=page" if h==active else ""}>{t}</a>' for h,t in NAV)
     return f"""<a class="skip" href="#content">Skip to content</a>
 <header class="mast"><div class="wrap">
-<a class="mark" href="/">{MARK}<span>DialectForge <small>LLC · Delaware</small></span></a>
+<a class="mark" href="/">{MARK}<span>DialectForge</span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
 <nav class="nav" id="nav" aria-label="Main">{items}<a class="btn-sm" href="/download/">Downloads</a></nav>
 </div></header>"""
