@@ -63,7 +63,7 @@ openssh-server git gcc vim firmware-iwlwifi …
 <rect class="bx" x="410" y="122" width="190" height="50"/><text x="505" y="146" text-anchor="middle">DialectForge LSM</text><text x="505" y="161" text-anchor="middle" class="t-dim">10 hooks · tiers</text>
 <rect class="bx-ox" x="0" y="184" width="295" height="50"/><text x="147" y="208" text-anchor="middle">df_mem</text><text x="147" y="223" text-anchor="middle" class="t-dim">page encryption · per-process keys</text>
 <rect class="bx" x="305" y="184" width="295" height="50"/><text x="452" y="208" text-anchor="middle">anomaly scoring · quarantine</text><text x="452" y="223" text-anchor="middle" class="t-dim">per-PID · auto lockdown</text>
-<rect class="bx-k" x="0" y="246" width="600" height="50"/><text x="300" y="270" text-anchor="middle" class="t-inv">CORE · seed manager · HKDF tree · cipher engine · cycle refresh · sysctl</text><text x="300" y="285" text-anchor="middle" class="t-inv" style="opacity:.7">Kyber-768 key exchange being added</text>
+<rect class="bx-k" x="0" y="246" width="600" height="50"/><text x="300" y="270" text-anchor="middle" class="t-inv">CORE · seed manager · HKDF tree · cipher engine · cycle refresh · sysctl</text><text x="300" y="285" text-anchor="middle" class="t-inv" style="opacity:.7">experimental Kyber-768 module included</text>
 <rect class="bx" x="0" y="308" width="600" height="44"/><text x="300" y="334" text-anchor="middle">Linux 6.12.12 stable · i915 / amdgpu / nouveau · standard drivers</text>
 <rect class="bx" x="0" y="364" width="600" height="44" style="fill:var(--paper-2)"/><text x="300" y="390" text-anchor="middle" class="t-dim">HARDWARE</text>
 </svg>
@@ -113,7 +113,7 @@ openssh-server git gcc vim firmware-iwlwifi …
 <h2>Three layers of atmosphere</h2>
 <div class="domains">
 <div class="dom w2"><span class="no">LAYER 1</span><h3>Troposphere <span class="tag live">v1.0</span></h3><p>The Linux 6.12 fork described above. CLI-only base image.</p></div>
-<div class="dom"><span class="no">LAYER 2</span><h3>Mesosphere <span class="tag dev">In development</span></h3><p>The same kernel with Rust userspace tools and a full desktop.</p></div>
+<div class="dom"><span class="no">LAYER 2</span><h3>Mesosphere <span class="tag dev">In development</span></h3><p>The same kernel with Rust userspace tools and a full desktop. A build was published in April 2026 as a snapshot of work in progress; it isn't finished.</p></div>
 <div class="dom end" id="stratosphere"><span class="no">LAYER 3</span><h3>Stratosphere <span class="tag dev">In development</span></h3><p>A clean-room operating system kernel written from scratch in Rust. DF isn't added on: the DF tunnel is how processes talk at every level, and a program can only do what its seed derivation allows. Other operating systems would run inside it as DF virtual machines.</p></div>
 <div class="dom w6 end" id="android"><span class="no">MOBILE</span><h3>DFoS Android <span class="tag plan">Planned</span></h3><p>A hardened Android base with DF at every layer: AF_DIALECTFORGE sockets, dialectfs over app data, Native / Adopted / Quarantine trust tiers for apps enforced at the IPC layer, and post-quantum key exchange in the kernel as a design goal. To be released under the GPL like the rest of the kernel work.</p></div>
 </div>

@@ -34,7 +34,7 @@
 <tr><td>1.1</td><td><span class="name">Seed</span><p>A 256-bit random value (SHA-256 over hardware entropy). Child seeds are derived with HKDF-SHA256, so the same parent and label always give the same child. Seeds are computed when needed, not stored.</p></td></tr>
 <tr><td>1.2</td><td><span class="name">Negotiation agent</span><p>A small module (the target is about 256 KB, small enough for a microcontroller) that turns the seed into dialect proposals and settles on a shared one with its peers.</p></td></tr>
 <tr><td>1.3</td><td><span class="name">Dialect</span><p>The working rule set for one cycle: how identifiers are remapped, how payloads are scrambled, and how frames are laid out.</p></td></tr>
-<tr><td>1.4</td><td><span class="name">Cipher</span><p>A tiered choice: XOR keystream for tiny devices that need speed, AES-256-GCM where security matters more than microseconds. Post-quantum key exchange (Kyber) is being added on the OS side.</p></td></tr>
+<tr><td>1.4</td><td><span class="name">Cipher</span><p>A tiered choice: XOR keystream for tiny devices that need speed, AES-256-GCM where security matters more than microseconds. On the OS side, DFoS includes an experimental Kyber-768 post-quantum module; it hasn't been independently reviewed.</p></td></tr>
 <tr><td>1.5</td><td><span class="name">Anomaly monitor</span><p>Counts frames that don't fit the dialect, and other odd behavior. Past a threshold it triggers lockdown and a fresh seed.</p></td></tr>
 </tbody></table>
 </div>
