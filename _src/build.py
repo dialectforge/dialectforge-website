@@ -16,7 +16,7 @@ def header(active):
     items = "".join(f'<a href="{h}"{" aria-current=page" if h==active else ""}>{t}</a>' for h,t in NAV)
     return f"""<a class="skip" href="#content">Skip to content</a>
 <header class="mast"><div class="wrap">
-<a class="mark" href="/">{MARK}<span>DialectForge <small>LLC · Michigan</small></span></a>
+<a class="mark" href="/">{MARK}<span>DialectForge <small>LLC · Delaware</small></span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
 <nav class="nav" id="nav" aria-label="Main">{items}<a class="btn-sm" href="/download/">Downloads</a></nav>
 </div></header>"""
@@ -30,7 +30,7 @@ FOOTER = """<footer class="foot"><div class="wrap">
 <div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
-<div class="legal"><span>© 2026 DialectForge LLC · Michigan, USA</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+<div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
 </div></footer>
 <script src="/assets/js/df.js" defer></script>"""
 
