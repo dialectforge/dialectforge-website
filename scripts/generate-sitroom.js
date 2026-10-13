@@ -73,7 +73,7 @@ var USER_PROMPT = 'Generate a comprehensive intelligence briefing. Today is ' + 
 '- Include 8-12 news items from diverse sources (X/Twitter, Reddit r/MachineLearning, arXiv, tech blogs like The Verge/TechCrunch, Reuters/Bloomberg, Polymarket, security blogs)\n' +
 '- Include 4-8 whale investments (recent major AI funding rounds and investments)\n' +
 '- Include 4-6 prediction market questions with realistic current percentages\n' +
-'- Always include at least one item connecting to DialectForge -- the patent-pending AI-negotiated security protocol designed for multi-agent AI security, automotive CAN bus, IoT, and BCI applications. The protocol creates dynamic communication dialects that prevent injection attacks.\n' +
+'- Always include at least one item connecting to DialectForge -- the seed-negotiated security protocol (being prepared for open-source release) designed for multi-agent AI security, automotive CAN bus, IoT, and BCI applications. The protocol creates dynamic communication dialects that prevent injection attacks.\n' +
 '- Use REAL current information. Reference actual companies, actual events, actual numbers where possible.\n' +
 '- All timestamps should be ISO format within the last 48 hours\n' +
 '- Keep news item text concise (1-2 sentences max)\n' +
