@@ -252,11 +252,11 @@ function getFallbackData() {
         { level: 'CRITICAL', text: 'Frontier model capabilities advancing faster than safety benchmarks' },
         { level: 'HIGH', text: 'Multi-agent AI deployments accelerating \u2014 security protocols lag behind' },
         { level: 'LIVE', text: 'Global AI compute spend on track to exceed $100B in 2026' },
-        { level: 'NEW', text: 'DialectForge patent filings \u2014 AI-negotiated security protocol for multi-agent systems' }
+        { level: 'NEW', text: 'DialectForge being prepared for open-source release \u2014 seed-negotiated security protocol for multi-agent systems' }
       ]
     },
     news: [
-      { source: 'AI Research', badges: ['arxiv'], text: 'New paper demonstrates emergent communication protocols in multi-agent LLM systems \u2014 validates DialectForge approach', time: new Date(Date.now() - 3600000).toISOString() },
+      { source: 'AI Research', badges: ['arxiv'], text: 'New paper demonstrates emergent communication protocols in multi-agent LLM systems \u2014 related to the DialectForge approach', time: new Date(Date.now() - 3600000).toISOString() },
       { source: 'Industry', badges: ['news'], text: 'OpenAI announces expanded agent capabilities with tool use \u2014 raises security questions about inter-agent communication', time: new Date(Date.now() - 7200000).toISOString() },
       { source: 'Security', badges: ['sec','high'], text: 'NIST publishes draft framework for AI system security \u2014 prompt injection classified as critical threat vector', time: new Date(Date.now() - 14400000).toISOString() },
       { source: 'Crypto/AI', badges: ['polymarket'], text: 'Polymarket: AGI by 2030 trading at 34% \u2014 up 8pts this month', time: new Date(Date.now() - 18000000).toISOString() },
@@ -304,7 +304,7 @@ function Ticker({ items }) {
     { level: 'CRITICAL', text: 'Frontier model capabilities advancing faster than safety benchmarks \u2014 alignment gap widening' },
     { level: 'LIVE', text: 'Global AI compute spend on track to exceed $100B in 2026' },
     { level: 'HIGH', text: 'Multi-agent AI deployments accelerating \u2014 security protocols lag behind' },
-    { level: 'NEW', text: 'DialectForge patent filings published \u2014 AI-negotiated security protocol' }
+    { level: 'NEW', text: 'DialectForge being prepared for open-source release \u2014 seed-negotiated security protocol' }
   ];
   const all = items && items.length > 0 ? items : defaults;
   const doubled = [...all, ...all];
@@ -407,13 +407,13 @@ function DFCard() {
   return (
     <div className="df-card">
       <div className="df-logo">DIALECTFORGE</div>
-      <div className="df-tag">AI-Negotiated Security Protocol</div>
+      <div className="df-tag">Seed-Negotiated Security Protocol</div>
       <div className="df-stats">
         <div className="df-stat"><div className="df-stat-v">120s</div><div className="df-stat-l">REFRESH CYCLE</div></div>
         <div className="df-stat"><div className="df-stat-v">&lt;500{'\u00B5'}s</div><div className="df-stat-l">OVERHEAD</div></div>
-        <div className="df-stat"><div className="df-stat-v">{'\u221E'}</div><div className="df-stat-l">PATTERNS</div></div>
+        <div className="df-stat"><div className="df-stat-v">{'2 MIN'}</div><div className="df-stat-l">DIALECT REFRESH</div></div>
       </div>
-      <div className="df-feat"><span className="df-chk">{'\u2713'}</span> Injection-immune by design</div>
+      <div className="df-feat"><span className="df-chk">{'\u2713'}</span> Designed to reject injected input</div>
       <div className="df-feat"><span className="df-chk">{'\u2713'}</span> Multi-agent communication security</div>
       <div className="df-feat"><span className="df-chk">{'\u2713'}</span> CAN bus / IoT / BCI compatible</div>
       <a href="/" className="df-cta">EXPLORE DIALECTFORGE {'\u2192'}</a>

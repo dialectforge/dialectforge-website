@@ -1,6 +1,6 @@
 # DialectForge Website
 
-Official website for DialectForge - Patent-pending censorship-resistant VPN protocol.
+Official website for DialectForge - Censorship-resistant VPN protocol, being prepared for open-source release.
 
 ## Files
 
