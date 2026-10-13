@@ -26,7 +26,7 @@ FOOTER = """<footer class="foot"><div class="wrap">
 <div class="about"><a class="mark" href="/" style="color:inherit">"""+MARK+"""<span>DialectForge</span></a>
 <p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li></ul></div>
-<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/#cattledog">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
@@ -63,9 +63,17 @@ def page(title, desc, body, active="", extra_head=""):
 AGENT_REPOS = [  # (repo, project name, page)
  ("dfos-tools-oss","DFoS tools","/dfos/"),("dialectforge-vpn-oss","VPN","/vpn/"),("dialectforge-mesh","Mesh / Tunnel","/mesh/"),
  ("dialectforge-terminal","Terminal / SSH","/terminal/"),("dialectforge-messenger","Messenger","/messenger/"),
- ("dialectforge-verify-core","Verify","/verify/"),("ai-factory","AI Factory / Lu","/ai-factory/")]
+ ("dialectforge-verify-core","Verify","/verify/"),("cattledog","Cattledog","/ai-factory/#cattledog")]
 
 def agent_prompt(repo, name):
+    if repo == "cattledog":
+        return """I want to try Cattledog, DialectForge's honesty and revocation layer for LLMs, in my project. Its repository isn't public yet; it will be released under Apache-2.0 and linked from https://dialectforge.com/agents/#cattledog.
+Once it's available, read in order:
+1. The repository's README and AGENTS.md (if present)
+2. https://dialectforge.com/ai-factory/#cattledog
+3. Its LICENSE (Apache-2.0)
+Then ask me about my project (which model, which tools it can call, what a wrong answer would cost) and propose a small integration plan for me to approve.
+Be careful with claims: the answer check ("off-ness") is off by default and has only been exercised on a test fixture, and nothing in Cattledog has been independently reviewed. Don't promise it stops prompt injection or hallucinations."""
     return f"""I want to integrate the DialectForge protocol ({name}) into my project. Before writing any code, read these in order:
 1. AGENTS.md in https://github.com/dialectforge/{repo}
 2. https://dialectforge.com/protocol/
@@ -75,8 +83,12 @@ Treat every security property as a design goal: this code has not been independe
 
 def agent_block(repo, rail=True):
     name = next(n for r,n,_ in AGENT_REPOS if r == repo)
+    if repo == "cattledog":
+        note = '<p class="measure small">Repository coming soon under Apache-2.0. Until it\'s published, the prompt tells the agent where it will be linked.</p>'
+    else:
+        note = None
     pre = f'<div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-{repo}">{html.escape(agent_prompt(repo, name))}</pre></div>'
-    note = f'<p class="measure small">Repository: <code>dialectforge/{repo}</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p>'
+    note = note or f'<p class="measure small">Repository: <code>dialectforge/{repo}</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p>'
     if not rail: return pre + note
     return f"""<section class="sheet sec" id="ai-agent"><div class="wrap grid">
 <div class="rail"><b>§ AI</b> Agent</div>
@@ -95,7 +107,7 @@ def build_pages():
         src = open(os.path.join(d, fn), encoding="utf-8").read()
         meta, body = src.split("\n---\n", 1)
         body = re.sub(r"\{\{agent:([\w-]+)\}\}", lambda m: agent_block(m.group(1)), body)
-        body = re.sub(r"\{\{agents_index\}\}", lambda m: "".join(f'<div class="agent-item" id="{r}"><h3><a href="{pg}">{n}</a> <span class="tag plan">Source coming soon</span></h3>' + agent_block(r, False) + '</div>' for r,n,pg in AGENT_REPOS), body)
+        body = re.sub(r"\{\{agents_index\}\}", lambda m: "".join(f'<div class="agent-item" id="{r}"><h3><a href="{pg}">{n}</a> <span class="tag plan">{"Repo coming soon (Apache 2.0)" if r=="cattledog" else "Source coming soon"}</span></h3>' + agent_block(r, False) + '</div>' for r,n,pg in AGENT_REPOS), body)
         body = re.sub(r"\{\{(\w+)\}\}", lambda m: open(os.path.join(ROOT,"_src","partials",m.group(1)+".html"),encoding="utf-8").read(), body)
         m = dict(l.split(":", 1) for l in meta.strip().splitlines())
         m = {k.strip(): v.strip() for k, v in m.items()}
