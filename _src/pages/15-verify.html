@@ -1,14 +1,14 @@
-title: DialectForge Verify — module isolation for proof infrastructure (shelved)
-desc: DialectForge Verify gives each component of a verification pipeline a seed-scoped boundary, so when one module regresses you can revoke it and see exactly which proofs are affected. Shelved; documented for reference.
+title: DialectForge Verify — module isolation for proof infrastructure (being open-sourced)
+desc: DialectForge Verify gives each component of a verification pipeline a seed-scoped boundary, so when one module regresses you can revoke it and see exactly which proofs are affected. Being released as open source; no hosted service is running.
 path: /verify/
 nav: /#domains
 ---
-<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Verify</div><h1>Verify <span class="tag plan">Shelved</span></h1><p class="lede" style="margin-top:12px">When a module breaks, know exactly which proofs are still trustworthy. This project is shelved. The concept and API design are documented here for reference, and no service is running.</p></div></div>
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Verify</div><h1>Verify <span class="tag oss">Open-sourcing</span></h1><p class="lede" style="margin-top:12px">When a module breaks, know exactly which proofs are still trustworthy. This project isn't being run as a service. Instead it's being released as open source, and the concept and API design are documented here. There's no hosted service.</p></div></div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> Problem</div>
 <div class="main">
 <div class="pair">
-<div class="minus"><h4>Without Verify</h4><ul><li>A component regresses</li><li>You re-run everything from scratch</li><li>Hours of SMT solving</li><li>Every proof is suspect until re-proven</li></ul></div>
+<div class="minus"><h4>Without Verify</h4><ul><li>A component regresses</li><li>You re-run everything from scratch</li><li>Long SMT solving runs</li><li>Every proof is suspect until re-proven</li></ul></div>
 <div class="plus"><h4>With Verify</h4><ul><li>A component regresses; you revoke it</li><li>The dependency graph is walked</li><li>“3 proofs scarred, 7 preserved”</li><li>You fix only what's affected</li></ul></div>
 </div>
 <ol class="steps">

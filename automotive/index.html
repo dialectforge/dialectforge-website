@@ -1,977 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-SDLC9S27DQ');
-    </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DialectForge Automotive — CAN Bus Security</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --border: #1e1e2e;
-    --text: #e0e0e8;
-    --dim: #6a6a80;
-    --green: #00e892;
-    --green-glow: rgba(0,232,146,0.12);
-    --red: #ff4d6a;
-    --red-glow: rgba(255,77,106,0.12);
-    --amber: #ffb84d;
-    --amber-glow: rgba(255,184,77,0.12);
-    --blue: #4d9fff;
-    --blue-glow: rgba(77,159,255,0.12);
-    --purple: #b44dff;
-    --cyan: #4de8ff;
-    --mono: 'JetBrains Mono', monospace;
-    --display: 'Outfit', sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: var(--display); min-height: 100vh; }
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 40px 40px; pointer-events: none;
-  }
-  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
-
-  .back-nav { margin-bottom: 24px; }
-  .back-nav a {
-    color: var(--dim); text-decoration: none; font-size: 0.88rem; font-weight: 500;
-    transition: color 0.3s; display: inline-flex; align-items: center; gap: 6px;
-  }
-  .back-nav a:hover { color: var(--text); }
-
-  header { text-align: center; margin-bottom: 52px; }
-  .research-badge {
-    display: inline-block; font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
-    letter-spacing: 0.08em; padding: 4px 14px; border-radius: 100px; margin-bottom: 16px;
-    background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(255,184,77,0.25);
-  }
-  header h1 {
-    font-weight: 900; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px;
-    background: linear-gradient(135deg, #fff 40%, var(--amber));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  header p { font-weight: 300; font-size: 1.15rem; color: var(--dim); max-width: 700px; margin: 0 auto; line-height: 1.6; }
-
-  /* ── Interactive Demo ── */
-  .demo-section {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px; margin-bottom: 48px; overflow: hidden;
-  }
-  .demo-header { text-align: center; margin-bottom: 20px; }
-  .demo-header h3 { font-weight: 700; font-size: 1.2rem; color: var(--amber); margin-bottom: 6px; }
-  .demo-header p { font-size: 0.85rem; color: var(--dim); }
-
-  .scenario-btns { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
-  .scenario-btn {
-    background: #0d0d15; border: 1px solid #222; color: var(--dim);
-    padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.78rem;
-    font-weight: 400; transition: all 0.2s; font-family: var(--display);
-  }
-  .scenario-btn.active { color: #fff; font-weight: 600; }
-  .scenario-btn.active.s-normal { background: var(--surface); border-color: var(--blue); }
-  .scenario-btn.active.s-attack { background: #1a0008; border-color: var(--red); }
-  .scenario-btn.active.s-protected { background: #001a0a; border-color: var(--green); }
-  .scenario-btn:disabled { cursor: not-allowed; opacity: 0.5; }
-
-  .scenario-desc { text-align: center; font-size: 0.78rem; color: var(--dim); margin-bottom: 14px; }
-
-  .run-btn {
-    display: block; margin: 0 auto 18px; background: linear-gradient(135deg, #002a10, #001a20);
-    border: 1px solid var(--green); color: var(--green); padding: 10px 36px;
-    border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
-    letter-spacing: 1px; font-family: var(--display); transition: all 0.2s;
-  }
-  .run-btn.running { background: #1a0000; border-color: var(--red); color: var(--red); }
-
-  .stats-bar { display: flex; gap: 14px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
-  .stat-box {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-    padding: 8px 22px; text-align: center;
-  }
-  .stat-val { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; }
-  .stat-label { font-size: 0.65rem; color: var(--dim); margin-top: 2px; }
-
-  .demo-canvas {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
-    padding: 12px; margin-bottom: 12px; position: relative; overflow: hidden;
-  }
-  .demo-canvas svg { display: block; width: 100%; height: auto; }
-  .canvas-label {
-    position: absolute; top: 12px; left: 16px; display: flex; align-items: center; gap: 6px;
-    font-size: 0.62rem; color: var(--dim); letter-spacing: 0.08em; text-transform: uppercase;
-  }
-  .canvas-label svg { flex-shrink: 0; }
-
-  .attack-blocked-overlay {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: #001a10ee; border: 2px solid var(--green); border-radius: 12px;
-    padding: 16px 36px; text-align: center; z-index: 10; display: none;
-  }
-  .attack-blocked-overlay.visible { display: block; }
-  .attack-blocked-overlay h4 { font-size: 1.1rem; font-weight: 700; color: var(--green); margin-bottom: 4px; }
-  .attack-blocked-overlay p { font-size: 0.72rem; color: var(--dim); }
-
-  .log-panel {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px;
-  }
-  .log-panel-label {
-    font-size: 0.62rem; color: var(--dim); letter-spacing: 0.08em;
-    text-transform: uppercase; margin-bottom: 8px;
-  }
-  .log-scroll { height: 170px; overflow-y: auto; padding-right: 8px; }
-  .log-entry {
-    display: flex; gap: 8px; align-items: flex-start; padding: 3px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
-  }
-  .log-time {
-    color: var(--dim); font-size: 0.62rem; font-family: var(--mono);
-    min-width: 48px; flex-shrink: 0;
-  }
-  .log-text { font-size: 0.7rem; font-family: var(--mono); line-height: 1.4; }
-  .log-empty { color: var(--dim); font-size: 0.7rem; font-family: var(--mono); padding: 12px; text-align: center; }
-
-  /* ── Problem Section ── */
-  .problem {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 32px; margin-bottom: 48px;
-  }
-  .problem h3 { text-align: center; font-weight: 700; font-size: 1.2rem; margin-bottom: 8px; color: var(--red); }
-  .problem .subtitle { text-align: center; font-size: 0.88rem; color: var(--dim); margin-bottom: 24px; }
-  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .problem-item {
-    background: var(--bg); border-radius: 12px; padding: 18px 20px;
-    border-left: 3px solid var(--red);
-  }
-  .problem-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: var(--red); }
-  .problem-item p { font-size: 0.82rem; color: var(--dim); line-height: 1.6; }
-
-  /* ── Steps Grid ── */
-  .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 48px; }
-  .how-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 26px 24px;
-  }
-  .how-num {
-    font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
-    padding: 3px 10px; border-radius: 100px; display: inline-block; margin-bottom: 12px;
-    background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(255,184,77,0.2);
-  }
-  .how-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
-  .how-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
-  .how-code {
-    margin-top: 10px; font-family: var(--mono); font-size: 0.72rem; color: var(--amber);
-    background: var(--bg); padding: 8px 12px; border-radius: 8px;
-  }
-
-  /* ── Traffic Demo ── */
-  .traffic-demo {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 32px; margin-bottom: 48px;
-  }
-  .traffic-demo h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; }
-  .traffic-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-  .traffic-label { font-size: 0.75rem; font-weight: 700; width: 110px; text-align: right; flex-shrink: 0; }
-  .traffic-bar {
-    flex: 1; font-family: var(--mono); font-size: 0.72rem; padding: 14px 16px;
-    border-radius: 8px; letter-spacing: 0.03em; line-height: 1.8;
-  }
-
-  /* ── Attack Scenario ── */
-  .attack-scenario {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 32px; margin-bottom: 48px;
-  }
-  .attack-scenario h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; }
-  .attack-steps { display: flex; flex-direction: column; gap: 0; }
-  .attack-step {
-    display: flex; align-items: center; gap: 16px; padding: 14px 20px;
-    border-left: 3px solid var(--border); position: relative;
-  }
-  .attack-step::before {
-    content: ''; position: absolute; left: -7px; top: 50%; transform: translateY(-50%);
-    width: 10px; height: 10px; border-radius: 50%;
-  }
-  .attack-step.s-attack { border-left-color: var(--red); }
-  .attack-step.s-attack::before { background: var(--red); }
-  .attack-step.s-detect { border-left-color: var(--amber); }
-  .attack-step.s-detect::before { background: var(--amber); }
-  .attack-step.s-lock { border-left-color: var(--purple); }
-  .attack-step.s-lock::before { background: var(--purple); }
-  .attack-step.s-recover { border-left-color: var(--green); }
-  .attack-step.s-recover::before { background: var(--green); }
-  .step-icon { flex-shrink: 0; width: 36px; display: flex; justify-content: center; }
-  .step-text { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
-  .step-text strong { color: var(--text); }
-  .step-code {
-    font-family: var(--mono); font-size: 0.7rem; display: inline-block;
-    background: var(--bg); padding: 2px 8px; border-radius: 4px; margin-top: 4px;
-  }
-
-  /* ── Comparison ── */
-  .compare {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 32px; margin-bottom: 48px;
-  }
-  .compare h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; }
-  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .cmp-col { background: var(--bg); border-radius: 12px; padding: 20px; }
-  .cmp-col h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-  .cmp-item { font-size: 0.82rem; font-family: var(--mono); line-height: 2.2; }
-
-  /* ── Callout ── */
-  .callout {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 28px 32px; margin-bottom: 48px; display: flex; gap: 20px; align-items: flex-start;
-  }
-  .callout-icon { flex-shrink: 0; margin-top: 2px; }
-  .callout-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
-  .callout-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
-
-  /* ── Specs Box ── */
-  .specs {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 32px; margin-bottom: 48px;
-  }
-  .specs h3 { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 24px; color: var(--amber); }
-  .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .spec-item { text-align: center; padding: 16px; background: var(--bg); border-radius: 12px; }
-  .spec-val { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; color: var(--amber); margin-bottom: 4px; }
-  .spec-label { font-size: 0.75rem; color: var(--dim); }
-
-  /* ── Insight ── */
-  .insight {
-    text-align: center; padding: 36px 32px; background: var(--surface);
-    border: 1px solid var(--border); border-radius: 16px; max-width: 860px; margin: 0 auto;
-  }
-  .insight h3 { font-weight: 700; font-size: 1.2rem; margin-bottom: 12px; color: var(--amber); }
-  .insight p { font-weight: 300; font-size: 1rem; color: var(--dim); line-height: 1.7; max-width: 660px; margin: 0 auto; }
-
-  @media (max-width: 900px) {
-    .how-grid, .compare-grid, .problem-grid { grid-template-columns: 1fr; }
-    .specs-grid { grid-template-columns: 1fr 1fr; }
-    header h1 { font-size: 1.8rem; }
-    .traffic-row { flex-direction: column; }
-    .traffic-label { text-align: left; width: auto; }
-    .scenario-btns { gap: 6px; }
-    .stats-bar { gap: 8px; }
-    .stat-box { padding: 6px 14px; }
-  }
-</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DialectForge Automotive — a CAN bus design and browser simulation</title>
+<meta name="description" content="How the DialectForge protocol is designed to apply to a vehicle&#x27;s CAN bus: seed at ignition, ID hopping that keeps arbitration priority, scrambled payloads. A design and a browser simulation only; not tested on a vehicle.">
+<meta property="og:title" content="DialectForge Automotive — a CAN bus design and browser simulation">
+<meta property="og:description" content="How the DialectForge protocol is designed to apply to a vehicle&#x27;s CAN bus: seed at ignition, ID hopping that keeps arbitration priority, scrambled payloads. A design and a browser simulation only; not tested on a vehicle.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
 </head>
 <body>
-<div class="container">
-  <div class="back-nav"><a href="/">&#x2190; DialectForge</a></div>
-  <header>
-    <div class="research-badge">RESEARCH PHASE</div>
-    <h1>DialectForge Automotive</h1>
-    <p>Your car's internal network has zero authentication. CAN bus &mdash; the protocol connecting every ECU in your vehicle &mdash; was designed in the 1980s with no security. DialectForge is designed to change that without replacing a single wire.</p>
-  </header>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge <small>LLC · Michigan</small></span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains" aria-current=page>Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a><a class="btn-sm" href="/download/">Downloads</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Automotive</div><h1>Automotive · CAN bus <span class="tag dev">Design &amp; simulation</span></h1><p class="lede" style="margin-top:12px">What the DialectForge protocol is designed to do on a vehicle's internal network, and how far it actually is. Short answer: it's a design and a simulation. It hasn't been run on a real vehicle or real ECU hardware.</p></div></div>
 
-  <!-- ═══ Interactive CAN Bus Demo ═══ -->
-  <div class="demo-section" id="demo">
-    <div class="demo-header">
-      <h3>Interactive CAN Bus Simulation</h3>
-      <p>Watch data flow through a vehicle's network &mdash; then see what happens when an attacker strikes.</p>
-    </div>
-
-    <div class="scenario-btns" id="scenarioBtns">
-      <button class="scenario-btn active s-normal" data-scenario="normal">Normal Traffic</button>
-      <button class="scenario-btn s-attack" data-scenario="attack">Injection Attack</button>
-      <button class="scenario-btn s-protected" data-scenario="protected">DialectForge Active</button>
-    </div>
-    <div class="scenario-desc" id="scenarioDesc">Standard CAN bus without protection. Static IDs visible on the wire.</div>
-
-    <button class="run-btn" id="runBtn">RUN SIMULATION</button>
-
-    <div class="stats-bar">
-      <div class="stat-box"><div class="stat-val" id="statSent" style="color:var(--blue);">0</div><div class="stat-label">Packets Sent</div></div>
-      <div class="stat-box"><div class="stat-val" id="statBlocked" style="color:var(--red);">0</div><div class="stat-label">Attacks Blocked</div></div>
-      <div class="stat-box"><div class="stat-val" id="statCycles" style="color:var(--green);">0</div><div class="stat-label">Dialect Cycles</div></div>
-    </div>
-
-    <div class="demo-canvas" id="demoCanvas">
-      <div class="canvas-label">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="3"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M5 6V4a2 2 0 012-2h10a2 2 0 012 2v2"/></svg>
-        Vehicle CAN Network
-      </div>
-      <div class="attack-blocked-overlay" id="attackOverlay">
-        <h4>ATTACK BLOCKED</h4>
-        <p>Network secured &mdash; dialect mismatch detected</p>
-      </div>
-      <svg id="canSvg" viewBox="0 0 780 560"></svg>
-    </div>
-
-    <div class="log-panel">
-      <div class="log-panel-label">Bus Monitor</div>
-      <div class="log-scroll" id="logScroll">
-        <div class="log-empty" id="logEmpty">Select a scenario and press RUN to begin...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ The Problem ═══ -->
-  <div class="problem">
-    <h3>The Problem With CAN Bus</h3>
-    <div class="subtitle">Designed in 1986. Zero authentication. Still in every car on the road.</div>
-    <div class="problem-grid">
-      <div class="problem-item">
-        <h4>No Authentication</h4>
-        <p>Any device on the bus can send any message. An ECU has no way to verify who sent a frame. Plug into the OBD-II port and you can talk to every system in the vehicle.</p>
-      </div>
-      <div class="problem-item">
-        <h4>Static, Predictable IDs</h4>
-        <p>CAN message IDs are fixed and publicly documented. Brake commands are always the same ID. Attackers know exactly what to send and where.</p>
-      </div>
-      <div class="problem-item">
-        <h4>Plaintext Payloads</h4>
-        <p>Data travels unencrypted. A brake pressure value of 40 is readable in plain hex on the wire. No obfuscation, no encryption, no protection.</p>
-      </div>
-      <div class="problem-item">
-        <h4>Real-World Exploits</h4>
-        <p>Researchers have demonstrated remote brake disabling, engine shutdown, and steering manipulation. Relay attacks enable keyless vehicle theft in seconds.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ How DF Protects CAN ═══ -->
-  <div class="how-grid">
-    <div class="how-card">
-      <span class="how-num">STEP 1</span>
-      <div class="how-title">Seed at Ignition</div>
-      <div class="how-desc">When the vehicle starts, a priority CAN frame (ID 0x000) broadcasts a 256-bit seed to every ECU on the bus. This happens once, in under 50ms, before any normal traffic flows.</div>
-      <div class="how-code">CAN ID 0x000 | Seed: b4d85f8f6ced4355...</div>
-    </div>
-    <div class="how-card">
-      <span class="how-num">STEP 2</span>
-      <div class="how-title">Dialect Negotiation</div>
-      <div class="how-desc">Each ECU's lightweight AI agent (~256KB) uses the seed to generate dialect proposals. After 3 iterations of proposal exchange, all ECUs converge on a shared dialect map. Total time: under 100ms.</div>
-      <div class="how-code">"brake" &#x2192; 0x19 &nbsp;|&nbsp; "status_ok" &#x2192; 0xA7</div>
-    </div>
-    <div class="how-card">
-      <span class="how-num">STEP 3</span>
-      <div class="how-title">ID Hopping</div>
-      <div class="how-desc">CAN message IDs hop every 50&ndash;500ms while preserving arbitration priority. The brake ECU's ID 0x123 becomes 0x29C, then something else next cycle. Unpredictable without the seed.</div>
-      <div class="how-code">ID 0x123 ^ seed &#x2192; 0x29C (hops every cycle)</div>
-    </div>
-    <div class="how-card">
-      <span class="how-num">STEP 4</span>
-      <div class="how-title">Encrypted Payloads</div>
-      <div class="how-desc">Commands are mapped through the dialect and XOR-encrypted with a session key derived from the seed. "brake=40" becomes raw bytes 19 28 9F 4A. Gibberish to anyone without the seed.</div>
-      <div class="how-code">"brake=40" &#x2192; 19 28 9F 4A (gibberish)</div>
-    </div>
-  </div>
-
-  <!-- ═══ Traffic Demo ═══ -->
-  <div class="traffic-demo">
-    <h3>What an attacker sees on the bus</h3>
-    <div style="font-family:var(--mono); font-size:0.72rem; color:var(--dim); text-align:center; margin-bottom:16px;">
-      ECU &nbsp;&#x2192;&nbsp; <span style="color:var(--amber);">[DialectForge Encode]</span> &nbsp;&#x2192;&nbsp; CAN Bus &nbsp;&#x2192;&nbsp; <span style="color:var(--amber);">[Decode]</span> &nbsp;&#x2192;&nbsp; ECU
-    </div>
-    <div class="traffic-row">
-      <div class="traffic-label" style="color:var(--red);">Standard<br>CAN Frame</div>
-      <div class="traffic-bar" style="background:rgba(255,77,106,0.08); border:1px solid rgba(255,77,106,0.15); color:var(--red);">
-        <span style="color:var(--amber);font-weight:600;">ID: 0x123</span> <span style="opacity:0.5;">|</span> DLC: 4 <span style="opacity:0.5;">|</span> Data: <span style="color:#fff;font-weight:700;">62 72 61 6B</span> <span style="opacity:0.5;">(ASCII: "brak")</span><br>
-        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; Fixed ID &bull; &#x25B2; Readable payload &bull; Same every time &bull; Trivially spoofable</span>
-      </div>
-    </div>
-    <div class="traffic-row">
-      <div class="traffic-label" style="color:var(--green);">DF Protected<br>CAN Frame</div>
-      <div class="traffic-bar" style="background:rgba(0,232,146,0.06); border:1px solid rgba(0,232,146,0.15); color:var(--green);">
-        <span style="color:var(--amber);font-weight:600;">ID: 0x29C</span> <span style="opacity:0.5;">|</span> DLC: 4 <span style="opacity:0.5;">|</span> Data: <span style="color:#fff;font-weight:700;">19 28 9F 4A</span><br>
-        <span style="font-size:0.65rem; color:var(--dim);">&#x25B2; Hopped ID &bull; &#x25B2; Encrypted payload &bull; Changes every 50&ndash;500ms &bull; Gibberish without seed</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ Attack Scenario ═══ -->
-  <div class="attack-scenario">
-    <h3>Attack &#x2192; Detect &#x2192; Lockdown &#x2192; Rekey</h3>
-    <div class="attack-steps">
-      <div class="attack-step s-attack">
-        <div class="step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff4d6a" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 8c0-2 1-4 3-5M20 8c0-2-1-4-3-5"/><path d="M5.5 16C6.5 13 9 11 12 11s5.5 2 6.5 5"/><circle cx="9" cy="8" r="1" fill="#ff4d6a"/><circle cx="15" cy="8" r="1" fill="#ff4d6a"/></svg></div>
-        <div class="step-text">
-          <strong>Attacker injects spoofed frame</strong> via OBD-II port with fixed ID 0x123 and a forged brake command.<br>
-          <span class="step-code">ID: 0x123 | Data: 62 72 61 6B</span>
-        </div>
-      </div>
-      <div class="attack-step s-detect">
-        <div class="step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffb84d" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
-        <div class="step-text">
-          <strong>ECUs attempt decryption &mdash; it fails.</strong> The ID doesn't match any hopped value. The payload doesn't decrypt to a valid dialect entry. Anomaly score incremented.<br>
-          <span class="step-code">anomaly_score: 1.0 (threshold: 0.7)</span>
-        </div>
-      </div>
-      <div class="attack-step s-lock">
-        <div class="step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b44dff" stroke-width="1.5"><path d="M12 2L2 7v5c0 5.55 4.47 10.74 10 12 5.53-1.26 10-6.45 10-12V7L12 2z"/><path d="M12 8v4M12 16h.01"/></svg></div>
-        <div class="step-text">
-          <strong>Quorum lockdown triggered.</strong> &gt;70% of ECUs flag the anomaly (or 3&#x3C3; deviation detected). Network enters protected state. Malicious frame silently dropped.
-        </div>
-      </div>
-      <div class="attack-step s-recover">
-        <div class="step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e892" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-        <div class="step-text">
-          <strong>Priority rekey (target ~18ms).</strong> CAN ID 0x000 broadcasts a fresh seed. All ECUs re-negotiate a completely new dialect. What the attacker learned about the old dialect no longer applies.<br>
-          <span class="step-code">New seed &#x2192; new IDs, new keys, new dialect</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ Comparison ═══ -->
-  <div class="compare">
-    <h3>Standard CAN Bus vs. DialectForge CAN</h3>
-    <div class="compare-grid">
-      <div class="cmp-col">
-        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff4d6a" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Standard CAN Bus</h4>
-        <div class="cmp-item">
-          <span style="color:var(--red);">&#x2717;</span> No authentication whatsoever<br>
-          <span style="color:var(--red);">&#x2717;</span> Static IDs &mdash; easy to spoof<br>
-          <span style="color:var(--red);">&#x2717;</span> Plaintext payloads &mdash; readable on the wire<br>
-          <span style="color:var(--red);">&#x2717;</span> Any device can inject any message<br>
-          <span style="color:var(--red);">&#x2717;</span> No intrusion detection<br>
-          <span style="color:var(--red);">&#x2717;</span> Compromise = full vehicle access
-        </div>
-      </div>
-      <div class="cmp-col">
-        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00e892" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> DialectForge CAN</h4>
-        <div class="cmp-item">
-          <span style="color:var(--green);">&#x2713;</span> Seed-based authentication at ignition<br>
-          <span style="color:var(--green);">&#x2713;</span> Hopped IDs &mdash; unpredictable without seed<br>
-          <span style="color:var(--green);">&#x2713;</span> Encrypted gibberish payloads<br>
-          <span style="color:var(--green);">&#x2713;</span> Foreign frames rejected<br>
-          <span style="color:var(--green);">&#x2713;</span> AI anomaly detection + quorum lockdown<br>
-          <span style="color:var(--green);">&#x2713;</span> Compromise triggers rekey in 18ms
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ Injected-frame callout ═══ -->
-  <div class="callout">
-    <div class="callout-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff4d6a" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div>
-    <div>
-      <div class="callout-title">Rejecting Injected Frames</div>
-      <div class="callout-desc">An attacker plugs into the OBD-II port and sends a brake command. Without the session seed, the frame doesn't match the current dialect &mdash; the ID is wrong, the payload doesn't decrypt. Every ECU on the bus is designed to reject it, and the bus keeps operating normally. The frame isnEvery ECU on the bus is designed to reject it, and the bus keeps operating normally. It isn't caught by a filter rule; it simply isn't valid in the current dialect.#39;t filtered by a rule; it just isnEvery ECU on the bus is designed to reject it, and the bus keeps operating normally. It isn't caught by a filter rule; it simply isn't valid in the current dialect.#39;t valid in the current dialect.</div>
-    </div>
-  </div>
-
-  <!-- ═══ Simulation Verified ═══ -->
-  <div class="callout">
-    <div class="callout-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b44dff" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4"/><circle cx="12" cy="12" r="3"/></svg></div>
-    <div>
-      <div class="callout-title">Simulation Verified</div>
-      <div class="callout-desc">A multi-node CAN bus simulation demonstrates the full lifecycle: dialect negotiation from a shared seed, encrypted message transmission, spoofed frame injection, anomaly detection with automatic lockdown, 2FA-verified recovery, and full re-negotiation with a fresh seed. The attack-detect-lockdown-rekey cycle completes in milliseconds.</div>
-    </div>
-  </div>
-
-  <!-- ═══ Technical Specs ═══ -->
-  <div class="specs">
-    <h3>Technical Specifications</h3>
-    <div class="specs-grid">
-      <div class="spec-item">
-        <div class="spec-val">50&ndash;500ms</div>
-        <div class="spec-label">Dialect Cycle Rate</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-val">&lt;500&#x00B5;s</div>
-        <div class="spec-label">Processing Overhead</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-val">&lt;5%</div>
-        <div class="spec-label">Bandwidth Overhead</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-val">256-bit</div>
-        <div class="spec-label">Seed (SHA-256)</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-val">~18ms</div>
-        <div class="spec-label">Rekey Time</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-val">~256KB</div>
-        <div class="spec-label">AI Agent Size</div>
-      </div>
-    </div>
-    <div style="margin-top: 20px; text-align: center; font-size: 0.78rem; color: var(--dim);">
-      Target Hardware: NXP S32K, Renesas RH850 &nbsp;&#x2022;&nbsp;
-      Compliance: ISO 26262 ASIL-B, ISO 11898 &nbsp;&#x2022;&nbsp;
-      Power: &lt;1mJ per negotiation on ARM Cortex-M7
-    </div>
-  </div>
-
-  <!-- ═══ Closing Insight ═══ -->
-  <div class="insight">
-    <h3>Zero authentication. Fixed IDs. Plaintext payloads.</h3>
-    <p>That's the CAN bus in every car on the road today. DialectForge layers seed-negotiated obfuscation directly onto existing hardware &mdash; no wire changes, no protocol overhaul. Just a firmware update that makes your vehicle's internal network speak a language only it understands.</p>
-  </div>
-
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Problem</div>
+<div class="main">
+<h2>Why CAN bus</h2>
+<p class="measure">CAN (Controller Area Network) is the bus most cars use to connect their electronic control units (ECUs): engine, brakes, body, infotainment. Classic CAN was designed for reliability on a closed network, not for security. A frame carries an identifier and up to 8 bytes of data, and there's no built-in field that says who sent it. Security researchers have published work showing what's possible once someone gets access to a vehicle's bus.</p>
+<p class="measure">The industry has its own answers to this, such as AUTOSAR SecOC message authentication, gateways and intrusion detection. DialectForge isn't a replacement for those. It's an idea I've been working through: what happens if the bus itself speaks a dialect that changes over time?</p>
 </div>
+<p class="note">Picture a job site where anyone who walks on can shout orders and every crew does what it's told, because nobody checks who's talking.</p>
+</div></section>
 
-<!-- ═══ Interactive CAN Bus Demo Script ═══ -->
-<script>
-(function() {
-  'use strict';
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Design</div>
+<div class="main">
+<h2>What it's designed to do</h2>
+<figure>
+<svg class="dia" viewBox="0 0 640 300" role="img" aria-label="Diagram: at ignition a seed frame goes out on CAN ID 0x000 to brake, engine and body ECUs. In normal use a brake frame with ID 0x123 and readable payload becomes a frame with a hopped ID and scrambled payload. A frame injected through the OBD-II port with the old fixed ID doesn't match the current dialect and is designed to be dropped.">
+<text x="0" y="14" class="t-dim">1 · IGNITION</text>
+<rect class="bx-ox" x="0" y="24" width="150" height="44"/><text x="75" y="44" text-anchor="middle">seed frame</text><text x="75" y="59" text-anchor="middle" class="t-dim">ID 0x000</text>
+<path class="ln" d="M150 46H190"/>
+<rect class="bx" x="190" y="24" width="140" height="44"/><text x="260" y="50" text-anchor="middle">Brake ECU</text>
+<rect class="bx" x="345" y="24" width="140" height="44"/><text x="415" y="50" text-anchor="middle">Engine ECU</text>
+<rect class="bx" x="500" y="24" width="140" height="44"/><text x="570" y="50" text-anchor="middle">Body ECU</text>
+<text x="0" y="104" class="t-dim">2 · NORMAL FRAME, BEFORE AND AFTER</text>
+<rect class="bx" x="0" y="114" width="300" height="50"/><text x="150" y="136" text-anchor="middle">ID 0x123 · 62 72 61 6b</text><text x="150" y="153" text-anchor="middle" class="t-dim">fixed ID · readable payload</text>
+<path class="ln" d="M300 139H336"/><path class="ln" d="M330 134l8 5-8 5"/>
+<rect class="bx-k" x="340" y="114" width="300" height="50"/><text x="490" y="136" text-anchor="middle" class="t-inv">ID 0x29C · 19 28 9f 4a</text><text x="490" y="153" text-anchor="middle" class="t-inv" style="opacity:.7">hopped ID · scrambled payload</text>
+<text x="0" y="200" class="t-dim">3 · INJECTED FRAME (OBD-II)</text>
+<rect class="bx" x="0" y="210" width="300" height="50"/><text x="150" y="232" text-anchor="middle">ID 0x123 · forged data</text><text x="150" y="249" text-anchor="middle" class="t-dim">old fixed ID, no seed</text>
+<path class="ln-d" d="M300 235H336"/>
+<rect class="bx-ox" x="340" y="210" width="300" height="50"/><text x="490" y="232" text-anchor="middle">doesn't match current dialect</text><text x="490" y="249" text-anchor="middle" class="t-dim">designed to be dropped and counted</text>
+<text x="0" y="292" class="t-dim">Example values are illustrative. Cycle target: 50–500 ms.</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> The CAN design in three steps. A diagram of the design, not a capture from a vehicle.</figcaption>
+</figure>
+<ol class="steps">
+<li><h3>Seed at ignition</h3><p>When the vehicle starts, a high-priority frame (ID 0x000) is designed to share a 256-bit seed with every participating ECU, before normal traffic starts.</p></li>
+<li><h3>Negotiate a dialect</h3><p>Each ECU's negotiation agent turns the seed into a shared dialect: how IDs are remapped and how payloads are scrambled. The target size for that agent is about 256 KB, small enough for automotive microcontrollers. That's a target, not a measurement.</p></li>
+<li><h3>Hop IDs, keep priority</h3><p>CAN IDs also decide which frame wins the bus, so the remap is designed to keep the priority order: brake messages should still beat infotainment messages. IDs move every cycle, with a target of 50 to 500 ms.</p></li>
+<li><h3>Drop what doesn't fit</h3><p>A frame built without the current seed shouldn't match a valid ID or decode to a valid payload, so ECUs are designed to drop it and raise an anomaly score. Past a threshold, the design calls for a fresh seed and a new dialect.</p></li>
+</ol>
+</div>
+<p class="note">Every crew gets a code word at the start of the day, and the code word changes through the day. Orders without today's word get ignored.</p>
+</div></section>
 
-  // ── Constants ──
-  var C = {
-    bg: '#0a0a0f', bgCard: '#12121a', green: '#00e892', red: '#ff4d6a',
-    amber: '#ffb84d', blue: '#4d9fff', purple: '#b44dff', dim: '#6a6a80',
-    text: '#e0e0e8', busLine: '#1a2a1a'
-  };
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Status</div>
+<div class="main wide">
+<h2>What's real and what isn't</h2>
+<table class="register"><thead><tr><th>Status</th><th>Item</th></tr></thead><tbody>
+<tr><td><span class="tag plan">Design</span></td><td><span class="name">The CAN mapping</span><p>Seed at ignition, priority-preserving ID hopping, payload scrambling and lockdown, as described above and on the <a href="/protocol/#can">protocol page</a>.</p></td></tr>
+<tr><td><span class="tag dev">Simulation</span></td><td><span class="name">A software simulation of a multi-node bus</span><p>Earlier versions of this page had an animated browser simulation of negotiation, an injected frame, lockdown and re-keying. It was a scripted visual demo, not a test on hardware. Timing numbers it showed were targets, not measurements.</p></td></tr>
+<tr><td><span class="tag off">Not done</span></td><td><span class="name">Hardware, vehicles, certification</span><p>It hasn't run on real ECUs or in a vehicle. Nothing has been safety-assessed or certified (for example under ISO 26262), and there are no automotive partners or customers.</p></td></tr>
+</tbody></table>
+</div></div></section>
 
-  var NODES = [
-    { id:'ecu', label:'Engine ECU', x:200, y:120, color:C.green, canId:'0x100' },
-    { id:'brake', label:'Brakes ABS', x:580, y:120, color:C.red, canId:'0x180' },
-    { id:'steer', label:'Steering', x:120, y:300, color:C.blue, canId:'0x200' },
-    { id:'trans', label:'Transmission', x:660, y:300, color:C.amber, canId:'0x300' },
-    { id:'airbag', label:'Airbag SRS', x:200, y:470, color:C.purple, canId:'0x400' },
-    { id:'dash', label:'Dashboard', x:580, y:470, color:C.blue, canId:'0x500' },
-    { id:'gateway', label:'OBD Gateway', x:390, y:295, color:'#fff', canId:'0x7DF' }
-  ];
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 4</b> Limits</div>
+<div class="main">
+<h2>Known limitations</h2>
+<ul class="measure">
+<li><b>Space is tight.</b> Classic CAN frames carry 8 bytes of data. Any scrambling, counters or authentication have to fit in that, or move to CAN FD.</li>
+<li><b>Scrambling isn't authentication.</b> The XOR fast path hides values but doesn't by itself prove who sent a frame. A real deployment would need proper message authentication.</li>
+<li><b>Timing is safety-critical.</b> Brakes and steering can't wait. Negotiation, re-keying and lockdown would have to be proven safe under real bus load, and that hasn't been done.</li>
+<li><b>Every ECU has to take part.</b> Cars contain ECUs from many suppliers. This only works if all participating ECUs run compatible firmware, which isn't something an outside party can just add.</li>
+<li><b>The seed has to stay secret.</b> If an attacker can read the seed from an ECU or catch the ignition broadcast, the protection is gone. Key storage in ECUs isn't designed out here yet.</li>
+<li><b>Diagnostics have to keep working.</b> Mechanics, inspections and OBD-II tools need access. The design intends to gate that access, not break it, but the details aren't worked out.</li>
+<li><b>Not independently reviewed.</b> No one outside DialectForge has tested this design.</li>
+</ul>
+<p class="measure">If you work on vehicle networks and see a flaw, I'd like to hear it: <a href="mailto:info@dialectforge.com?subject=CAN%20bus%20design">info@dialectforge.com</a>.</p>
+</div>
+<p class="note">This is a drawing of a house, not the house. I'm showing the drawing so people who build these for a living can tell me what won't hold.</p>
+</div></section>
 
-  var CONNS = [
-    ['ecu','gateway'],['brake','gateway'],['steer','gateway'],
-    ['trans','gateway'],['airbag','gateway'],['dash','gateway'],
-    ['ecu','brake'],['steer','airbag'],['trans','dash']
-  ];
-
-  var DESCS = {
-    normal: 'Standard CAN bus without protection. Static IDs visible on the wire.',
-    attack: 'Attacker spoofs brake ECU ID to send false commands. No protection active.',
-    protected: 'IDs cycle every few seconds. Attack fails — ID doesn\'t match current dialect.'
-  };
-
-  // ── State ──
-  var scenario = 'normal';
-  var running = false;
-  var tick = 0;
-  var intervalId = null;
-  var stats = { sent:0, blocked:0, cycles:0 };
-  var activeSet = {};
-  var compromisedSet = {};
-  var protectedSet = {};
-  var dialectMap = {};
-  var attackBlocked = false;
-  var animPackets = [];
-  var animFrame = null;
-
-  // ── DOM refs ──
-  var svg = document.getElementById('canSvg');
-  var logScroll = document.getElementById('logScroll');
-  var logEmpty = document.getElementById('logEmpty');
-  var runBtn = document.getElementById('runBtn');
-  var overlay = document.getElementById('attackOverlay');
-  var descEl = document.getElementById('scenarioDesc');
-  var statSent = document.getElementById('statSent');
-  var statBlocked = document.getElementById('statBlocked');
-  var statCycles = document.getElementById('statCycles');
-
-  // ── SVG Namespace ──
-  var NS = 'http://www.w3.org/2000/svg';
-
-  function getNode(id) {
-    for (var i = 0; i < NODES.length; i++) if (NODES[i].id === id) return NODES[i];
-    return null;
-  }
-  function lerp(a, b, t) { return a + (b - a) * t; }
-  function rHex() { return '0x' + Math.floor(Math.random()*0xFFF).toString(16).toUpperCase().padStart(3,'0'); }
-
-  // ── Build static SVG elements ──
-  function buildSvg() {
-    svg.innerHTML = '';
-    // Vehicle outline
-    var rect = document.createElementNS(NS,'rect');
-    rect.setAttribute('x','50'); rect.setAttribute('y','50');
-    rect.setAttribute('width','680'); rect.setAttribute('height','460');
-    rect.setAttribute('rx','40'); rect.setAttribute('fill','none');
-    rect.setAttribute('stroke','#1a1a2a'); rect.setAttribute('stroke-width','1');
-    rect.setAttribute('stroke-dasharray','8 4');
-    svg.appendChild(rect);
-
-    // Bus lines
-    CONNS.forEach(function(c, i) {
-      var f = getNode(c[0]), t = getNode(c[1]);
-      var line = document.createElementNS(NS,'line');
-      line.setAttribute('x1', f.x); line.setAttribute('y1', f.y);
-      line.setAttribute('x2', t.x); line.setAttribute('y2', t.y);
-      line.setAttribute('stroke', C.busLine); line.setAttribute('stroke-width','1');
-      line.setAttribute('opacity','0.3'); line.setAttribute('stroke-dasharray','4 4');
-      line.id = 'conn-'+i;
-      svg.appendChild(line);
-    });
-
-    // Nodes
-    NODES.forEach(function(n) {
-      var g = document.createElementNS(NS,'g');
-      g.id = 'node-'+n.id;
-
-      // Pulse ring (hidden by default)
-      var pulse = document.createElementNS(NS,'circle');
-      pulse.setAttribute('cx', n.x); pulse.setAttribute('cy', n.y);
-      pulse.setAttribute('r','38'); pulse.setAttribute('fill','none');
-      pulse.setAttribute('stroke', n.color); pulse.setAttribute('stroke-width','1.5');
-      pulse.setAttribute('opacity','0'); pulse.id = 'pulse-'+n.id;
-      g.appendChild(pulse);
-
-      // Main circle
-      var circ = document.createElementNS(NS,'circle');
-      circ.setAttribute('cx', n.x); circ.setAttribute('cy', n.y);
-      circ.setAttribute('r','32'); circ.setAttribute('fill', C.bgCard);
-      circ.setAttribute('stroke', n.color); circ.setAttribute('stroke-width','1.5');
-      circ.setAttribute('opacity','0.7'); circ.id = 'circ-'+n.id;
-      g.appendChild(circ);
-
-      // Shield icon (hidden by default)
-      var shield = document.createElementNS(NS,'path');
-      shield.setAttribute('d', 'M'+(n.x-8)+' '+(n.y-10)+' L'+n.x+' '+(n.y-16)+' L'+(n.x+8)+' '+(n.y-10)+' L'+(n.x+8)+' '+(n.y-2)+' C'+(n.x+8)+' '+(n.y+6)+' '+n.x+' '+(n.y+10)+' '+n.x+' '+(n.y+10)+' C'+n.x+' '+(n.y+10)+' '+(n.x-8)+' '+(n.y+6)+' '+(n.x-8)+' '+(n.y-2)+'Z');
-      shield.setAttribute('fill','none'); shield.setAttribute('stroke', C.green);
-      shield.setAttribute('stroke-width','1.2'); shield.setAttribute('opacity','0');
-      shield.id = 'shield-'+n.id;
-      g.appendChild(shield);
-
-      // ID text
-      var txt = document.createElementNS(NS,'text');
-      txt.setAttribute('x', n.x); txt.setAttribute('y', n.y + 4);
-      txt.setAttribute('text-anchor','middle'); txt.setAttribute('fill', n.color);
-      txt.setAttribute('font-size','11'); txt.setAttribute('font-family','monospace');
-      txt.setAttribute('font-weight','bold'); txt.textContent = n.canId;
-      txt.id = 'id-'+n.id;
-      g.appendChild(txt);
-
-      // Label
-      var lbl = document.createElementNS(NS,'text');
-      lbl.setAttribute('x', n.x); lbl.setAttribute('y', n.y + 52);
-      lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('fill', C.dim);
-      lbl.setAttribute('font-size','10'); lbl.setAttribute('font-family','Outfit, sans-serif');
-      lbl.textContent = n.label;
-      g.appendChild(lbl);
-
-      svg.appendChild(g);
-    });
-  }
-
-  // ── Update visuals ──
-  function updateNodeVisuals() {
-    NODES.forEach(function(n) {
-      var circ = document.getElementById('circ-'+n.id);
-      var pulse = document.getElementById('pulse-'+n.id);
-      var shield = document.getElementById('shield-'+n.id);
-      var idTxt = document.getElementById('id-'+n.id);
-      var isActive = !!activeSet[n.id];
-      var isComp = !!compromisedSet[n.id];
-      var isProt = !!protectedSet[n.id];
-
-      circ.setAttribute('fill', isComp ? '#2a0000' : C.bgCard);
-      circ.setAttribute('stroke', isComp ? C.red : isProt ? C.green : n.color);
-      circ.setAttribute('stroke-width', isActive ? '2.5' : '1.5');
-      circ.setAttribute('opacity', isActive ? '1' : '0.7');
-
-      if (isActive && !isComp) {
-        pulse.setAttribute('stroke', n.color);
-        pulse.setAttribute('opacity','0.3');
-        // Animate via CSS would be ideal but let's just show/hide
-      } else {
-        pulse.setAttribute('opacity','0');
-      }
-
-      shield.setAttribute('opacity', isProt ? '0.8' : '0');
-
-      if (isProt && dialectMap[n.id]) {
-        idTxt.textContent = dialectMap[n.id];
-        idTxt.setAttribute('fill', C.green);
-      } else {
-        idTxt.textContent = n.canId;
-        idTxt.setAttribute('fill', isComp ? C.red : n.color);
-      }
-    });
-
-    // Update connections
-    CONNS.forEach(function(c, i) {
-      var line = document.getElementById('conn-'+i);
-      var active = activeSet[c[0]] || activeSet[c[1]];
-      line.setAttribute('stroke', active ? C.green : C.busLine);
-      line.setAttribute('stroke-width', active ? '1.5' : '1');
-      line.setAttribute('opacity', active ? '0.5' : '0.3');
-      line.setAttribute('stroke-dasharray', active ? 'none' : '4 4');
-    });
-
-    overlay.classList.toggle('visible', attackBlocked);
-  }
-
-  // ── Packet animation ──
-  function animatePackets() {
-    // Remove old packet elements
-    var old = svg.querySelectorAll('.anim-pkt');
-    old.forEach(function(el) { el.remove(); });
-
-    var now = performance.now();
-    var remaining = [];
-    animPackets.forEach(function(p) {
-      var elapsed = now - p.start;
-      var t = Math.min(elapsed / p.duration, 1);
-      if (t < 1) {
-        remaining.push(p);
-        var f = getNode(p.from), to = getNode(p.to);
-        var px = lerp(f.x, to.x, t), py = lerp(f.y, to.y, t);
-        var sz = p.isAttack ? 10 : 7;
-
-        var g = document.createElementNS(NS,'g');
-        g.classList.add('anim-pkt');
-
-        var glow = document.createElementNS(NS,'circle');
-        glow.setAttribute('cx', px); glow.setAttribute('cy', py);
-        glow.setAttribute('r', sz+4); glow.setAttribute('fill', p.color);
-        glow.setAttribute('opacity','0.15');
-        g.appendChild(glow);
-
-        var dot = document.createElementNS(NS,'circle');
-        dot.setAttribute('cx', px); dot.setAttribute('cy', py);
-        dot.setAttribute('r', sz); dot.setAttribute('fill', p.color);
-        dot.setAttribute('opacity','0.9');
-        g.appendChild(dot);
-
-        if (p.label) {
-          var lbl = document.createElementNS(NS,'text');
-          lbl.setAttribute('x', px); lbl.setAttribute('y', py - 16);
-          lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('fill', p.color);
-          lbl.setAttribute('font-size','9'); lbl.setAttribute('font-family','monospace');
-          lbl.setAttribute('font-weight','bold'); lbl.textContent = p.label;
-          g.appendChild(lbl);
-        }
-        svg.appendChild(g);
-      }
-    });
-    animPackets = remaining;
-    if (animPackets.length > 0 || running) {
-      animFrame = requestAnimationFrame(animatePackets);
-    }
-  }
-
-  function sendPacket(from, to, color, label, isAttack) {
-    animPackets.push({
-      from: from, to: to, color: color, label: label,
-      isAttack: !!isAttack, start: performance.now(), duration: 900
-    });
-  }
-
-  // ── Logging ──
-  function addLog(text, color) {
-    if (logEmpty) { logEmpty.remove(); logEmpty = null; }
-    var el = document.createElement('div');
-    el.className = 'log-entry';
-    var ts = String(tick).padStart(5,'0') + 'ms';
-    el.innerHTML = '<span class="log-time">'+ts+'</span><span class="log-text" style="color:'+color+'">'+text+'</span>';
-    logScroll.appendChild(el);
-    logScroll.scrollTop = logScroll.scrollHeight;
-  }
-
-  function updateStats() {
-    statSent.textContent = stats.sent;
-    statBlocked.textContent = stats.blocked;
-    statCycles.textContent = stats.cycles;
-  }
-
-  // ── Dialect cycling ──
-  function cycleDialects() {
-    NODES.forEach(function(n) {
-      if (n.id !== 'gateway') dialectMap[n.id] = rHex();
-    });
-    stats.cycles++;
-    updateStats();
-    addLog('CYCLE REFRESH — All node IDs remapped', C.green);
-  }
-
-  // ── Reset ──
-  function reset() {
-    if (intervalId) clearInterval(intervalId);
-    if (animFrame) cancelAnimationFrame(animFrame);
-    intervalId = null; running = false; tick = 0;
-    stats = { sent:0, blocked:0, cycles:0 };
-    activeSet = {}; compromisedSet = {}; protectedSet = {};
-    dialectMap = {}; attackBlocked = false; animPackets = [];
-    updateStats(); updateNodeVisuals();
-    logScroll.innerHTML = '<div class="log-empty">Select a scenario and press RUN to begin...</div>';
-    logEmpty = logScroll.querySelector('.log-empty');
-    runBtn.textContent = 'RUN SIMULATION';
-    runBtn.classList.remove('running');
-  }
-
-  // ── Scenario: Normal (SLOW) ──
-  function runNormal() {
-    addLog('CAN bus active — standard mode (no protection)', C.dim);
-    intervalId = setInterval(function() {
-      tick += 150;
-      if (tick % 1500 === 0) {
-        var pairs = [['ecu','gateway'],['brake','dash'],['steer','gateway'],['trans','ecu'],['airbag','dash']];
-        var pair = pairs[Math.floor(Math.random()*pairs.length)];
-        var f = getNode(pair[0]);
-        activeSet = {}; activeSet[pair[0]] = true; activeSet[pair[1]] = true;
-        sendPacket(pair[0], pair[1], f.color, f.canId);
-        stats.sent++; updateStats();
-        addLog(f.canId+' '+f.label+' → '+getNode(pair[1]).label+'  [8 bytes]', f.color);
-        updateNodeVisuals();
-        setTimeout(function() { activeSet = {}; updateNodeVisuals(); }, 800);
-      }
-    }, 150);
-  }
-
-  // ── Scenario: Attack (SLOW) ──
-  function runAttack() {
-    addLog('CAN bus active — standard mode (no protection)', C.dim);
-    addLog('Attacker connected to OBD-II port...', C.red);
-    var attackStarted = false;
-    intervalId = setInterval(function() {
-      tick += 150;
-      // Normal traffic first
-      if (tick % 1500 === 0 && tick < 5000) {
-        var pairs = [['ecu','brake'],['dash','gateway'],['steer','airbag']];
-        var pair = pairs[Math.floor(Math.random()*pairs.length)];
-        var f = getNode(pair[0]);
-        activeSet = {}; activeSet[pair[0]] = true; activeSet[pair[1]] = true;
-        sendPacket(pair[0], pair[1], f.color, f.canId);
-        stats.sent++; updateStats();
-        addLog(f.canId+' '+f.label+' → '+getNode(pair[1]).label, f.color);
-        updateNodeVisuals();
-        setTimeout(function() { activeSet = {}; updateNodeVisuals(); }, 800);
-      }
-      // Attack begins
-      if (tick >= 5000 && !attackStarted) {
-        attackStarted = true;
-        addLog('ATTACK: Spoofing brake ECU ID 0x180', C.red);
-        addLog('ATTACK: Injecting false deceleration command', C.red);
-      }
-      // Attack packets
-      if (tick > 5000 && tick % 1200 === 0 && tick < 10000) {
-        activeSet = { gateway:true, brake:true };
-        compromisedSet = { brake:true };
-        sendPacket('gateway', 'brake', C.red, '0x180 (FAKE)', true);
-        addLog('SPOOFED 0x180 → Brakes ABS: DECEL 0xFF 0xFF', C.red);
-        stats.sent++; updateStats(); updateNodeVisuals();
-        setTimeout(function() { updateNodeVisuals(); }, 800);
-      }
-      if (tick === 9000) {
-        addLog('RESULT: Brakes activated without driver input', C.red);
-        addLog('Vehicle compromised — attacker has full brake control', C.red);
-      }
-      if (tick >= 11000) {
-        clearInterval(intervalId); running = false;
-        addLog('Simulation complete. No protection was active.', C.dim);
-        runBtn.textContent = 'RUN SIMULATION';
-        runBtn.classList.remove('running');
-      }
-    }, 150);
-  }
-
-  // ── Scenario: Protected (SLOW) ──
-  function runProtected() {
-    NODES.forEach(function(n) { protectedSet[n.id] = true; });
-    addLog('DialectForge initializing on all nodes...', C.green);
-    addLog('Seed broadcast via priority frame ID 0x000', C.green);
-    cycleDialects();
-    updateNodeVisuals();
-    var attackTick = 0;
-    intervalId = setInterval(function() {
-      tick += 150;
-      // Dialect cycling every ~4.5s
-      if (tick % 4500 === 0) cycleDialects();
-      // Protected traffic
-      if (tick % 1500 === 0 && tick < 14000) {
-        var pairs = [['ecu','brake'],['steer','gateway'],['trans','dash'],['airbag','gateway']];
-        var pair = pairs[Math.floor(Math.random()*pairs.length)];
-        var f = getNode(pair[0]);
-        var dId = rHex();
-        activeSet = {}; activeSet[pair[0]] = true; activeSet[pair[1]] = true;
-        sendPacket(pair[0], pair[1], C.green, dId);
-        stats.sent++; updateStats();
-        addLog(dId+' (was '+f.canId+') '+f.label+' → '+getNode(pair[1]).label+'  [encrypted]', C.green);
-        updateNodeVisuals();
-        setTimeout(function() { activeSet = {}; updateNodeVisuals(); }, 800);
-      }
-      // Attack attempt
-      if (tick === 6000) {
-        addLog('ATTACK: Attacker tries spoofing brake ID 0x180...', C.red);
-      }
-      if (tick > 6000 && tick % 1500 === 0 && tick < 10000) {
-        attackTick++;
-        sendPacket('gateway', 'brake', C.red, '0x180 (FAKE)', true);
-        addLog('SPOOFED 0x180 → REJECTED: ID not in current dialect', C.red);
-        stats.blocked++; updateStats();
-        setTimeout(function() {
-          if (attackTick >= 2) {
-            addLog('ANOMALY DETECTED: Static ID on cycling bus', C.amber);
-            addLog('Quorum vote initiated — 5/6 nodes confirm anomaly', C.amber);
-          }
-        }, 600);
-      }
-      if (tick === 10500) {
-        attackBlocked = true;
-        addLog('LOCKDOWN: Attack blocked. Network entering safe mode.', C.green);
-        addLog('Attacker ID 0x180 has no meaning — current brake dialect is different', C.green);
-        addLog('Recovery: Fresh seed generation, full re-negotiation', C.green);
-        updateNodeVisuals();
-      }
-      // Post-recovery traffic
-      if (tick > 10500 && tick % 1800 === 0 && tick < 14000) {
-        var pairs2 = [['ecu','gateway'],['brake','dash']];
-        var pair2 = pairs2[Math.floor(Math.random()*pairs2.length)];
-        var dId2 = rHex();
-        activeSet = {}; activeSet[pair2[0]] = true; activeSet[pair2[1]] = true;
-        sendPacket(pair2[0], pair2[1], C.green, dId2);
-        stats.sent++; updateStats();
-        addLog(dId2+' Post-recovery traffic resumed [new dialect]', C.green);
-        updateNodeVisuals();
-        setTimeout(function() { activeSet = {}; updateNodeVisuals(); }, 800);
-      }
-      if (tick >= 15000) {
-        clearInterval(intervalId); running = false;
-        addLog('Simulation complete. Attack neutralized. Zero downtime.', C.green);
-        runBtn.textContent = 'RUN SIMULATION';
-        runBtn.classList.remove('running');
-      }
-    }, 150);
-  }
-
-  // ── Event handlers ──
-  document.getElementById('scenarioBtns').addEventListener('click', function(e) {
-    var btn = e.target.closest('.scenario-btn');
-    if (!btn || running) return;
-    scenario = btn.dataset.scenario;
-    document.querySelectorAll('.scenario-btn').forEach(function(b) {
-      b.classList.remove('active','s-normal','s-attack','s-protected');
-    });
-    btn.classList.add('active', 's-'+scenario);
-    descEl.textContent = DESCS[scenario];
-    reset();
-  });
-
-  runBtn.addEventListener('click', function() {
-    if (running) { reset(); return; }
-    reset();
-    setTimeout(function() {
-      running = true;
-      runBtn.textContent = 'STOP';
-      runBtn.classList.add('running');
-      animFrame = requestAnimationFrame(animatePackets);
-      if (scenario === 'normal') runNormal();
-      else if (scenario === 'attack') runAttack();
-      else if (scenario === 'protected') runProtected();
-    }, 50);
-  });
-
-  // ── Init ──
-  buildSvg();
-  updateNodeVisuals();
-})();
-</script>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC · Michigan, USA</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
 </body>
 </html>

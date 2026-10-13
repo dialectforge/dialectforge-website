@@ -33,11 +33,11 @@ nav: /#domains
 <ol class="steps">
 <li><h3>Built into the server</h3><p>Mesh runs as a service on each machine. When servers come online their tunnel endpoints negotiate a dialect that only they share. There's no external auth service.</p></li>
 <li><h3>Replication through the tunnel</h3><p>The primary runs a tunnel endpoint; each replica connects through it. The database software just talks to a local address.</p></li>
-<li><h3>The mesh secret never crosses the wire</h3><p>All servers share a mesh secret, but it's never transmitted. Endpoints exchange nonces and derive a unique session seed for each connection, so capturing packets shouldn't let you rebuild the secret.</p></li>
+<li><h3>The mesh secret never crosses the wire</h3><p>All servers share a mesh secret, but it's never transmitted. Endpoints exchange nonces and derive a unique session seed for each connection, so the design intent is that capturing packets doesn't let you rebuild the secret.</p></li>
 <li><h3>Session-mode dialects</h3><p>Replication is a continuous stream, and changing dialect mid-stream could corrupt data. So each tunnel connection holds its dialect for the life of the session, and new connections negotiate new ones.</p></li>
 </ol>
-<p class="measure">I ran my own servers this way: user data and replication streams between machines on three continents went through DF tunnels. If it's good enough for the people using it, it should be good enough for my own infrastructure.</p>
+<p class="measure">I used this to link my own VPN servers while that service was running. Those servers are offline now. It hasn't been independently tested.</p>
 <div class="btns"><a class="btn" href="mailto:info@dialectforge.com?subject=Mesh%20Enterprise%20Inquiry">Commercial licensing</a><a class="btn" href="/licensing/">AGPL-3.0, coming soon</a></div>
 </div>
-<p class="note">Your servers talk to each other in a language that changes for every conversation. Someone listening can't even tell it's a database.</p>
+<p class="note">Your servers talk to each other in a language that changes for every conversation. The aim is that someone listening can't even tell it's a database.</p>
 </div></section>

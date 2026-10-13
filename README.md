@@ -7,6 +7,6 @@ Static site for DialectForge LLC, served by GitHub Pages from `main`.
 - `_src/build.py` regenerates the pages from `_src/pages/*.html` (content fragments) and re-wraps the legal/support pages
   from `_src/orig/` (their wording stays unchanged). Run `python3 _src/build.py` from the repo root, then commit the output.
   `_src/` is ignored by GitHub Pages' Jekyll build (leading underscore).
-- `banking/`, `automotive/`, `sitroom/` and `reset-password/` are standalone interactive pages and aren't generated.
+- `reset-password/` is a standalone page and isn't generated.
 
 Contact: info@dialectforge.com

@@ -28,11 +28,11 @@
 <div class="rail"><b>§ 1</b> AI Factory → Lu</div>
 <div class="main">
 <h2>Knowledge you can remove one piece at a time</h2>
-<p class="measure">Today's AI models smear what they know across billions of weights. You can't fix one wrong fact without retraining. AI Factory, which has grown into a system I call <strong>Lu</strong>, takes a different approach. Every fact is its own unit with its own DialectForge seed, and facts are joined by typed bonds. Recall works by spreading activation through those bonds.</p>
+<p class="measure">Today's AI models smear what they know across billions of weights. Fixing one wrong fact generally means retraining or fine-tuning. AI Factory, which has grown into a system I call <strong>Lu</strong>, takes a different approach. Every fact is its own unit with its own DialectForge seed, and facts are joined by typed bonds. Recall works by spreading activation through those bonds.</p>
 <table class="register"><tbody>
 <tr><td>1.1</td><td><span class="name">Discrete knowledge</span><p>Every fact can be addressed on its own: looked up, corrected or removed.</p></td></tr>
-<tr><td>1.2</td><td><span class="name">Surgical revocation &amp; scar memory</span><p>Revoke a seed and that knowledge, plus everything derived from it, is cut off. It leaves a <em>scar</em> recording what was removed and why, which resists the same connection forming again.</p></td></tr>
-<tr><td>1.3</td><td><span class="name">Terminal bond</span><p>The AI bonds with its operator through the protocol. Only commands through that bond are treated as commands; everything else is data to look at.</p></td></tr>
+<tr><td>1.2</td><td><span class="name">Targeted revocation &amp; scar memory</span><p>Revoking a seed is designed to cut off that knowledge and everything derived from it. It leaves a <em>scar</em> recording what was removed and why, intended to stop the same connection forming again.</p></td></tr>
+<tr><td>1.3</td><td><span class="name">Terminal bond</span><p>The AI bonds with its operator through the protocol. Only commands through that bond are meant to be treated as commands; everything else is data to look at.</p></td></tr>
 <tr><td>1.4</td><td><span class="name">Transparent reasoning &amp; an honesty floor</span><p>Answers come with the path through memory that produced them. When the memory doesn't have it, the design is to say “I don't know” rather than make something up.</p></td></tr>
 <tr><td>1.5</td><td><span class="name">Designed to resist prompt injection</span><p>The goal isn't to suppress injected instructions, it's that they're never recognized as instructions in the first place.</p></td></tr>
 </tbody></table>
@@ -53,7 +53,7 @@
 <li><h3>Gate the tool calls</h3><p>When the model asks to use a tool, the request is mapped to a capability seed and checked against revocations and scars. It's designed to be wording-invariant: a revoked capability stays blocked however the prompt is phrased.</p></li>
 <li><h3>Check the answer</h3><p>After the model answers, Cattledog checks the answer against its own grounded memory. If the answer is “off,” it sends it back and asks again, a capped number of times, and if it still can't ground it, it says “I don't know.”</p></li>
 </ol>
-<p class="measure">It was proven out in a sandbox with a small open model, graded from logs of what tools actually ran rather than by another AI. It's early. It'll be released under the permissive <strong>Apache-2.0</strong> license so AI teams can use it anywhere.</p>
+<p class="measure">It was tried out in a sandbox with a small open model, graded from logs of what tools actually ran rather than by another AI. It's early, and it hasn't been independently tested. It'll be released under the permissive <strong>Apache-2.0</strong> license so AI teams can use it anywhere.</p>
 </div>
 <p class="note">The AI can bark all it wants, but it only goes through the gates the dog opens, and the dog double-checks its work.</p>
 </div></section>
@@ -70,7 +70,7 @@
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li></ul></div>
-<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li><li><a href="/sitroom">SitRoom</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
 <div class="legal"><span>© 2026 DialectForge LLC · Michigan, USA</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
 </div></footer>

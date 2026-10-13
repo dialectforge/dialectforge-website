@@ -11,6 +11,7 @@ def status(url):
     except Exception as e: return str(e), url, b''
 files=[os.path.relpath(os.path.join(d,f),ROOT) for d,_,fs in os.walk(ROOT) if '/.git' not in d and '/_src' not in d for f in fs if f.endswith('.html')]
 cache={}; bad=[]; n=0
+REMOVED=('sitroom/','scripts/')  # deliberately deleted in the redesign (SitRoom)
 for f in sorted(files):
     page='/'+f[:-len('index.html')] if f.endswith('index.html') else '/'+f
     s=BeautifulSoup(open(os.path.join(ROOT,f),encoding='utf-8'),'html.parser')
@@ -35,6 +36,7 @@ old=subprocess.run(['git','-C',ROOT,'ls-tree','-r','--name-only','main'],capture
 oldfail=[]
 for p in old:
     if p.startswith('.') or '/.' in p: continue
+    if p.startswith(REMOVED): continue  # intentionally removed
     url='/'+p
     c,_,_=status(BASE+urllib.parse.quote(url))
     if c!=200: oldfail.append((url,c))

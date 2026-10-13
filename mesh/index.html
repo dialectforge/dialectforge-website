@@ -53,13 +53,13 @@
 <ol class="steps">
 <li><h3>Built into the server</h3><p>Mesh runs as a service on each machine. When servers come online their tunnel endpoints negotiate a dialect that only they share. There's no external auth service.</p></li>
 <li><h3>Replication through the tunnel</h3><p>The primary runs a tunnel endpoint; each replica connects through it. The database software just talks to a local address.</p></li>
-<li><h3>The mesh secret never crosses the wire</h3><p>All servers share a mesh secret, but it's never transmitted. Endpoints exchange nonces and derive a unique session seed for each connection, so capturing packets shouldn't let you rebuild the secret.</p></li>
+<li><h3>The mesh secret never crosses the wire</h3><p>All servers share a mesh secret, but it's never transmitted. Endpoints exchange nonces and derive a unique session seed for each connection, so the design intent is that capturing packets doesn't let you rebuild the secret.</p></li>
 <li><h3>Session-mode dialects</h3><p>Replication is a continuous stream, and changing dialect mid-stream could corrupt data. So each tunnel connection holds its dialect for the life of the session, and new connections negotiate new ones.</p></li>
 </ol>
-<p class="measure">I ran my own servers this way: user data and replication streams between machines on three continents went through DF tunnels. If it's good enough for the people using it, it should be good enough for my own infrastructure.</p>
+<p class="measure">I used this to link my own VPN servers while that service was running. Those servers are offline now. It hasn't been independently tested.</p>
 <div class="btns"><a class="btn" href="mailto:info@dialectforge.com?subject=Mesh%20Enterprise%20Inquiry">Commercial licensing</a><a class="btn" href="/licensing/">AGPL-3.0, coming soon</a></div>
 </div>
-<p class="note">Your servers talk to each other in a language that changes for every conversation. Someone listening can't even tell it's a database.</p>
+<p class="note">Your servers talk to each other in a language that changes for every conversation. The aim is that someone listening can't even tell it's a database.</p>
 </div></section>
 
 </main>
@@ -70,7 +70,7 @@
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li></ul></div>
-<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li><li><a href="/sitroom">SitRoom</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
 <div class="legal"><span>© 2026 DialectForge LLC · Michigan, USA</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
 </div></footer>
