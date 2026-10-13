@@ -62,12 +62,28 @@
 <p class="note">Your servers talk to each other in a language that changes for every conversation. The aim is that someone listening can't even tell it's a database.</p>
 </div></section>
 
+<section class="sheet sec" id="ai-agent"><div class="wrap grid">
+<div class="rail"><b>§ AI</b> Agent</div>
+<div class="main">
+<h2>Start with an AI agent</h2>
+<p class="measure">Paste this into your AI coding agent. It points the agent at the repository's <code>AGENTS.md</code> (what's there, what works, which files to read first), the protocol notes and the license, then has it plan the integration with you.</p>
+<div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-dialectforge-mesh">I want to integrate the DialectForge protocol (Mesh / Tunnel) into my project. Before writing any code, read these in order:
+1. AGENTS.md in https://github.com/dialectforge/dialectforge-mesh
+2. https://dialectforge.com/protocol/
+3. LICENSE, COMMERCIAL-LICENSE.md and CONTRIBUTING.md in that repository
+Then ask me about my project (language, where data moves, what I want to protect) and propose a small integration plan for me to approve.
+Treat every security property as a design goal: this code has not been independently audited. Tell me about the license obligations (AGPL-3.0, or a commercial license from DialectForge LLC) before copying any of its code into my project.</pre></div>
+<p class="measure small">Repository: <code>dialectforge/dialectforge-mesh</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p>
+</div>
+<p class="note">It's like handing a new helper the drawings and the spec sheet before they pick up a saw.</p>
+</div></section>
+
 </main>
 <footer class="foot"><div class="wrap">
 <div class="cols">
 <div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
 <p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
-<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li></ul></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>

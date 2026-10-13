@@ -269,3 +269,11 @@ a.dom:hover h3{color:var(--oxide-dk)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media print{.mast,.foot,.nav-toggle{display:none}body{background:#fff}}
 @media (min-width:1080px){.hexcol{grid-column:span 6!important}}
+/* AI agent prompts */
+.prompt{position:relative;margin:12px 0}
+.prompt pre.code{white-space:pre-wrap;padding-right:84px}
+.prompt .copy{position:absolute;top:8px;right:8px;font:650 .72rem var(--sans);text-transform:uppercase;letter-spacing:.06em;padding:6px 10px;border:1px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+.prompt .copy:hover{background:var(--ink);color:var(--paper)}
+.agent-item{padding:18px 0;border-top:1px solid var(--rule)}
+.agent-item h3 a{color:inherit}
+.measure.small{font-size:.9rem}

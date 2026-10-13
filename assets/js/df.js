@@ -1,7 +1,13 @@
-// DialectForge — minimal JS: nav toggle + demo dialect cycle meter. Site works without it.
+// DialectForge — minimal JS: nav toggle, copy buttons + demo dialect cycle meter. Site works without it.
 (function(){
   var t=document.querySelector('.nav-toggle'),n=document.getElementById('nav');
   if(t&&n){t.addEventListener('click',function(){var o=n.classList.toggle('open');t.setAttribute('aria-expanded',o)})}
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var pre=b.parentNode.querySelector('pre');if(!pre)return;var txt=pre.textContent;
+    function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){sel(pre)})}else{sel(pre)}
+    function sel(el){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Press Ctrl+C'}
+  })});
   var m=document.querySelector('[data-cycle]');if(!m)return;
   var bar=m.querySelector('i'),num=m.querySelector('b'),hex=document.querySelector('[data-hexline]');
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
