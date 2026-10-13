@@ -1,0 +1,109 @@
+title: DFoS — DialectForge OS: Linux with dialect-encrypted memory
+desc: DFoS is a Linux kernel fork with DialectForge as its foundation: dialect-encrypted memory, the dialectfs filesystem, AF_DIALECTFORGE sockets, a three-tier trust model, a built-in pentest suite and a "break me" challenge.
+path: /dfos/
+nav: /dfos/
+---
+<section class="hero sheet dark" style="border-color:#000"><div class="wrap grid">
+<div class="hero-copy">
+<span class="kicker">DFoS · DialectForge OS · v1.0 “Troposphere”</span>
+<h1>Linux, rebuilt around <em>one protocol.</em></h1>
+<p class="lede">DFoS is a fork of the Linux 6.12 kernel with DialectForge as a kernel subsystem, not an app on top. Every process gets its own dialect seed. Memory pages are encrypted with keys derived from it. The filesystem and the network sockets speak dialect natively. It's released as a “break me” challenge: flash it, boot it, attack it.</p>
+<div class="btns"><a class="btn" href="https://github.com/dialectforge/dfos-releases/releases">Download v1.0 image <span class="arr">↓</span></a><a class="btn" href="https://github.com/dialectforge/DFoS">DFoS on GitHub</a><a class="btn" href="#architecture">Architecture</a></div>
+<div class="titleblock" style="border-color:var(--bench-ink)"><div><span>Kernel</span>6.12.12-df</div><div><span>Arch</span>x86_64</div><div><span>Image</span>~460 MB · 8 GB flashed</div><div><span>Kernel license</span>GPL-2.0</div></div>
+</div>
+<div class="hero-fig"><div class="term"><div class="bar"><span>dfos v1.0</span><span>tty1</span></div><pre><span class="p">root@dfos:~#</span> uname -r
+6.12.12-df
+<span class="p">root@dfos:~#</span> cat /proc/df_mem_enable
+1
+<span class="p">root@dfos:~#</span> dfctl status
+<span class="d">dialect:</span> active | <span class="d">seed:</span> 7a3f…c812 | <span class="d">cycle:</span> 120s
+<span class="d">cipher:</span>  AES-256-GCM | <span class="d">pages encrypted:</span> 41,293
+<span class="d">lsm:</span>     dialectforge | <span class="d">zones:</span> 3 | <span class="d">quarantined:</span> 0
+<span class="p">root@dfos:~#</span> dfpkg list --installed
+openssh-server git gcc vim firmware-iwlwifi …
+<span class="d">[317 packages — minimal base]</span></pre></div></div>
+</div></section>
+
+<section class="sheet sec" id="architecture"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Stack</div>
+<div class="main">
+<h2>Every layer is dialect-aware</h2>
+<figure>
+<svg class="dia" viewBox="0 0 600 420" role="img" aria-label="DFoS layer diagram from hardware up: Linux 6.12.12, DF core subsystem, df_mem, LSM, dialectfs and AF_DIALECTFORGE, then userspace tools dfctl, dfpkg, df_tunnel and the pentest suite">
+<text x="0" y="14" class="t-dim">USERSPACE</text>
+<rect class="bx" x="0" y="22" width="140" height="50"/><text x="70" y="52" text-anchor="middle">dfctl</text>
+<rect class="bx" x="153" y="22" width="140" height="50"/><text x="223" y="52" text-anchor="middle">dfpkg</text>
+<rect class="bx" x="306" y="22" width="140" height="50"/><text x="376" y="52" text-anchor="middle">df_tunnel</text>
+<rect class="bx-ox" x="459" y="22" width="141" height="50"/><text x="530" y="52" text-anchor="middle">pentest suite</text>
+<path class="ln-d" d="M0 92H600"/><text x="600" y="88" text-anchor="end" class="t-dim">/proc · syscalls</text>
+<text x="0" y="114" class="t-dim">KERNEL · DF SUBSYSTEM</text>
+<rect class="bx" x="0" y="122" width="190" height="50"/><text x="95" y="146" text-anchor="middle">dialectfs</text><text x="95" y="161" text-anchor="middle" class="t-dim">native VFS, no FUSE</text>
+<rect class="bx" x="205" y="122" width="190" height="50"/><text x="300" y="146" text-anchor="middle">AF_DIALECTFORGE</text><text x="300" y="161" text-anchor="middle" class="t-dim">socket family</text>
+<rect class="bx" x="410" y="122" width="190" height="50"/><text x="505" y="146" text-anchor="middle">DialectForge LSM</text><text x="505" y="161" text-anchor="middle" class="t-dim">10 hooks · tiers</text>
+<rect class="bx-ox" x="0" y="184" width="295" height="50"/><text x="147" y="208" text-anchor="middle">df_mem</text><text x="147" y="223" text-anchor="middle" class="t-dim">page encryption · per-process keys</text>
+<rect class="bx" x="305" y="184" width="295" height="50"/><text x="452" y="208" text-anchor="middle">anomaly scoring · quarantine</text><text x="452" y="223" text-anchor="middle" class="t-dim">per-PID · auto lockdown</text>
+<rect class="bx-k" x="0" y="246" width="600" height="50"/><text x="300" y="270" text-anchor="middle" class="t-inv">CORE · seed manager · HKDF tree · cipher engine · cycle refresh · sysctl</text><text x="300" y="285" text-anchor="middle" class="t-inv" style="opacity:.7">Kyber-768 key exchange being added</text>
+<rect class="bx" x="0" y="308" width="600" height="44"/><text x="300" y="334" text-anchor="middle">Linux 6.12.12 stable · i915 / amdgpu / nouveau · standard drivers</text>
+<rect class="bx" x="0" y="364" width="600" height="44" style="fill:var(--paper-2)"/><text x="300" y="390" text-anchor="middle" class="t-dim">HARDWARE</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> DFoS v1.0 stack. The orange blocks are what an attacker meets first.</figcaption>
+</figure>
+</div>
+<p class="note">Normal Linux trusts every program the same way and keeps memory readable. DFoS gives each program its own key and scrambles its memory with it, so one program can't just read another's.</p>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Inside</div>
+<div class="main wide">
+<h2>What's in the kernel</h2>
+<table class="register"><tbody>
+<tr><td>2.1</td><td><span class="name">Hierarchical seeds</span><p>An HKDF-SHA256 derivation tree. The root seed branches into volume, directory and file seeds. Every process inherits a unique dialect at <code>fork()</code>.</p></td></tr>
+<tr><td>2.2</td><td><span class="name">df_mem: dialect-encrypted memory</span><p>Memory pages are encrypted with dialect-derived keys: AES-256-GCM on the secure path, an HMAC-SHA256 keystream on the fast path. Nothing changes for userspace programs. The aim is that a memory dump, a cold-boot capture or a read of another process's memory turns up ciphertext.</p></td></tr>
+<tr><td>2.3</td><td><span class="name">dialectfs</span><p>A native, stacking VFS filesystem in the kernel. Files are encrypted on write and decrypted on read using the seed tree, and applications don't notice. A related Integrity Shield attests files with DF HMACs.</p></td></tr>
+<tr><td>2.4</td><td><span class="name">AF_DIALECTFORGE sockets</span><p>A kernel socket family, so programs can open DF-native connections the same way they'd open TCP. The <code>df_tunnel</code> daemon uses it for DF-to-DF links.</p></td></tr>
+<tr><td>2.5</td><td><span class="name">Three-tier trust: Native, Adopted, Quarantine</span><p>Enforced by a Linux Security Module with ten hooks covering exec, file open, IPC, ptrace and sockets. Packages installed with <code>dfpkg</code> are GPG-verified and given a seed in the Adopted tier. Untrusted processes get short-lived seeds and can be wiped all at once with one revocation. USB devices are quarantined automatically.</p></td></tr>
+<tr><td>2.6</td><td><span class="name">Anomaly detection</span><p>Per-process behavior scoring: socket creation, blocked file access, cross-dialect ptrace. Past the threshold, the process is locked down automatically.</p></td></tr>
+<tr><td>2.7</td><td><span class="name">Hardened image</span><p>Key-only SSH, default-drop firewall, SUID cut down to 8 binaries, <code>/dev/mem</code> removed, and a GRUB password on the boot entries that can turn memory protection off.</p></td></tr>
+</tbody></table>
+</div>
+</div></section>
+
+<section class="sheet sec dark" id="break-me"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Break me</div>
+<div class="main">
+<h2>The “break me” challenge</h2>
+<p class="measure">I don't want you to take my word for it. v1.0 is a minimal base you can boot from USB to poke at the DF subsystem. The demo programs try the classic attacks against it: stack overflow, shellcode injection, cold-boot dump, <code>/proc/pid/mem</code> scraping, ROP chains. The full attack toolkit is planned for v1.1. If you get through, tell me how. That's the point.</p>
+<table class="register"><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>custom</td><td><span class="name">df_pentest.sh</span><p>DF attack suite in 7 categories: memory forensics, network analysis, privilege escalation, filesystem forensics, crypto attacks, malware persistence, DMA.</p></td></tr>
+<tr><td>custom</td><td><span class="name">dfctl</span><p>Look inside the protocol: seed trees, zones, cipher modes, process tiers.</p></td></tr>
+<tr><td>v1.1</td><td><span class="name">Metasploit · Nmap · sqlmap · Wireshark · John / Hashcat · Aircrack-ng</span><p>Standard offensive tooling, planned for the next release.</p></td></tr>
+</tbody></table>
+<div class="btns"><a class="btn" href="https://github.com/dialectforge/dfos-releases/releases">Get the image</a><a class="btn" href="mailto:info@dialectforge.com?subject=DFoS%20break%20me%20report">Report a break</a></div>
+<!-- ============================================================
+     PLACEHOLDER: SECURITY TRACK RECORD
+     Reserved for a future "security track record" block (e.g. how DFoS
+     behaved against specific public Linux exploits). DO NOT publish any
+     such claims until John supplies verifiable evidence (test logs,
+     reproducible steps, kernel configs). Until then this stays empty.
+     ============================================================ -->
+</div>
+<p class="note">I built the lock, and I'm handing out the picks. If it holds up, good. If it doesn't, I learn where to fix it.</p>
+</div></section>
+
+<section class="sheet sec" id="roadmap"><div class="wrap grid">
+<div class="rail"><b>§ 4</b> Roadmap</div>
+<div class="main wide">
+<h2>Three layers of atmosphere</h2>
+<div class="domains">
+<div class="dom w2"><span class="no">LAYER 1</span><h3>Troposphere <span class="tag live">v1.0</span></h3><p>The Linux 6.12 fork described above. CLI-only base image.</p></div>
+<div class="dom"><span class="no">LAYER 2</span><h3>Mesosphere <span class="tag dev">In development</span></h3><p>The same kernel with Rust userspace tools and a full desktop.</p></div>
+<div class="dom end" id="stratosphere"><span class="no">LAYER 3</span><h3>Stratosphere <span class="tag dev">In development</span></h3><p>A clean-room operating system kernel written from scratch in Rust. DF isn't added on: the DF tunnel is how processes talk at every level, and a program can only do what its seed derivation allows. Other operating systems would run inside it as DF virtual machines.</p></div>
+<div class="dom w6 end" id="android"><span class="no">MOBILE</span><h3>DFoS Android <span class="tag plan">Planned</span></h3><p>A hardened Android base with DF at every layer: AF_DIALECTFORGE sockets, dialectfs over app data, Native / Adopted / Quarantine trust tiers for apps enforced at the IPC layer, and post-quantum keys in the kernel. To be released under the GPL like the rest of the kernel work.</p></div>
+</div>
+</div>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 5</b> Source</div>
+<div class="main"><h2>Licensing</h2><p class="measure">The DFoS kernel and anything kernel-facing are GPL-2.0, the same as Linux. The userspace tools (dfctl, dfpkg, df_tunnel, installer, demos and test suite) are AGPL-3.0, with commercial licenses available. The source release is coming soon. <a href="/licensing/">Licensing details →</a></p></div>
+</div></section>

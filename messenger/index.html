@@ -1,213 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-SDLC9S27DQ');
-    </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DialectForge Messenger — Double-Layer Security</title>
-<meta name="description" content="DialectForge Messenger uses double-layer encryption: seed-negotiated traffic obfuscation plus end-to-end encryption. We can't read your messages — because of math, not policy.">
-<link rel="canonical" href="https://dialectforge.com/messenger/">
-<meta property="og:title" content="DialectForge Messenger — Double-Layer Security">
-<meta property="og:description" content="Double-layer encryption keeps messages private from everyone — including us. We can't read them, hand them over, or be forced to.">
-<meta property="og:url" content="https://dialectforge.com/messenger/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0a0f; --surface: #12121a; --surface2: #181824; --border: #1e1e2e; --text: #e0e0e8; --dim: #6a6a80;
-    --green: #00ff88; --green-dark: #00cc6a; --green-glow: rgba(0,255,136,0.12);
-    --blue: #4da6ff; --blue-glow: rgba(77,159,255,0.12); --purple: #a855f7; --purple-glow: rgba(168,85,247,0.12);
-    --red: #ff4d6a; --red-glow: rgba(255,77,106,0.12); --amber: #ffb84d;
-    --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; }
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 40px 40px; pointer-events: none;
-  }
-  nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-    background: rgba(10,10,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 700; color: var(--green); text-decoration: none; }
-        .logo-img { height: 36px; width: auto; display: block; }
-        .logo-icon { display: none; }
-  .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--green), var(--blue)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: var(--dim); text-decoration: none; font-weight: 500; transition: color 0.3s; }
-  .nav-links a:hover, .nav-links a.active { color: var(--green); }
-  .nav-cta { background: var(--green); color: var(--bg); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; }
-  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 120px 32px 40px; }
-  header { text-align: center; margin-bottom: 52px; }
-  header h1 { font-weight: 800; font-size: 2.6rem; letter-spacing: -0.03em; margin-bottom: 10px;
-    background: linear-gradient(135deg, #fff 30%, var(--blue) 60%, var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  header p { font-weight: 300; font-size: 1.15rem; color: var(--dim); max-width: 660px; margin: 0 auto; line-height: 1.6; }
-  .journey { margin-bottom: 56px; }
-  .journey-title { text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; }
-  .stages { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0; align-items: center; }
-  .stage { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; }
-  .stage-icon { font-size: 2rem; margin-bottom: 12px; }
-  .stage-label { font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; }
-  .stage-hex { font-family: var(--mono); font-size: 0.72rem; line-height: 1.8; color: var(--dim); background: var(--bg); border-radius: 8px; padding: 12px; margin-top: 12px; word-break: break-all; }
-  .stage-msg { font-family: var(--mono); font-size: 0.85rem; background: var(--bg); border-radius: 8px; padding: 14px; margin-top: 12px; color: var(--green); }
-  .arrow { display: flex; align-items: center; justify-content: center; padding: 0 8px; }
-  .arrow svg { width: 40px; height: 20px; fill: none; stroke: var(--dim); stroke-width: 2; }
-  .layer-tag { display: inline-block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 8px; }
-  .tag-green { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
-  .tag-blue { background: var(--blue-glow); color: var(--blue); border: 1px solid rgba(77,159,255,0.2); }
-  .visibility { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 48px; }
-  .vis-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: center; }
-  .vis-icon { font-size: 2.2rem; margin-bottom: 14px; }
-  .vis-who { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
-  .vis-role { font-size: 0.78rem; color: var(--dim); margin-bottom: 16px; }
-  .vis-sees { font-family: var(--mono); font-size: 0.72rem; background: var(--bg); border-radius: 8px; padding: 14px 12px; word-break: break-all; line-height: 1.7; margin-bottom: 14px; min-height: 72px; display: flex; align-items: center; justify-content: center; }
-  .vis-verdict { font-weight: 600; font-size: 0.82rem; padding: 6px 14px; border-radius: 100px; display: inline-block; }
-  .verdict-blocked { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
-  .verdict-yes { background: rgba(77,159,255,0.12); color: var(--blue); border: 1px solid rgba(77,159,255,0.2); }
-  .compare-section { margin-bottom: 48px; }
-  .compare-title { text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
-  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .compare-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
-  .compare-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-  .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-  .compare-row:last-child { border-bottom: none; }
-  .compare-label { color: var(--dim); }
-  .check { color: var(--green); font-weight: 700; }
-  .cross { color: var(--red); font-weight: 700; }
-  .warn { color: var(--amber); font-weight: 700; }
-  .insight { text-align: center; padding: 36px 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; max-width: 860px; margin: 0 auto 48px; }
-  .insight h3 { font-weight: 700; font-size: 1.2rem; margin-bottom: 12px; color: var(--green); }
-  .insight p { font-weight: 300; font-size: 1rem; color: var(--dim); line-height: 1.7; max-width: 640px; margin: 0 auto; }
-  .insight .highlight { color: var(--text); font-weight: 500; }
-  .page-cta { text-align: center; margin-bottom: 48px; }
-  .btn-primary { background: var(--green); color: var(--bg); padding: 1rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; }
-  .btn-primary:hover { background: var(--green-dark); transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,255,136,0.3); }
-  footer { background: var(--bg); border-top: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem 1.5rem; }
-  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-  .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
-  .footer-inner a { color: var(--dim); text-decoration: none; font-size: 0.875rem; } .footer-inner a:hover { color: var(--green); }
-  .footer-copy { color: var(--dim); font-size: 0.875rem; }
-  @media (max-width: 900px) { .stages { grid-template-columns: 1fr; gap: 16px; } .arrow { transform: rotate(90deg); padding: 8px 0; } .visibility, .compare-grid { grid-template-columns: 1fr; } header h1 { font-size: 1.8rem; } .nav-links { display: none; } }
-</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DialectForge Messenger — two layers of protection</title>
+<meta name="description" content="DialectForge Messenger uses two layers: the DialectForge protocol on the wire and end-to-end encryption on the content. The server is designed to be a dumb pipe. In development.">
+<meta property="og:title" content="DialectForge Messenger — two layers of protection">
+<meta property="og:description" content="DialectForge Messenger uses two layers: the DialectForge protocol on the wire and end-to-end encryption on the content. The server is designed to be a dumb pipe. In development.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
 </head>
 <body>
-<nav>
-  <a href="/" class="logo">
-            <img src="/assets/logo.svg" alt="DialectForge" class="logo-img">
-        </a>
-  <ul class="nav-links">
-    <li><a href="/download" style="color:var(--green);font-weight:600;">Download</a></li>
-    <li><a href="/vpn">VPN</a></li>
-    <li><a href="/messenger" class="active">Messenger</a></li>
-    <li><a href="/mesh">Mesh</a></li>
-    <li><a href="/terminal">Terminal</a></li>
-    <li><a href="/research">Research</a></li>
-  </ul>
-  <a href="/download" class="nav-cta">Download</a>
-</nav>
-<div class="container">
-  <header>
-    <h1>DialectForge Messenger</h1>
-    <p>Double-layer security that makes messages invisible to everyone &mdash; including us. We can't read your messages, we can't hand them over, and we can't be forced to.</p>
-  </header>
-  <div class="journey">
-    <div class="journey-title">How a message travels</div>
-    <div class="stages">
-      <div class="stage">
-        <div class="stage-icon">&#x1F4AC;</div>
-        <div class="stage-label">You type a message</div>
-        <div class="stage-msg">"Meet me at the cafe at 3pm"</div>
-      </div>
-      <div class="arrow"><svg viewBox="0 0 40 20"><polyline points="0,10 30,10" /><polyline points="24,4 30,10 24,16" /></svg></div>
-      <div class="stage">
-        <div class="stage-icon">&#x1F510;</div>
-        <span class="layer-tag tag-blue">Layer 2 &mdash; End-to-End Encryption</span>
-        <div class="stage-label">Encrypted with recipient's key</div>
-        <div class="stage-hex" style="color: var(--blue);">a7c2 91f0 4e8b d3a5 1c76 f928 0b5d e4a3 8f17 c6b2 50d9 3ea1 7c04 b8f5 62da</div>
-        <div style="margin-top:8px;"><span class="layer-tag tag-green">Layer 1 &mdash; DialectForge Obfuscation</span></div>
-        <div class="stage-label" style="margin-top:4px;">Wrapped in cycling dialect</div>
-        <div class="stage-hex" style="color: var(--green);">e5 3b a0 76 d8 43 1f b9 64 fc 27 8e 51 cc 05 ab 83 c6 1a 5f ae 47 d4 02 69 bb f7 2e 94 c1 58 0f</div>
-      </div>
-      <div class="arrow"><svg viewBox="0 0 40 20"><polyline points="0,10 30,10" /><polyline points="24,4 30,10 24,16" /></svg></div>
-      <div class="stage">
-        <div class="stage-icon">&#x2705;</div>
-        <div class="stage-label">Recipient decrypts</div>
-        <div class="stage-msg">"Meet me at the cafe at 3pm"</div>
-      </div>
-    </div>
-  </div>
-  <div class="journey-title" style="text-align:center;margin-bottom:28px;">Who can read your messages?</div>
-  <div class="visibility">
-    <div class="vis-card">
-      <div class="vis-icon">&#x1F3DB;&#xFE0F;</div>
-      <div class="vis-who">Your ISP / Government</div>
-      <div class="vis-role">Network monitoring &amp; deep packet inspection</div>
-      <div class="vis-sees" style="color: var(--green);">e5 3b a0 76 d8 43 1f b9<br>64 fc 27 8e 51 cc 05 ab<br>83 c6 1a 5f ae 47 d4 02</div>
-      <div class="vis-verdict verdict-blocked">&#x1F6AB; Random noise &mdash; can't even detect a messenger</div>
-    </div>
-    <div class="vis-card">
-      <div class="vis-icon">&#x1F6E1;&#xFE0F;</div>
-      <div class="vis-who">DialectForge Servers</div>
-      <div class="vis-role">Routes your encrypted messages</div>
-      <div class="vis-sees" style="color: var(--blue);">a7c2 91f0 4e8b d3a5<br>1c76 f928 0b5d e4a3<br>8f17 c6b2 50d9 3ea1</div>
-      <div class="vis-verdict verdict-blocked">&#x1F512; E2E encrypted &mdash; we literally cannot read this</div>
-    </div>
-    <div class="vis-card">
-      <div class="vis-icon">&#x1F464;</div>
-      <div class="vis-who">Your Recipient</div>
-      <div class="vis-role">Has the matching private key</div>
-      <div class="vis-sees" style="color: var(--text); font-size: 0.9rem;">"Meet me at the cafe at 3pm"</div>
-      <div class="vis-verdict verdict-yes">&#x2705; Only person who can read it</div>
-    </div>
-  </div>
-  <div class="compare-section">
-    <div class="compare-title">How we compare</div>
-    <div class="compare-grid">
-      <div class="compare-card">
-        <h3>&#x1F6E1;&#xFE0F; DialectForge Messenger</h3>
-        <div class="compare-row"><span class="compare-label">End-to-end encrypted</span><span class="check">&#x2713; Yes</span></div>
-        <div class="compare-row"><span class="compare-label">Traffic designed to resist detection</span><span class="check">&#x2713; Yes</span></div>
-        <div class="compare-row"><span class="compare-label">Provider can read messages</span><span class="check">&#x2717; Impossible</span></div>
-        <div class="compare-row"><span class="compare-label">Can comply with data requests</span><span class="check">&#x2717; Nothing to hand over</span></div>
-        <div class="compare-row"><span class="compare-label">Blocked by censors</span><span class="check">&#x2717; Can't be identified</span></div>
-        <div class="compare-row"><span class="compare-label">Keys stored on server</span><span class="check">&#x2717; Never</span></div>
-      </div>
-      <div class="compare-card">
-        <h3>&#x1F4AC; Typical E2E Messenger</h3>
-        <div class="compare-row"><span class="compare-label">End-to-end encrypted</span><span class="check">&#x2713; Yes</span></div>
-        <div class="compare-row"><span class="compare-label">Traffic designed to resist detection</span><span class="cross">&#x2717; No &mdash; protocol is fingerprintable</span></div>
-        <div class="compare-row"><span class="compare-label">Provider can read messages</span><span class="check">&#x2717; No (if implemented correctly)</span></div>
-        <div class="compare-row"><span class="compare-label">Can comply with data requests</span><span class="warn">&#x26A0; Metadata, contacts, timestamps</span></div>
-        <div class="compare-row"><span class="compare-label">Blocked by censors</span><span class="cross">&#x2713; Yes &mdash; easily identified &amp; blocked</span></div>
-        <div class="compare-row"><span class="compare-label">Keys stored on server</span><span class="warn">&#x26A0; Often &mdash; for multi-device sync</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="insight">
-    <h3>Why two layers?</h3>
-    <p><span class="highlight">Layer 1 (DialectForge Obfuscation)</span> makes your traffic invisible &mdash; censors can't tell you're using a messenger at all. The dialect changes every 2 minutes, so there's never a pattern to detect.</p>
-    <p style="margin-top: 14px;"><span class="highlight">Layer 2 (End-to-End Encryption)</span> ensures that even if someone intercepted the traffic and stripped Layer 1, the message is still encrypted with keys that only exist on sender and recipient devices. Not on our servers. Not anywhere else.</p>
-    <p style="margin-top: 18px; color: var(--green); font-weight: 500;">We don't store messages. We don't store keys. We can't read your conversations.<br>Not because of policy &mdash; because of math.</p>
-  </div>
-  <div class="page-cta">
-    <a href="mailto:info@dialectforge.com?subject=Messenger Early Access" class="btn-primary"><span>&#x1F4E8;</span> Request Early Access</a>
-  </div>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge <small>LLC · Michigan</small></span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains" aria-current=page>Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a><a class="btn-sm" href="/download/">Downloads</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Messenger</div><h1>Messenger <span class="tag dev">In development</span></h1><p class="lede" style="margin-top:12px">Two layers. DialectForge on the wire hides that it's a messenger at all. End-to-end encryption on the content means the server only ever handles sealed envelopes.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Path</div>
+<div class="main wide">
+<figure>
+<svg class="dia" viewBox="0 0 860 200" role="img" aria-label="A message is end-to-end encrypted on the sender's device (layer 2), wrapped in a DialectForge dialect for the trip to the server (layer 1), routed by the server which only sees the sealed layer 2 blob, then unwrapped and decrypted on the recipient's device">
+<rect class="bx" x="0" y="60" width="150" height="70"/><text x="75" y="88" text-anchor="middle" class="t-h">Sender</text><text x="75" y="108" text-anchor="middle" class="t-dim">“Meet at 3pm”</text>
+<rect class="bx" x="355" y="60" width="150" height="70"/><text x="430" y="88" text-anchor="middle" class="t-h">Server</text><text x="430" y="108" text-anchor="middle" class="t-dim">sees L2 blob only</text>
+<rect class="bx" x="710" y="60" width="150" height="70"/><text x="785" y="88" text-anchor="middle" class="t-h">Recipient</text><text x="785" y="108" text-anchor="middle" class="t-dim">“Meet at 3pm”</text>
+<rect class="bx-ox" x="160" y="10" width="540" height="26"/><text x="430" y="28" text-anchor="middle">L2 · end-to-end · app ⇄ app · server never has the key</text>
+<path class="ln-ox" d="M75 36V58M785 36V58M160 23H75V36M700 23H785V36"/>
+<path class="ln" d="M150 95H351M505 95H706"/><path class="ln" d="M345 90l8 5-8 5M700 90l8 5-8 5"/>
+<rect class="bx-k" x="170" y="140" width="170" height="26"/><text x="255" y="157" text-anchor="middle" class="t-inv">L1 · e5 3b a0 76 …</text>
+<rect class="bx-k" x="520" y="140" width="170" height="26"/><text x="605" y="157" text-anchor="middle" class="t-inv">L1 · 83 c6 1a 5f …</text>
+<text x="430" y="192" text-anchor="middle" class="t-dim">L1 = DF dialect per hop, cycling · hides that this is messaging traffic</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> Double-DF: L1 hides the traffic, L2 seals the content.</figcaption>
+</figure>
+</div></div></section>
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Who sees what</div>
+<div class="main">
+<table class="register"><thead><tr><th>Party</th><th>What they're designed to see</th></tr></thead><tbody>
+<tr><td>ISP / DPI</td><td><span class="name">Noise</span><p>L1 dialect traffic with no messenger signature to block.</p></td></tr>
+<tr><td>Server</td><td><span class="name">Sealed envelopes</span><p>End-to-end encrypted blobs it routes and doesn't store. It doesn't hold the keys.</p></td></tr>
+<tr><td>Recipient</td><td><span class="name">Your message</span><p>The only party with the matching private key.</p></td></tr>
+</tbody></table>
+<p class="measure">Under the hood: usernames come from identity public keys. The L2 seed is set up with an X3DH-style key agreement plus XOR consensus, with a post-quantum (Kyber) hybrid planned. It's a SwiftUI app for iOS and macOS.</p>
+<p class="measure">Messages and keys aren't stored on the server. That's the design goal and the reason it's built this way; the open source release is how you'll be able to check it. Messenger has its own <a href="/messenger/terms/">Terms</a> and <a href="/messenger/privacy/">Privacy Policy</a>.</p>
+<div class="btns"><a class="btn solid" href="mailto:info@dialectforge.com?subject=Messenger%20Early%20Access">Request early access</a></div>
 </div>
-<footer>
-  <div class="footer-inner">
-    <span class="footer-copy">&copy; 2026 DialectForge. All rights reserved. DialectForge is being prepared for open-source release.</span>
-    <div class="footer-links">
-      <a href="/">Home</a><a href="/vpn">VPN</a><a href="/messenger">Messenger</a><a href="/mesh">Mesh</a><a href="/terminal">Terminal</a><a href="/research">Research</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a>
-    </div>
-  </div>
-</footer>
+<p class="note">The outside envelope hides that you're sending a letter at all. The inside envelope can only be opened by the person it's for. Not even the post office can open it.</p>
+</div></section>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li><li><a href="/sitroom">SitRoom</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC · Michigan, USA</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
 </body>
 </html>

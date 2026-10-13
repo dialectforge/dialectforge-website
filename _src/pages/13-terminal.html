@@ -1,0 +1,35 @@
+title: DialectForge Terminal — SSH over DialectForge
+desc: DialectForge Terminal carries SSH inside the DialectForge protocol, with TOTP, per-session tokens and certificate pinning. macOS and iPad apps plus a Python server proxy. Open source (AGPL-3.0) coming soon.
+path: /terminal/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Terminal</div><h1>Terminal / SSH</h1><p class="lede" style="margin-top:12px">Server administration with SSH carried inside DialectForge. The goal is to hide the connection itself from network monitors, not just its content.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Compare</div>
+<div class="main wide">
+<div class="pair">
+<div class="minus"><h4>Standard SSH · <code>ssh root@server</code></h4><ul><li>Known port 22</li><li>Recognizable SSH handshake</li><li>Port scanners find it fast</li><li>Brute-force attempts around the clock</li><li>Traffic pattern shows admin activity</li></ul></div>
+<div class="plus"><h4>DF Terminal · <code>dialectforge connect server-eu</code></h4><ul><li>Non-standard port, designed not to answer scanners</li><li>SSH wrapped in a DF dialect</li><li>Traffic designed to look like random noise</li><li>Three factors required before a shell</li><li>Dialect refreshes every 2 minutes</li></ul></div>
+</div>
+<div class="term"><div class="bar"><span>DialectForge Terminal</span><span>session</span></div><pre><span class="d">[DialectForge]</span> Connecting to server...
+<span class="d">[DialectForge]</span> TOTP required: enter 6-digit code: ██████
+<span class="d">[DialectForge]</span> TOTP verified
+<span class="d">[DialectForge]</span> Session token issued
+<span class="d">[DialectForge]</span> Certificate pinned
+<span class="d">[DialectForge]</span> <span class="k">Dialect established</span>
+<span class="p">root@df-server:~#</span> █</pre></div>
+</div></div></section>
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Layers</div>
+<div class="main">
+<table class="register"><tbody>
+<tr><td>L1</td><td><span class="name">TOTP code</span><p>A time-based one-time code from your authenticator app. New every 30 seconds.</p></td></tr>
+<tr><td>L2</td><td><span class="name">Session token</span><p>Issued after TOTP, scoped to this one session, not reusable.</p></td></tr>
+<tr><td>L3</td><td><span class="name">Certificate pinning</span><p>A pinned client certificate. If it doesn't match exactly, the connection is closed. No fallback.</p></td></tr>
+<tr><td>+</td><td><span class="name">DialectForge underneath</span><p>All of the above happens inside a dialect that changes every two minutes.</p></td></tr>
+</tbody></table>
+<p class="measure">The pieces: a Python server-side SSH proxy with a systemd unit, a command-line client, and native macOS and iPad apps. Each one carries its own copy of the dialect engine.</p>
+<div class="btns"><a class="btn" href="mailto:info@dialectforge.com?subject=Terminal%20Enterprise%20Inquiry">Commercial licensing</a><a class="btn" href="/licensing/">AGPL-3.0, coming soon</a></div>
+</div>
+<p class="note">Normal SSH is a front door with a good deadbolt. This puts the door around back, changes its shape every two minutes, and adds three different locks.</p>
+</div></section>

@@ -1,0 +1,38 @@
+title: DialectForge Messenger — two layers of protection
+desc: DialectForge Messenger uses two layers: the DialectForge protocol on the wire and end-to-end encryption on the content. The server is designed to be a dumb pipe. In development.
+path: /messenger/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Messenger</div><h1>Messenger <span class="tag dev">In development</span></h1><p class="lede" style="margin-top:12px">Two layers. DialectForge on the wire hides that it's a messenger at all. End-to-end encryption on the content means the server only ever handles sealed envelopes.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Path</div>
+<div class="main wide">
+<figure>
+<svg class="dia" viewBox="0 0 860 200" role="img" aria-label="A message is end-to-end encrypted on the sender's device (layer 2), wrapped in a DialectForge dialect for the trip to the server (layer 1), routed by the server which only sees the sealed layer 2 blob, then unwrapped and decrypted on the recipient's device">
+<rect class="bx" x="0" y="60" width="150" height="70"/><text x="75" y="88" text-anchor="middle" class="t-h">Sender</text><text x="75" y="108" text-anchor="middle" class="t-dim">“Meet at 3pm”</text>
+<rect class="bx" x="355" y="60" width="150" height="70"/><text x="430" y="88" text-anchor="middle" class="t-h">Server</text><text x="430" y="108" text-anchor="middle" class="t-dim">sees L2 blob only</text>
+<rect class="bx" x="710" y="60" width="150" height="70"/><text x="785" y="88" text-anchor="middle" class="t-h">Recipient</text><text x="785" y="108" text-anchor="middle" class="t-dim">“Meet at 3pm”</text>
+<rect class="bx-ox" x="160" y="10" width="540" height="26"/><text x="430" y="28" text-anchor="middle">L2 · end-to-end · app ⇄ app · server never has the key</text>
+<path class="ln-ox" d="M75 36V58M785 36V58M160 23H75V36M700 23H785V36"/>
+<path class="ln" d="M150 95H351M505 95H706"/><path class="ln" d="M345 90l8 5-8 5M700 90l8 5-8 5"/>
+<rect class="bx-k" x="170" y="140" width="170" height="26"/><text x="255" y="157" text-anchor="middle" class="t-inv">L1 · e5 3b a0 76 …</text>
+<rect class="bx-k" x="520" y="140" width="170" height="26"/><text x="605" y="157" text-anchor="middle" class="t-inv">L1 · 83 c6 1a 5f …</text>
+<text x="430" y="192" text-anchor="middle" class="t-dim">L1 = DF dialect per hop, cycling · hides that this is messaging traffic</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> Double-DF: L1 hides the traffic, L2 seals the content.</figcaption>
+</figure>
+</div></div></section>
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Who sees what</div>
+<div class="main">
+<table class="register"><thead><tr><th>Party</th><th>What they're designed to see</th></tr></thead><tbody>
+<tr><td>ISP / DPI</td><td><span class="name">Noise</span><p>L1 dialect traffic with no messenger signature to block.</p></td></tr>
+<tr><td>Server</td><td><span class="name">Sealed envelopes</span><p>End-to-end encrypted blobs it routes and doesn't store. It doesn't hold the keys.</p></td></tr>
+<tr><td>Recipient</td><td><span class="name">Your message</span><p>The only party with the matching private key.</p></td></tr>
+</tbody></table>
+<p class="measure">Under the hood: usernames come from identity public keys. The L2 seed is set up with an X3DH-style key agreement plus XOR consensus, with a post-quantum (Kyber) hybrid planned. It's a SwiftUI app for iOS and macOS.</p>
+<p class="measure">Messages and keys aren't stored on the server. That's the design goal and the reason it's built this way; the open source release is how you'll be able to check it. Messenger has its own <a href="/messenger/terms/">Terms</a> and <a href="/messenger/privacy/">Privacy Policy</a>.</p>
+<div class="btns"><a class="btn solid" href="mailto:info@dialectforge.com?subject=Messenger%20Early%20Access">Request early access</a></div>
+</div>
+<p class="note">The outside envelope hides that you're sending a letter at all. The inside envelope can only be opened by the person it's for. Not even the post office can open it.</p>
+</div></section>

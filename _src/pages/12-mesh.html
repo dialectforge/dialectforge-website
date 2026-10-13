@@ -1,0 +1,43 @@
+title: DialectForge Mesh — server-to-server and database tunneling
+desc: DialectForge Mesh wraps server-to-server and database replication traffic in the DialectForge protocol, so it is designed to look like noise on the wire. Open source (AGPL-3.0) coming soon.
+path: /mesh/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Mesh</div><h1>Mesh / Tunnel</h1><p class="lede" style="margin-top:12px">Server-to-server and database traffic, wrapped in DialectForge. The database connects to a local port and has no idea its traffic is crossing the internet in dialect.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Before / after</div>
+<div class="main wide">
+<figure>
+<svg class="dia" viewBox="0 0 860 260" role="img" aria-label="Before: a replica connects to the primary database on port 5432 and attackers see PostgreSQL replication. After: each side connects to a local DF tunnel endpoint and the link between them carries only dialect-encoded bytes">
+<text x="0" y="16" class="t-dim">BEFORE</text>
+<rect class="bx" x="0" y="26" width="170" height="44"/><text x="85" y="52" text-anchor="middle">Replica · Postgres</text>
+<rect class="bx" x="690" y="26" width="170" height="44"/><text x="775" y="52" text-anchor="middle">Primary · Postgres</text>
+<path class="ln" d="M170 48H686"/><path class="ln" d="M680 43l8 5-8 5"/><text x="430" y="40" text-anchor="middle">:5432 · replication protocol, identifiable</text>
+<text x="430" y="66" text-anchor="middle" class="t-ox">watcher sees: “PostgreSQL replication” → known CVEs to try</text>
+<text x="0" y="116" class="t-dim">AFTER</text>
+<rect class="bx" x="0" y="126" width="120" height="44"/><text x="60" y="152" text-anchor="middle">Postgres</text>
+<rect class="bx-ox" x="140" y="126" width="140" height="44"/><text x="210" y="146" text-anchor="middle">DF client</text><text x="210" y="161" text-anchor="middle" class="t-dim">localhost</text>
+<rect class="bx-ox" x="580" y="126" width="140" height="44"/><text x="650" y="146" text-anchor="middle">DF server</text><text x="650" y="161" text-anchor="middle" class="t-dim">tunnel port</text>
+<rect class="bx" x="740" y="126" width="120" height="44"/><text x="800" y="152" text-anchor="middle">Postgres</text>
+<path class="ln" d="M120 148H136M720 148H736"/>
+<rect class="bx-k" x="300" y="130" width="260" height="36"/><text x="430" y="152" text-anchor="middle" class="t-inv">a7 3f c1 8b 02 e9 4d 71 b8 5a …</text>
+<text x="430" y="196" text-anchor="middle" class="t-ox">watcher sees: bytes with no protocol signature</text>
+<text x="430" y="226" text-anchor="middle" class="t-dim">session-mode dialect · mesh secret never sent · nonce-derived session keys</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> Database replication through a DF tunnel.</figcaption>
+</figure>
+</div></div></section>
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> How</div>
+<div class="main">
+<ol class="steps">
+<li><h3>Built into the server</h3><p>Mesh runs as a service on each machine. When servers come online their tunnel endpoints negotiate a dialect that only they share. There's no external auth service.</p></li>
+<li><h3>Replication through the tunnel</h3><p>The primary runs a tunnel endpoint; each replica connects through it. The database software just talks to a local address.</p></li>
+<li><h3>The mesh secret never crosses the wire</h3><p>All servers share a mesh secret, but it's never transmitted. Endpoints exchange nonces and derive a unique session seed for each connection, so capturing packets shouldn't let you rebuild the secret.</p></li>
+<li><h3>Session-mode dialects</h3><p>Replication is a continuous stream, and changing dialect mid-stream could corrupt data. So each tunnel connection holds its dialect for the life of the session, and new connections negotiate new ones.</p></li>
+</ol>
+<p class="measure">I ran my own servers this way: user data and replication streams between machines on three continents went through DF tunnels. If it's good enough for the people using it, it should be good enough for my own infrastructure.</p>
+<div class="btns"><a class="btn" href="mailto:info@dialectforge.com?subject=Mesh%20Enterprise%20Inquiry">Commercial licensing</a><a class="btn" href="/licensing/">AGPL-3.0, coming soon</a></div>
+</div>
+<p class="note">Your servers talk to each other in a language that changes for every conversation. Someone listening can't even tell it's a database.</p>
+</div></section>

@@ -1,0 +1,43 @@
+title: AI Factory, Lu and Cattledog — DialectForge for AI
+desc: AI Factory (now Lu) is a memory system where every fact has its own DialectForge seed and can be revoked, leaving a scar. Cattledog applies that idea as a safety layer around outside AI models, coming open source under Apache-2.0.
+path: /ai-factory/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / AI</div><h1>AI Factory, Lu &amp; Cattledog</h1><p class="lede" style="margin-top:12px">What happens when the protocol isn't just guarding an AI but is how the AI's memory is built. And how that same idea can keep an outside AI model in line.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> AI Factory → Lu</div>
+<div class="main">
+<h2>Knowledge you can remove one piece at a time</h2>
+<p class="measure">Today's AI models smear what they know across billions of weights. You can't fix one wrong fact without retraining. AI Factory, which has grown into a system I call <strong>Lu</strong>, takes a different approach. Every fact is its own unit with its own DialectForge seed, and facts are joined by typed bonds. Recall works by spreading activation through those bonds.</p>
+<table class="register"><tbody>
+<tr><td>1.1</td><td><span class="name">Discrete knowledge</span><p>Every fact can be addressed on its own: looked up, corrected or removed.</p></td></tr>
+<tr><td>1.2</td><td><span class="name">Surgical revocation &amp; scar memory</span><p>Revoke a seed and that knowledge, plus everything derived from it, is cut off. It leaves a <em>scar</em> recording what was removed and why, which resists the same connection forming again.</p></td></tr>
+<tr><td>1.3</td><td><span class="name">Terminal bond</span><p>The AI bonds with its operator through the protocol. Only commands through that bond are treated as commands; everything else is data to look at.</p></td></tr>
+<tr><td>1.4</td><td><span class="name">Transparent reasoning &amp; an honesty floor</span><p>Answers come with the path through memory that produced them. When the memory doesn't have it, the design is to say “I don't know” rather than make something up.</p></td></tr>
+<tr><td>1.5</td><td><span class="name">Designed to resist prompt injection</span><p>The goal isn't to suppress injected instructions, it's that they're never recognized as instructions in the first place.</p></td></tr>
+</tbody></table>
+<figure>
+<video controls preload="none" poster="/assets/demo_poster.jpg" width="1280" height="720" style="width:100%;border:1px solid var(--ink);background:var(--bench)"><source src="/assets/revocation_demo.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+<figcaption class="figcap"><b>DEMO</b> AI Factory terminal v0.1: seed revocation and scars.</figcaption>
+</figure>
+</div>
+<p class="note">Instead of one big blur of knowledge, it's a shop full of labeled drawers. If one drawer is wrong, you pull that drawer and leave a note saying why.</p>
+</div></section>
+<section class="sheet sec dark" id="cattledog"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Cattledog</div>
+<div class="main">
+<span class="kicker">Coming open source · Apache-2.0</span>
+<h2>Cattledog: a safety layer that herds an outside model</h2>
+<p class="measure">A cattle dog doesn't own the herd. It keeps it moving the right way. Cattledog sits between an untrusted AI model and the things it's allowed to touch:</p>
+<ol class="steps">
+<li><h3>Gate the tool calls</h3><p>When the model asks to use a tool, the request is mapped to a capability seed and checked against revocations and scars. It's designed to be wording-invariant: a revoked capability stays blocked however the prompt is phrased.</p></li>
+<li><h3>Check the answer</h3><p>After the model answers, Cattledog checks the answer against its own grounded memory. If the answer is “off,” it sends it back and asks again, a capped number of times, and if it still can't ground it, it says “I don't know.”</p></li>
+</ol>
+<p class="measure">It was proven out in a sandbox with a small open model, graded from logs of what tools actually ran rather than by another AI. It's early. It'll be released under the permissive <strong>Apache-2.0</strong> license so AI teams can use it anywhere.</p>
+</div>
+<p class="note">The AI can bark all it wants, but it only goes through the gates the dog opens, and the dog double-checks its work.</p>
+</div></section>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Related</div>
+<div class="main"><p class="measure">The earlier idea of training a language model to only take instructions in dialect is published as prior art: <a href="/research">DialectForge-Native Language Models</a>. AI Factory is being prepared for release under AGPL-3.0 (<a href="/licensing/">licensing</a>).</p></div>
+</div></section>

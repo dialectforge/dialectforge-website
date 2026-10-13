@@ -1,174 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-SDLC9S27DQ');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="VoxBitz Support. Get help with your private voice recorder.">
-    <title>Support - VoxBitz by DialectForge</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #1A73E8;
-            --secondary: #5BA3F5;
-            --accent: #A8D0FF;
-            --bg-dark: #0a0a0f;
-            --bg-card: #12121a;
-            --text: #ffffff;
-            --text-secondary: #8b8b9a;
-        }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.8; }
-        .container { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
-        .back { color: var(--secondary); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 2rem; }
-        .back:hover { text-decoration: underline; }
-        h1 { font-size: 2.5rem; margin-bottom: 0.25rem; color: var(--primary); }
-        .app-name { color: var(--accent); font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
-        .updated { color: var(--text-secondary); margin-bottom: 3rem; font-size: 0.9rem; }
-        h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--secondary); }
-        p { color: var(--text-secondary); margin-bottom: 1rem; }
-        a { color: var(--primary); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .highlight { background: var(--bg-card); border-left: 4px solid var(--primary); padding: 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
-        .highlight p { margin-bottom: 0; color: var(--text); }
-        .faq-item { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; }
-        .faq-item strong { color: var(--text); display: block; margin-bottom: 0.5rem; font-size: 1.05rem; }
-        .faq-item p { margin-bottom: 0; }
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-        .feature-card { background: var(--bg-card); padding: 1.25rem; border-radius: 8px; }
-        .feature-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .feature-card strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
-        .feature-card p { font-size: 0.9rem; margin-bottom: 0; }
-        .contact-box { background: var(--bg-card); border: 1px solid #1e1e2a; border-radius: 12px; padding: 2rem; text-align: center; margin-top: 2rem; }
-        .contact-box a.email-btn { display: inline-block; background: var(--primary); color: var(--bg-dark); font-weight: 600; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; margin-top: 1rem; }
-        .contact-box a.email-btn:hover { opacity: 0.9; text-decoration: none; }
-        .links { display: flex; gap: 1.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
-        .links a { color: var(--secondary); font-size: 0.9rem; }
-    </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support - VoxBitz by DialectForge</title>
+<meta name="description" content="VoxBitz Support. Get help with your private voice recorder.">
+<meta property="og:title" content="Support - VoxBitz by DialectForge">
+<meta property="og:description" content="VoxBitz Support. Get help with your private voice recorder.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
 </head>
 <body>
-<div class="container">
-    <a href="https://dialectforge.com" class="back">&larr; DialectForge</a>
-    <p class="app-name">VOXBITZ</p>
-    <h1>Support</h1>
-    <p class="updated">Your voice, your device, your privacy</p>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge <small>LLC · Michigan</small></span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a><a class="btn-sm" href="/download/">Downloads</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/download/">Apps</a> / VoxBitz (formerly SoundBits)</div><h1>VoxBitz · Support</h1><div class="apphead"><span class="tag live">iOS</span><span>VoxBitz (formerly SoundBits) · $3.99</span><a href="https://apps.apple.com/us/app/voxbitz/id6759455569">App Store ↗</a><nav aria-label="VoxBitz (formerly SoundBits) pages"><a href="/soundbits/support/">Support</a> <a href="/soundbits/privacy/">Privacy</a> <a href="/soundbits/terms/">Terms</a></nav></div></div></div>
+<div class="wrap"><article class="doc">
+<a class="back" href="https://dialectforge.com">← DialectForge</a>
+<p class="app-name">VOXBITZ</p>
 
-    <div class="highlight">
-        <p>VoxBitz processes everything on your device. We collect zero data, use zero analytics, and have zero access to your recordings or transcriptions.</p>
-    </div>
-
-    <h2>Features</h2>
-    <div class="feature-grid">
-        <div class="feature-card">
-            <div class="icon">&#x1f3a4;</div>
-            <strong>One-Tap Recording</strong>
-            <p>Record with a single tap and see a live waveform</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">&#x1f4dd;</div>
-            <strong>On-Device Transcription</strong>
-            <p>Automatic speech-to-text that never leaves your phone</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">&#x1f3b5;</div>
-            <strong>Synced Lyrics</strong>
-            <p>Transcriptions scroll in time with audio playback</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">&#x1f4c1;</div>
-            <strong>Folders</strong>
-            <p>Organize recordings into custom folders</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">&#x1f4e6;</div>
-            <strong>Batch Export</strong>
-            <p>Select multiple recordings and export at once</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">&#x231a;</div>
-            <strong>Apple Watch</strong>
-            <p>Record from your wrist and sync to your phone</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">&#x1f4f1;</div>
-            <strong>Home Screen Widget</strong>
-            <p>Tap the widget to start recording instantly</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon">&#x1f3a7;</div>
-            <strong>Bluetooth &amp; AirPods</strong>
-            <p>Record with AirPods or any Bluetooth mic</p>
-        </div>
-    </div>
-
-    <h2>Frequently Asked Questions</h2>
-
-    <div class="faq-item">
-        <strong>Does VoxBitz collect any data?</strong>
-        <p>No. Zero data collection, zero analytics, zero tracking. Everything stays on your device. We have no servers and no access to your recordings.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>How does transcription work?</strong>
-        <p>VoxBitz uses Apple's on-device speech recognition. Your audio is processed entirely on your device and never sent to any server. Transcriptions appear as synced lyrics that scroll along with playback.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>Can I record with AirPods or Bluetooth headphones?</strong>
-        <p>Yes. VoxBitz automatically detects Bluetooth audio inputs including AirPods, AirPods Pro, and other Bluetooth microphones.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>How does the Apple Watch app work?</strong>
-        <p>Open VoxBitz on your Apple Watch, tap to record, and tap again to stop. The recording automatically syncs to your iPhone over WatchConnectivity.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>How do I use the widget?</strong>
-        <p>Long-press your home screen, tap the + button, search for VoxBitz, and add the widget. Tapping it opens the app and starts recording immediately.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>How does batch export work?</strong>
-        <p>In the Library tab, select multiple recordings and tap the share button to export them all at once.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>What happens to my recordings if I delete the app?</strong>
-        <p>All recordings are stored locally on your device. If you delete VoxBitz, your recordings will be permanently lost. We recommend exporting important recordings regularly.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>Is there a subscription?</strong>
-        <p>No. VoxBitz is a one-time purchase of $3.99 with no subscriptions, no in-app purchases, and no recurring fees. Every feature is included.</p>
-    </div>
-
-    <div class="faq-item">
-        <strong>How do I get a refund?</strong>
-        <p>Refunds for App Store purchases are handled directly by Apple — visit <a href="https://reportaproblem.apple.com" target="_blank">reportaproblem.apple.com</a> to request one.</p>
-    </div>
-
-    <h2>Contact Us</h2>
-    <div class="contact-box">
-        <p>Need help with something not listed here?</p>
-        <a href="mailto:help@dialectforge.com" class="email-btn">help@dialectforge.com</a>
-        <p style="margin-top: 1rem; font-size: 0.85rem;">We typically respond within 24 hours.</p>
-    </div>
-
-    <div class="links">
-        <a href="https://dialectforge.com/soundbits/privacy">Privacy Policy</a>
-        <a href="https://dialectforge.com/soundbits/terms">Terms of Service</a>
-        <a href="https://dialectforge.com">DialectForge</a>
-    </div>
+<p class="updated">Your voice, your device, your privacy</p>
+<div class="highlight">
+<p>VoxBitz processes everything on your device. We collect zero data, use zero analytics, and have zero access to your recordings or transcriptions.</p>
 </div>
+<h2>Features</h2>
+<div class="feature-grid">
+<div class="feature-card">
+<div class="icon"></div>
+<strong>One-Tap Recording</strong>
+<p>Record with a single tap and see a live waveform</p>
+</div>
+<div class="feature-card">
+<div class="icon"></div>
+<strong>On-Device Transcription</strong>
+<p>Automatic speech-to-text that never leaves your phone</p>
+</div>
+<div class="feature-card">
+<div class="icon"></div>
+<strong>Synced Lyrics</strong>
+<p>Transcriptions scroll in time with audio playback</p>
+</div>
+<div class="feature-card">
+<div class="icon"></div>
+<strong>Folders</strong>
+<p>Organize recordings into custom folders</p>
+</div>
+<div class="feature-card">
+<div class="icon"></div>
+<strong>Batch Export</strong>
+<p>Select multiple recordings and export at once</p>
+</div>
+<div class="feature-card">
+<div class="icon">⌚</div>
+<strong>Apple Watch</strong>
+<p>Record from your wrist and sync to your phone</p>
+</div>
+<div class="feature-card">
+<div class="icon"></div>
+<strong>Home Screen Widget</strong>
+<p>Tap the widget to start recording instantly</p>
+</div>
+<div class="feature-card">
+<div class="icon"></div>
+<strong>Bluetooth &amp; AirPods</strong>
+<p>Record with AirPods or any Bluetooth mic</p>
+</div>
+</div>
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+<strong>Does VoxBitz collect any data?</strong>
+<p>No. Zero data collection, zero analytics, zero tracking. Everything stays on your device. We have no servers and no access to your recordings.</p>
+</div>
+<div class="faq-item">
+<strong>How does transcription work?</strong>
+<p>VoxBitz uses Apple's on-device speech recognition. Your audio is processed entirely on your device and never sent to any server. Transcriptions appear as synced lyrics that scroll along with playback.</p>
+</div>
+<div class="faq-item">
+<strong>Can I record with AirPods or Bluetooth headphones?</strong>
+<p>Yes. VoxBitz automatically detects Bluetooth audio inputs including AirPods, AirPods Pro, and other Bluetooth microphones.</p>
+</div>
+<div class="faq-item">
+<strong>How does the Apple Watch app work?</strong>
+<p>Open VoxBitz on your Apple Watch, tap to record, and tap again to stop. The recording automatically syncs to your iPhone over WatchConnectivity.</p>
+</div>
+<div class="faq-item">
+<strong>How do I use the widget?</strong>
+<p>Long-press your home screen, tap the + button, search for VoxBitz, and add the widget. Tapping it opens the app and starts recording immediately.</p>
+</div>
+<div class="faq-item">
+<strong>How does batch export work?</strong>
+<p>In the Library tab, select multiple recordings and tap the share button to export them all at once.</p>
+</div>
+<div class="faq-item">
+<strong>What happens to my recordings if I delete the app?</strong>
+<p>All recordings are stored locally on your device. If you delete VoxBitz, your recordings will be permanently lost. We recommend exporting important recordings regularly.</p>
+</div>
+<div class="faq-item">
+<strong>Is there a subscription?</strong>
+<p>No. VoxBitz is a one-time purchase of $3.99 with no subscriptions, no in-app purchases, and no recurring fees. Every feature is included.</p>
+</div>
+<div class="faq-item">
+<strong>How do I get a refund?</strong>
+<p>Refunds for App Store purchases are handled directly by Apple — visit <a href="https://reportaproblem.apple.com" target="_blank">reportaproblem.apple.com</a> to request one.</p>
+</div>
+<h2>Contact Us</h2>
+<div class="contact-box">
+<p>Need help with something not listed here?</p>
+<a class="email-btn" href="mailto:help@dialectforge.com">help@dialectforge.com</a>
+<p>We typically respond within 24 hours.</p>
+</div>
+<div class="links">
+<a href="https://dialectforge.com/soundbits/privacy">Privacy Policy</a>
+<a href="https://dialectforge.com/soundbits/terms">Terms of Service</a>
+<a href="https://dialectforge.com">DialectForge</a>
+</div>
+</article></div>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li><li><a href="/sitroom">SitRoom</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC · Michigan, USA</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
 </body>
 </html>

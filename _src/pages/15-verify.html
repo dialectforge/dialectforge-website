@@ -1,0 +1,51 @@
+title: DialectForge Verify — module isolation for proof infrastructure (shelved)
+desc: DialectForge Verify gives each component of a verification pipeline a seed-scoped boundary, so when one module regresses you can revoke it and see exactly which proofs are affected. Shelved; documented for reference.
+path: /verify/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Verify</div><h1>Verify <span class="tag plan">Shelved</span></h1><p class="lede" style="margin-top:12px">When a module breaks, know exactly which proofs are still trustworthy. This project is shelved. The concept and API design are documented here for reference, and no service is running.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Problem</div>
+<div class="main">
+<div class="pair">
+<div class="minus"><h4>Without Verify</h4><ul><li>A component regresses</li><li>You re-run everything from scratch</li><li>Hours of SMT solving</li><li>Every proof is suspect until re-proven</li></ul></div>
+<div class="plus"><h4>With Verify</h4><ul><li>A component regresses; you revoke it</li><li>The dependency graph is walked</li><li>“3 proofs scarred, 7 preserved”</li><li>You fix only what's affected</li></ul></div>
+</div>
+<ol class="steps">
+<li><h3>Register modules</h3><p>Each component (parser, compiler, prover, backends) gets a seed-scoped isolation boundary.</p></li>
+<li><h3>Register theorems</h3><p>Every proof is registered with its lineage back to the modules that produced it.</p></li>
+<li><h3>Revoke</h3><p>When a module regresses, revoke its seed. Affected theorems are marked as scarred.</p></li>
+<li><h3>Blast radius</h3><p>An immediate report of which proofs are scarred and which are preserved.</p></li>
+</ol>
+</div>
+<p class="note">If one tool in the shop turns out to be out of true, you only re-check the pieces that tool touched, not the whole house.</p>
+</div></section>
+<section class="sheet sec tint" id="api"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> API design</div>
+<div class="main wide">
+<pre class="code"># Health check
+GET  /health
+
+# Initialize a verification context
+POST /api/v1/init
+  { "master_seed": "my-project-audit-2026" }
+
+# Register a module
+POST /api/v1/modules/register
+  { "context_id": "...", "module_id": "smt_solver", "version": "4.8.0",
+    "description": "Z3 SMT solver", "bond_type": "command" }
+
+# Register a theorem with lineage
+POST /api/v1/theorems/register
+  { "context_id": "...", "theorem_id": "transfer_safe",
+    "name": "Transfer No Overflow", "verified_by": "smt_solver",
+    "description": "...", "depends_on": ["vc_generator"] }
+
+# Revoke a module and get blast radius
+POST /api/v1/revoke
+  { "context_id": "...", "module_id": "vc_generator",
+    "reason": "Storage aliasing regression in v4.8.0" }
+
+# Response: { "directly_scarred": 3, "preserved": 7, "total_theorems": 10 }</pre>
+<p class="measure">The core server is being prepared for release under AGPL-3.0, and a client SDK is already public: <a href="https://github.com/dialectforge/dialectforge-verify">dialectforge-verify</a>. Contact: <a href="mailto:john@dialectforge.com">john@dialectforge.com</a>.</p>
+</div></div></section>

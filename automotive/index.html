@@ -273,7 +273,7 @@
   <header>
     <div class="research-badge">RESEARCH PHASE</div>
     <h1>DialectForge Automotive</h1>
-    <p>Your car's internal network has zero authentication. CAN bus &mdash; the protocol connecting every ECU in your vehicle &mdash; was designed in the 1980s with no security. DialectForge changes that without replacing a single wire.</p>
+    <p>Your car's internal network has zero authentication. CAN bus &mdash; the protocol connecting every ECU in your vehicle &mdash; was designed in the 1980s with no security. DialectForge is designed to change that without replacing a single wire.</p>
   </header>
 
   <!-- ═══ Interactive CAN Bus Demo ═══ -->
@@ -419,7 +419,7 @@
       <div class="attack-step s-recover">
         <div class="step-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e892" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
         <div class="step-text">
-          <strong>Priority rekey in 18ms.</strong> CAN ID 0x000 broadcasts a fresh seed. All ECUs re-negotiate a completely new dialect. The attacker's knowledge is instantly worthless.<br>
+          <strong>Priority rekey (target ~18ms).</strong> CAN ID 0x000 broadcasts a fresh seed. All ECUs re-negotiate a completely new dialect. What the attacker learned about the old dialect no longer applies.<br>
           <span class="step-code">New seed &#x2192; new IDs, new keys, new dialect</span>
         </div>
       </div>
@@ -447,7 +447,7 @@
           <span style="color:var(--green);">&#x2713;</span> Seed-based authentication at ignition<br>
           <span style="color:var(--green);">&#x2713;</span> Hopped IDs &mdash; unpredictable without seed<br>
           <span style="color:var(--green);">&#x2713;</span> Encrypted gibberish payloads<br>
-          <span style="color:var(--green);">&#x2713;</span> Injection immunity &mdash; foreign frames rejected<br>
+          <span style="color:var(--green);">&#x2713;</span> Foreign frames rejected<br>
           <span style="color:var(--green);">&#x2713;</span> AI anomaly detection + quorum lockdown<br>
           <span style="color:var(--green);">&#x2713;</span> Compromise triggers rekey in 18ms
         </div>
@@ -455,12 +455,12 @@
     </div>
   </div>
 
-  <!-- ═══ Injection Immunity Callout ═══ -->
+  <!-- ═══ Injected-frame callout ═══ -->
   <div class="callout">
     <div class="callout-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff4d6a" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div>
     <div>
-      <div class="callout-title">Injection Immunity</div>
-      <div class="callout-desc">An attacker plugs into the OBD-II port and sends a brake command. Without the session seed, the frame doesn't match the current dialect &mdash; the ID is wrong, the payload doesn't decrypt. Every ECU on the bus rejects it instantly. The bus continues operating normally. This isn't filtering. It's structural immunity.</div>
+      <div class="callout-title">Rejecting Injected Frames</div>
+      <div class="callout-desc">An attacker plugs into the OBD-II port and sends a brake command. Without the session seed, the frame doesn't match the current dialect &mdash; the ID is wrong, the payload doesn't decrypt. Every ECU on the bus is designed to reject it, and the bus keeps operating normally. The frame isnEvery ECU on the bus is designed to reject it, and the bus keeps operating normally. It isn't caught by a filter rule; it simply isn't valid in the current dialect.#39;t filtered by a rule; it just isnEvery ECU on the bus is designed to reject it, and the bus keeps operating normally. It isn't caught by a filter rule; it simply isn't valid in the current dialect.#39;t valid in the current dialect.</div>
     </div>
   </div>
 

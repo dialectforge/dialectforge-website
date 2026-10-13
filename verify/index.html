@@ -1,172 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DialectForge Verify - Module Isolation for Proof Infrastructure [Archived]</title>
-<meta name="description" content="Seed-scoped module isolation and surgical revocation for formal verification pipelines. Track theorem lineage, contain regression blast radius.">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0a;--surface:#141414;--border:#222;--text:#e0e0e0;--muted:#888;--accent:#00d4aa;--accent-dim:#00d4aa22;--red:#ff4444;--yellow:#e8a830}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.container{max-width:960px;margin:0 auto;padding:0 24px}
-nav{border-bottom:1px solid var(--border);padding:16px 0}
-nav .container{display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:700;font-size:18px;letter-spacing:-0.5px}
-.logo span{color:var(--accent)}
-nav a.cta-sm{background:var(--accent);color:#000;padding:8px 16px;border-radius:4px;font-size:14px;font-weight:600}
-nav a.cta-sm:hover{text-decoration:none;opacity:0.9}
-</style>
-<style>
-.hero{padding:80px 0 60px;text-align:left}
-.hero h1{font-size:clamp(32px,5vw,48px);font-weight:700;letter-spacing:-1px;line-height:1.15;margin-bottom:20px}
-.hero h1 span{color:var(--accent)}
-.hero p.sub{font-size:18px;color:var(--muted);max-width:600px;margin-bottom:12px}
-.hero .patent{font-size:13px;color:var(--muted);margin-bottom:32px}
-.hero .cta-row{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--accent);color:#000;padding:12px 24px;border-radius:4px;font-size:15px;font-weight:600;display:inline-block}
-.btn-primary:hover{opacity:0.9;text-decoration:none}
-.btn-secondary{border:1px solid var(--border);color:var(--text);padding:12px 24px;border-radius:4px;font-size:15px;display:inline-block}
-.btn-secondary:hover{border-color:var(--accent);text-decoration:none}
-.problem{padding:60px 0;border-top:1px solid var(--border)}
-.problem h2{font-size:24px;font-weight:700;margin-bottom:24px;letter-spacing:-0.5px}
-.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-.problem-card{padding:24px;border:1px solid var(--border);border-radius:6px;background:var(--surface)}
-.problem-card .label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.problem-card .label.without{color:var(--red)}
-.problem-card .label.with{color:var(--accent)}
-.problem-card p{color:var(--muted);font-size:15px}
-.how{padding:60px 0;border-top:1px solid var(--border)}
-.how h2{font-size:24px;font-weight:700;margin-bottom:32px;letter-spacing:-0.5px}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.step{padding:20px;border:1px solid var(--border);border-radius:6px;background:var(--surface)}
-.step .num{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px}
-.step h3{font-size:15px;font-weight:600;margin-bottom:6px}
-.step p{font-size:13px;color:var(--muted)}
-</style>
-<style>
-.api{padding:60px 0;border-top:1px solid var(--border)}
-.api h2{font-size:24px;font-weight:700;margin-bottom:24px;letter-spacing:-0.5px}
-.code-block{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:20px;font-family:"SF Mono",Consolas,"Liberation Mono",Menlo,monospace;font-size:13px;line-height:1.7;overflow-x:auto;white-space:pre;color:var(--muted)}
-.code-block .comment{color:#555}
-.code-block .method{color:var(--accent)}
-.code-block .url{color:var(--yellow)}
-.code-block .key{color:#cc99ff}
-.notice{padding:20px 24px;background:#1a1200;border:1px solid #554400;border-radius:6px;margin-bottom:40px;font-size:15px;color:var(--yellow)}
-</style>
-<style>
-footer{border-top:1px solid var(--border);padding:40px 0;text-align:center}
-footer p{color:var(--muted);font-size:14px;margin-bottom:8px}
-footer .contact{font-size:15px;margin-bottom:4px}
-@media(max-width:768px){
-  .problem-grid,.steps{grid-template-columns:1fr}
-  .hero{padding:48px 0 40px}
-}
-</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DialectForge Verify — module isolation for proof infrastructure (shelved)</title>
+<meta name="description" content="DialectForge Verify gives each component of a verification pipeline a seed-scoped boundary, so when one module regresses you can revoke it and see exactly which proofs are affected. Shelved; documented for reference.">
+<meta property="og:title" content="DialectForge Verify — module isolation for proof infrastructure (shelved)">
+<meta property="og:description" content="DialectForge Verify gives each component of a verification pipeline a seed-scoped boundary, so when one module regresses you can revoke it and see exactly which proofs are affected. Shelved; documented for reference.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
 </head>
 <body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge <small>LLC · Michigan</small></span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains" aria-current=page>Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a><a class="btn-sm" href="/download/">Downloads</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Verify</div><h1>Verify <span class="tag plan">Shelved</span></h1><p class="lede" style="margin-top:12px">When a module breaks, know exactly which proofs are still trustworthy. This project is shelved. The concept and API design are documented here for reference, and no service is running.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Problem</div>
+<div class="main">
+<div class="pair">
+<div class="minus"><h4>Without Verify</h4><ul><li>A component regresses</li><li>You re-run everything from scratch</li><li>Hours of SMT solving</li><li>Every proof is suspect until re-proven</li></ul></div>
+<div class="plus"><h4>With Verify</h4><ul><li>A component regresses; you revoke it</li><li>The dependency graph is walked</li><li>“3 proofs scarred, 7 preserved”</li><li>You fix only what's affected</li></ul></div>
+</div>
+<ol class="steps">
+<li><h3>Register modules</h3><p>Each component (parser, compiler, prover, backends) gets a seed-scoped isolation boundary.</p></li>
+<li><h3>Register theorems</h3><p>Every proof is registered with its lineage back to the modules that produced it.</p></li>
+<li><h3>Revoke</h3><p>When a module regresses, revoke its seed. Affected theorems are marked as scarred.</p></li>
+<li><h3>Blast radius</h3><p>An immediate report of which proofs are scarred and which are preserved.</p></li>
+</ol>
+</div>
+<p class="note">If one tool in the shop turns out to be out of true, you only re-check the pieces that tool touched, not the whole house.</p>
+</div></section>
+<section class="sheet sec tint" id="api"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> API design</div>
+<div class="main wide">
+<pre class="code"># Health check
+GET  /health
 
-<nav>
-  <div class="container">
-    <div class="logo">Dialect<span>Forge</span> Verify</div>
-    <a href="mailto:john@dialectforge.com" class="cta-sm">Contact</a>
-  </div>
-</nav>
+# Initialize a verification context
+POST /api/v1/init
+  { "master_seed": "my-project-audit-2026" }
 
-<section class="hero">
-  <div class="container">
-    <div class="notice">This project is currently shelved. The concept and API design are documented here for reference. No active service is running.</div>
-    <h1>When a module breaks,<br>know <span>exactly</span> which proofs<br>are still trustworthy.</h1>
-    <p class="sub">Seed-scoped module isolation and surgical revocation for formal verification pipelines. Register modules, track theorem lineage, revoke with precision.</p>
-    <p class="patent">Being prepared for open-source release</p>
-    <div class="cta-row">
-      <a href="#api" class="btn-secondary">See the API Design</a>
-    </div>
-  </div>
-</section>
+# Register a module
+POST /api/v1/modules/register
+  { "context_id": "...", "module_id": "smt_solver", "version": "4.8.0",
+    "description": "Z3 SMT solver", "bond_type": "command" }
 
-<section class="problem">
-  <div class="container">
-    <h2>The problem with verification pipelines</h2>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="label without">Without DFV</div>
-        <p>A component regresses. You re-run everything from scratch. Hours of SMT solving. Every proof is suspect until proven otherwise. Clients wait.</p>
-      </div>
-      <div class="problem-card">
-        <div class="label with">With DFV</div>
-        <p>A component regresses. You revoke it. DFV tells you in milliseconds: 3 proofs scarred, 7 preserved. You fix only what's broken. Clients stay informed.</p>
-      </div>
-    </div>
-  </div>
-</section>
+# Register a theorem with lineage
+POST /api/v1/theorems/register
+  { "context_id": "...", "theorem_id": "transfer_safe",
+    "name": "Transfer No Overflow", "verified_by": "smt_solver",
+    "description": "...", "depends_on": ["vc_generator"] }
 
-<section class="how">
-  <div class="container">
-    <h2>How it works</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="num">01</div>
-        <h3>Register Modules</h3>
-        <p>Each component in your pipeline gets a seed-scoped isolation boundary. Parser, compiler, prover, backends -- all tracked independently.</p>
-      </div>
-      <div class="step">
-        <div class="num">02</div>
-        <h3>Register Theorems</h3>
-        <p>Every proof or finding gets registered with lineage back to the modules that produced it. Dependencies are explicit.</p>
-      </div>
-      <div class="step">
-        <div class="num">03</div>
-        <h3>Revoke</h3>
-        <p>When a module has a regression, revoke it. DFV walks the dependency graph and marks affected theorems as scarred.</p>
-      </div>
-      <div class="step">
-        <div class="num">04</div>
-        <h3>Blast Radius</h3>
-        <p>Instant report: which proofs are scarred, which are preserved. No guesswork. Surgical precision.</p>
-      </div>
-    </div>
-  </div>
-</section>
+# Revoke a module and get blast radius
+POST /api/v1/revoke
+  { "context_id": "...", "module_id": "vc_generator",
+    "reason": "Storage aliasing regression in v4.8.0" }
 
-<section class="api" id="api">
-  <div class="container">
-    <h2>REST API</h2>
-    <div class="code-block"><span class="comment"># Health check</span>
-<span class="method">GET</span> <span class="url">/health</span>
+# Response: { "directly_scarred": 3, "preserved": 7, "total_theorems": 10 }</pre>
+<p class="measure">The core server is being prepared for release under AGPL-3.0, and a client SDK is already public: <a href="https://github.com/dialectforge/dialectforge-verify">dialectforge-verify</a>. Contact: <a href="mailto:john@dialectforge.com">john@dialectforge.com</a>.</p>
+</div></div></section>
 
-<span class="comment"># Initialize a verification context</span>
-<span class="method">POST</span> <span class="url">/api/v1/init</span>
-  { <span class="key">"master_seed"</span>: "my-project-audit-2026" }
-
-<span class="comment"># Register a module</span>
-<span class="method">POST</span> <span class="url">/api/v1/modules/register</span>
-  { <span class="key">"context_id"</span>: "...", <span class="key">"module_id"</span>: "smt_solver", <span class="key">"version"</span>: "4.8.0",
-    <span class="key">"description"</span>: "Z3 SMT solver", <span class="key">"bond_type"</span>: "command" }
-
-<span class="comment"># Register a theorem with lineage</span>
-<span class="method">POST</span> <span class="url">/api/v1/theorems/register</span>
-  { <span class="key">"context_id"</span>: "...", <span class="key">"theorem_id"</span>: "transfer_safe",
-    <span class="key">"name"</span>: "Transfer No Overflow", <span class="key">"verified_by"</span>: "smt_solver",
-    <span class="key">"description"</span>: "...", <span class="key">"depends_on"</span>: ["vc_generator"] }
-
-<span class="comment"># Revoke a module and get blast radius</span>
-<span class="method">POST</span> <span class="url">/api/v1/revoke</span>
-  { <span class="key">"context_id"</span>: "...", <span class="key">"module_id"</span>: "vc_generator",
-    <span class="key">"reason"</span>: "Storage aliasing regression in v4.8.0" }
-
-<span class="comment"># Response: { "directly_scarred": 3, "preserved": 7, "total_theorems": 10 }</span></div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p class="contact"><a href="mailto:john@dialectforge.com">john@dialectforge.com</a></p>
-    <p>DialectForge LLC -- DialectForge is being prepared for open-source release.</p>
-  </div>
-</footer>
-
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/">AI Factory / Lu</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">Downloads</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li><li><a href="/sitroom">SitRoom</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC · Michigan, USA</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
 </body>
 </html>
