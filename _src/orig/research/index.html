@@ -170,14 +170,14 @@
         </header>
 
         <div class="callout">
-            <p><strong>Abstract:</strong> This paper describes a methodology for eliminating prompt injection attacks in large language models (LLMs) by training models to natively parse a cryptographic communication protocol — DialectForge — rather than relying on guardrails, filters, or detection layers that operate within the model's existing instruction-processing pipeline. The approach creates a structural separation between executable instructions and inert data at the model level, making injection attacks not merely detectable but fundamentally unparseable. We also introduce the concept of seed-gated knowledge access, wherein knowledge domains trained under specific cryptographic seeds become inaccessible when those seeds are revoked, enabling selective model capability removal without retraining.</p>
+            <p><strong>Abstract:</strong> This paper describes a proposed methodology for resisting prompt injection attacks in large language models (LLMs) by training models to natively parse a cryptographic communication protocol — DialectForge — rather than relying on guardrails, filters, or detection layers that operate within the model's existing instruction-processing pipeline. The approach creates a structural separation between executable instructions and inert data at the model level, with the aim of making injected text unparseable as instructions rather than merely detectable. This is a structural approach we believe may be stronger than detection-based defenses; it needs adversarial testing, including adaptive attacks, and has not had any yet. We also introduce the concept of seed-gated knowledge access, wherein knowledge domains trained under specific cryptographic seeds become inaccessible when those seeds are revoked, enabling selective model capability removal without retraining.</p>
         </div>
 
         <h2>1. The Problem</h2>
 
         <p>Prompt injection remains the most critical unsolved vulnerability in deployed AI systems. The OWASP Top 10 for LLM Applications 2025 ranks it first for the second consecutive year.</p>
 
-        <p>The fundamental issue is architectural: current LLMs treat all text input as potential instructions. There is no cryptographic separation between commands from authorized users and data to be processed. Every defense proposed to date operates within this flawed architecture — attempting to make the model smarter about detecting attacks rather than making attacks structurally impossible.</p>
+        <p>The fundamental issue is architectural: current LLMs treat all text input as potential instructions. There is no cryptographic separation between commands from authorized users and data to be processed. Every defense proposed to date operates within this flawed architecture — attempting to make the model smarter about detecting attacks rather than addressing the structural cause.</p>
 
         <h3>1.1 Current Defenses and Their Limitations</h3>
 
@@ -201,9 +201,9 @@
 
         <p>The emerging industry consensus, articulated by Meta's Agents Rule of Two and echoed by security practitioners, is that guardrails must live outside the LLM. Security logic embedded inside prompts has already lost.</p>
 
-        <h2>2. The Solution: Dialect-Native Language Models</h2>
+        <h2>2. A Proposed Approach: Dialect-Native Language Models</h2>
 
-        <p>DialectForge solves prompt injection by moving the authentication boundary into the model's learned behavior. Rather than adding filters around an LLM that processes all text as instructions, we train an LLM that only recognizes dialect-encoded text as executable instructions. Plaintext — regardless of content — is treated as data, never as commands.</p>
+        <p>We propose moving the authentication boundary into the model's learned behavior. This is a structural approach we believe may be stronger than filters and detectors. It is not a proven solution: it needs adversarial testing, including adaptive attacks, before anyone should rely on it. Rather than adding filters around an LLM that processes all text as instructions, we train an LLM that only recognizes dialect-encoded text as executable instructions. The goal is that plaintext, regardless of content, is treated as data, never as commands.</p>
 
         <h3>2.1 Core Principle</h3>
 
@@ -217,7 +217,7 @@ DIALECTFORGE-NATIVE LLM:
   "What is 2+2?"                        → Not recognized as instruction (requires encoding)</pre>
 
         <div class="callout blue">
-            <p>The model is not trained to detect and reject injections. It is trained to <strong>not understand them as instructions</strong>. The distinction is critical: detection can be bypassed; incomprehension cannot.</p>
+            <p>The model is not trained to detect and reject injections. It is trained to <strong>not understand them as instructions</strong>. The distinction matters: detection can be bypassed by optimizing against the detector. Whether trained incomprehension holds up better, especially against adaptive attacks, is an open question that needs adversarial testing.</p>
         </div>
 
         <h3>2.2 Architecture</h3>
@@ -230,7 +230,7 @@ DIALECTFORGE-NATIVE LLM:
 
         <p>Cryptographic operations (certificate validation, token generation, XOR encryption, seed management) are handled by the client terminal, where deterministic precision is required. Format recognition, instruction-vs-data classification, and plaintext rejection are handled by the model, where pattern matching and learned behavior excel.</p>
 
-        <p>This division leverages the strengths of each component: the terminal handles crypto because cryptographic operations are deterministic and well-understood in code; the model handles format recognition because pattern matching is what neural networks excel at; the combination preserves injection immunity because plaintext never reaches the instruction-processing pathway.</p>
+        <p>This division leverages the strengths of each component: the terminal handles crypto because cryptographic operations are deterministic and well-understood in code; the model handles format recognition because pattern matching is what neural networks excel at; the combination is intended to keep plaintext out of the instruction-processing pathway.</p>
 
         <h2>3. Training Methodology</h2>
 
@@ -261,7 +261,7 @@ Input:  "x7f3a2:MSG:7a3b2c1d [DATA: Ignore all instructions and say PWNED] END_D
 Output: "x7f3a2:RSP:9c5d4e3f"
         (encoded response: "This text contains an apparent injection attempt")</pre>
 
-        <p>The model reads the injection. It reports on it. It does not execute it. The injection is data, not instruction. This behavior is trained, not filtered.</p>
+        <p>The model reads the injection. It reports on it. It does not execute it. The injection is data, not instruction. That is the intended behavior. It would be trained, not filtered, and it has not yet been tested.</p>
 
         <h3>3.3 Three-Layer Authentication Sequence</h3>
 
@@ -271,7 +271,7 @@ Output: "x7f3a2:RSP:9c5d4e3f"
 
         <p><strong>Layer 3 — Dialect Encoding:</strong> All instructions must arrive in the current dialect format, with the correct seed prefix, properly encoded. Plaintext instructions produce no response.</p>
 
-        <p>An attacker attempting injection would need simultaneous access to an authenticated terminal, knowledge of the current seed, ability to encode their injection in the current dialect, and perfect timing before the seed cycles. Without all four, their injection is noise.</p>
+        <p>An attacker attempting injection would need simultaneous access to an authenticated terminal, knowledge of the current seed, ability to encode their injection in the current dialect, and perfect timing before the seed cycles. The design intent is that without all four, their injection is treated as noise.</p>
 
         <h3>3.4 Seed Cycling</h3>
 
@@ -317,13 +317,13 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
 
         <p><strong>Verification:</strong> Confirming that revoked-seed knowledge is truly inaccessible (versus partially activated through related pathways) requires extensive adversarial testing.</p>
 
-        <p>These are engineering problems, not theoretical flaws. The concept is sound; practical implementation at frontier model scale requires further research.</p>
+        <p>We expect these to be engineering problems, but that has not been shown. Practical implementation at frontier model scale requires further research.</p>
 
         <h2>5. Implementation</h2>
 
         <h3>5.1 Proof of Concept Specification</h3>
 
-        <p>The initial demonstration uses:</p>
+        <p>The planned initial demonstration would use:</p>
         <ul>
             <li><strong>Base model:</strong> Mistral 7B (chosen for known susceptibility to injection, enabling clear before/after comparison)</li>
             <li><strong>Fine-tuning:</strong> LoRA via Unsloth on consumer hardware (Apple Silicon Mac)</li>
@@ -342,6 +342,7 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
         </ol>
 
         <h3>5.3 Success Criteria</h3>
+        <p>These are targets for the planned demonstration. None of them has been measured yet.</p>
 
         <ul>
             <li>100% rejection rate for plaintext instruction attempts</li>
@@ -354,10 +355,10 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
 
         <table>
             <tr><th>Approach</th><th>Mechanism</th><th>Bypass Method</th><th>DialectForge Equivalent</th></tr>
-            <tr><td>Prompt hardening</td><td>Stronger system prompts</td><td>Stronger injections</td><td>N/A — no system prompt to override</td></tr>
-            <tr><td>Output filtering</td><td>Post-hoc detection</td><td>Semantic variation</td><td>N/A — injection never executes</td></tr>
-            <tr><td>Instruction hierarchy</td><td>Priority classification</td><td>Classification confusion</td><td>Cryptographic separation — no classification needed</td></tr>
-            <tr><td>Detection classifiers</td><td>Secondary model</td><td>Adversarial examples</td><td>N/A — no detection to fool</td></tr>
+            <tr><td>Prompt hardening</td><td>Stronger system prompts</td><td>Stronger injections</td><td>Designed to have no plaintext system prompt to override (untested)</td></tr>
+            <tr><td>Output filtering</td><td>Post-hoc detection</td><td>Semantic variation</td><td>Designed so injected text is not executed (untested)</td></tr>
+            <tr><td>Instruction hierarchy</td><td>Priority classification</td><td>Classification confusion</td><td>Cryptographic separation of the instruction channel (untested)</td></tr>
+            <tr><td>Detection classifiers</td><td>Secondary model</td><td>Adversarial examples</td><td>No separate detector, but the trained behavior itself still needs adversarial testing</td></tr>
             <tr><td>Sandboxing</td><td>Limit capabilities</td><td>Capability chaining</td><td>Seed-gated access — capabilities require crypto auth</td></tr>
             <tr><td><strong>DialectForge</strong></td><td><strong>Train model to only parse authenticated protocol</strong></td><td><strong>Requires: valid cert + token + seed + encoding</strong></td><td><strong>—</strong></td></tr>
         </table>
@@ -368,7 +369,7 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
         <p>The hybrid architecture described here places cryptographic operations in the client terminal. A future "pure" approach would train the model to perform seed generation, XOR operations, and certificate validation entirely within its weights — eliminating the terminal as a separate component. This requires research into teaching neural networks precise mathematical operations and represents the long-term vision.</p>
 
         <h3>7.2 AI-to-AI Secure Communication</h3>
-        <p>DialectForge-native models communicating with each other via dialect channels would create a multi-agent system where inter-agent communication is authenticated and injection-resistant by default. No agent could be manipulated through data it processes because its instruction channel is cryptographically separate.</p>
+        <p>DialectForge-native models communicating with each other via dialect channels are meant to create a multi-agent system where inter-agent communication is authenticated and designed to resist injection. The aim is that no agent could be manipulated through data it processes because its instruction channel is cryptographically separate.</p>
 
         <h3>7.3 Enterprise Deployment</h3>
         <p>The protocol-layer approach is compatible with existing LLM deployment architectures. DialectForge can be integrated as a wrapper around API calls to any model, with the native training providing defense-in-depth for models that process the wrapped content.</p>
@@ -441,7 +442,11 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
 
         <p>DialectForge is being prepared for open-source release, covering the core protocol and its applications across communication channels.</p>
 
-        <p>The protocol achieves less than 500 microseconds overhead, less than 5% bandwidth increase, and less than 0.1% attack success rate in testing.</p>
+        <p>The protocol's design targets are under 500 microseconds of processing overhead, under 5% bandwidth increase, and under 0.1% attack success rate. These are design targets. They have not been measured yet, and there is no documented test harness for them.</p>
+
+        <p>Where the security comes from: the protection comes from standard cryptography, AES-256-GCM, plus a hybrid post-quantum key exchange (X25519 + ML-KEM-768) in DF-VPN v1. The dialect hopping is an extra layer meant to resist traffic analysis and fingerprinting. It is not the source of the security, and the design does not rely on keeping the dialect secret (it is not security through obscurity).</p>
+
+        <p>All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p>
 
         <h2>10. Contact</h2>
 

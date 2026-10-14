@@ -4,6 +4,7 @@ path: /vpn/
 nav: /#domains
 ---
 <div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / VPN</div><h1>DialectForge VPN <span class="tag off">Offline</span></h1><p class="lede" style="margin-top:12px">A censorship-resistant VPN built on the DialectForge protocol. The service is offline right now, and the code is being prepared for open-source release under AGPL-3.0.</p></div></div>
+<div class="wrap" style="padding-top:16px">{{testing_note}}</div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> On the wire</div>
 <div class="main wide">
@@ -23,6 +24,10 @@ nav: /#domains
 <p class="measure">Countries like China and Iran use deep packet inspection to fingerprint and block VPN protocols. If traffic has a recognizable pattern, it gets blocked. DialectForge traffic is designed to look like random noise, so there's no fixed pattern to write a rule against.</p>
 <h3>How it was built</h3>
 <p class="measure">The client and server negotiate a shared dialect over a control channel, then wrap every packet in it. The dialect refreshes every 120 seconds. Clients were built for macOS, Windows and iOS, with Android in progress. When the code is released you'll be able to work toward running your own server (see <a href="#self-host">Run it yourself</a>). See <a href="/protocol/">the protocol</a> for the details.</p>
+<h3>Where the security comes from</h3>
+<p class="measure">The security comes from standard cryptography: AES-256-GCM for the traffic, and in DF-VPN v1 a hybrid post-quantum key exchange (X25519 + ML-KEM-768). The dialect hopping is an extra layer meant to resist traffic analysis and fingerprinting. It is not the source of the security, and the design doesn't depend on keeping the dialect secret. This is not security through obscurity.</p>
+<h3>What's been tested</h3>
+<p class="measure">DF-VPN v1 passes 47 of 47 test vectors, 30 of 30 security tests and 41 of 41 leak tests. These are my own runs. All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p>
 <div class="callout ox"><h4>Service status: offline</h4><p>There's no live DialectForge VPN service right now, and nothing to subscribe to. Existing download links are disabled. Questions: <a href="mailto:help@dialectforge.com">help@dialectforge.com</a>.</p></div>
 </div>
 </div></section>

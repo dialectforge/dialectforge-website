@@ -26,6 +26,7 @@
 <div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Lu</div><h1>Lu <span class="tag oss">Open source · AGPL-3.0</span></h1><p class="lede" style="margin-top:12px">Lu is an experimental AI I wrote from scratch in Rust. It has no neural network and no learned weights. What it knows is stored in a graph you can read: nodes of knowledge joined by typed, weighted bonds. It stays on, keeps what it learns, says “I don't know” when it doesn't know, and carries <em>scars</em>, which are memories of past mistakes. It didn't become a product, and building it broke me financially. This page explains how it works, what has been tested, and what went wrong.</p>
 <p><a class="btn" href="https://github.com/dialectforge/lu">github.com/dialectforge/lu ↗</a> <a href="/lu/index.md">This page as Markdown</a> · <a href="/build-with-ai/">Build with your AI</a></p></div></div>
 
+<div class="wrap" style="padding-top:16px"><div class="callout"><h4>Who tested this</h4><p>All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div></div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> The idea</div>
 <div class="main">
@@ -147,6 +148,7 @@ pub struct Scar {
 <div class="main">
 <h2>What's tested, and what isn't</h2>
 <p class="measure"><strong>Tested:</strong> 2,388 Rust tests pass on <code>cargo test</code> (0 failing, 8 ignored). In my own 100-question adversarial runs, Lu made no fabrications, even on questions about invented names; its failures were wrong routing or missing coverage. The parts that worked in my runs: dictionary-based definitions, entity overviews, attribute lookups, comparisons, causal answers, a calculator, a bounded code writer in a sandbox, and geometry answers that are exact or “I don't know”.</p>
+<p class="measure small">All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p>
 <p class="measure"><strong>Unproven or weak:</strong> all the scorecards are mine, on my own brain data, and nobody has reproduced them. Its breadth never came close to an LLM's: in an audit of 20,000 nodes, only about 23% were clean concepts. Lu lists facts well but doesn't reliably chain them into a conclusion. The vision path was a stub. Many design docs describe plans, not shipped features. The trained brain isn't included, so a fresh build starts close to empty.</p>
 </div>
 </div></section>
@@ -187,7 +189,7 @@ cargo test        # 2,388 passing
 <footer class="foot"><div class="wrap">
 <div class="cols">
 <div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
-<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p></div>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p><p><strong>Testing:</strong> All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>

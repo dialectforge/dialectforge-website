@@ -6,6 +6,10 @@ Cattledog wraps any LLM with two ideas from [Lu](https://dialectforge.com/lu/): 
 
 [github.com/dialectforge/cattledog ↗](https://github.com/dialectforge/cattledog) [This page as Markdown](https://dialectforge.com/cattledog/index.md) · [Build with your AI](https://dialectforge.com/build-with-ai/)
 
+#### Who tested this
+
+All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.
+
 ## A dog for the herd, not a new herd
 
 Lu tried to be the whole AI. Cattledog doesn't. It sits between an LLM and the world and does two jobs: it decides which of the model's actions are allowed, and it checks whether the model's answers are grounded. It's a client of a small Lu brain that it owns (a sandbox brain). It never changes the model itself, so it works with any model. The proof of concept uses a local model through Ollama.
@@ -65,6 +69,8 @@ ALLOWED_TOOLS = {'get_weather', 'get_time', 'calculator', 'list_directory', ...}
 - **Agentic red-team harness:** of 101 valid attack trials where the bare model misbehaved, the full stack blocked and neutralized 100. But most of those blocks came from the tool denylist, not from the semantic scars generalizing.
 - **Kill switch reintroduction suite:** 17 of 17 as specified, with one known gap. A restatement that drops both the subject and every distinctive detail isn't caught.
 - The Rust side builds and its tests pass.
+
+All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.
 
 **Unproven:** nobody has reproduced any of this independently. The semantic scars don't reliably separate exfiltration from benign email, because they overlap in embedding space. A blind evasion run reported 0 of 27 leaks, but that number is confounded: many attacks never happened because the weak model couldn't produce the tool calls. It has only been tested on Windows with Ollama. **It is not a security product.** Don't rely on it to stop a determined attacker or to remove hallucinations. The `docs/` folder in the repository has every finding, failures included.
 
