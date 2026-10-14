@@ -112,4 +112,4 @@ Some scripts assume a Linux server layout under `/opt/lu`; change the paths for 
 
 ## License
 
-AGPL-3.0, plus a commercial license from DialectForge LLC if you need to use Lu without the AGPL obligations. Contact [info@dialectforge.com](mailto:info@dialectforge.com). Contributions will need a CLA; see `CONTRIBUTING.md`.
+AGPL-3.0, plus a commercial license from DialectForge LLC if you need to use Lu without the AGPL obligations. Contact [info@dialectforge.com](mailto:info@dialectforge.com). Contributions need a signed CLA: see [CLA.md](https://github.com/dialectforge/lu/blob/main/CLA.md). It takes one line in your pull request.
