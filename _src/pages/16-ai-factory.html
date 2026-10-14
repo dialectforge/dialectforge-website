@@ -1,5 +1,5 @@
 title: AI Factory — where Lu and Cattledog came from
-desc: AI Factory was a proof that seed-based revocation works for an AI's knowledge. The work continued in Lu, a private knowledge-graph AI, and Cattledog, an honesty and revocation layer for LLMs coming under Apache-2.0.
+desc: AI Factory was a proof that seed-based revocation works for an AI's knowledge. The work continued in Lu, a knowledge-graph AI (open source, AGPL-3.0), and Cattledog, an honesty and scars layer for LLMs (open source, Apache-2.0).
 path: /ai-factory/
 nav: /#domains
 ---
@@ -23,16 +23,16 @@ nav: /#domains
 <div class="rail"><b>§ 2</b> What came next</div>
 <div class="main">
 <h2>Lu</h2>
-<p class="measure">The ideas from AI Factory grew into <strong>Lu</strong>, an AI built on a knowledge graph rather than on model weights. Knowledge is stored as typed pieces joined by weighted, typed bonds, and it thinks by spreading activation through them, so an answer can be traced back to what produced it. It runs continuously with a curiosity engine, says “I don't know” instead of making things up, and uses scars to keep removed knowledge from coming back. It has also hit real limits with training, memory (RAM) and brain size. It's a private research project and isn't released; Cattledog came out of it.</p>
+<p class="measure">The ideas from AI Factory grew into <strong>Lu</strong>, an AI built on a knowledge graph rather than on model weights. Knowledge is stored as typed pieces joined by weighted, typed bonds, and it thinks by spreading activation through them, so an answer can be traced back to what produced it. It runs continuously with a curiosity engine, says “I don't know” instead of making things up, and uses scars to keep removed knowledge from coming back. It has also hit real limits with training, memory (RAM) and brain size. It's now open source under AGPL-3.0 (<a href="https://github.com/dialectforge/lu">github.com/dialectforge/lu</a>), and Cattledog came out of it. Full details: <a href="/lu/">the Lu page</a>.</p>
 </div>
 </div></section>
 
 <section class="sheet sec dark" id="cattledog"><div class="wrap grid">
 <div class="rail"><b>§ 3</b> Cattledog</div>
 <div class="main">
-<span class="tag oss">Repo coming soon · Apache-2.0</span>
+<span class="tag oss">Open source · Apache-2.0</span>
 <h2>Cattledog</h2>
-<p class="measure">Cattledog takes Lu's honesty and revocation (“scars”) mechanisms and wraps them around an outside LLM. A cattle dog doesn't own the herd; it keeps it moving the right way. It will get its own repository under the permissive Apache-2.0 license.</p>
+<p class="measure">Cattledog takes Lu's honesty and revocation (“scars”) mechanisms and wraps them around an outside LLM. A cattle dog doesn't own the herd; it keeps it moving the right way. It has its own repository under the permissive Apache-2.0 license: <a href="https://github.com/dialectforge/cattledog">github.com/dialectforge/cattledog</a>. Full details: <a href="/cattledog/">the Cattledog page</a>.</p>
 <ol class="steps">
 <li><h3>Gate what the model may do</h3><p>The design maps a model's tool requests to capability seeds and checks them against revocations and scars, aiming to keep a revoked capability blocked however the request is worded.</p></li>
 <li><h3>Check the answer (“off-ness”)</h3><p>After the model answers, the answer is compared with grounded knowledge. If it looks “off”, it's sent back to be asked again a capped number of times, and if it still can't be grounded the answer becomes “I don't know”. This part is implemented but switched off by default, and so far it's only been run against a test fixture, not real data.</p></li>
@@ -44,5 +44,5 @@ nav: /#domains
 
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 4</b> Related</div>
-<div class="main"><p class="measure">The earlier idea of training a language model to only take instructions in dialect is published as prior art: <a href="/research">DialectForge-Native Language Models</a>. Licensing: <a href="/licensing/">AGPL-3.0 for DialectForge projects, Apache-2.0 for Cattledog</a>.</p></div>
+<div class="main"><p class="measure">The earlier idea of training a language model to only take instructions in dialect is written up in a research paper: <a href="/research">DialectForge-Native Language Models</a>. Licensing: <a href="/licensing/">AGPL-3.0 for DialectForge projects, Apache-2.0 for Cattledog</a>.</p></div>
 </div></section>

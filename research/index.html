@@ -7,9 +7,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DialectForge Research - Protocol-Layer Solution to Prompt Injection</title>
-<meta name="description" content="DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection. Prior art publication describing dialect-native LLM training.">
+<meta name="description" content="DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection. A research paper describing dialect-native LLM training.">
 <meta property="og:title" content="DialectForge Research - Protocol-Layer Solution to Prompt Injection">
-<meta property="og:description" content="DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection. Prior art publication describing dialect-native LLM training.">
+<meta property="og:description" content="DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection. A research paper describing dialect-native LLM training.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f2eee5">
 <link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,16 +20,13 @@
 <header class="mast"><div class="wrap">
 <a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/lu/">Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
 </div></header>
 <main id="content">
 <div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Research</div><h1>DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection</h1></div></div>
-<div class="wrap"><article class="doc"><div class="callout"><h4>Also in research</h4><p><a href="/research/lu-cattledog-jev/">Lu + Cattledog + Jev + LLM agents: an idea for more autonomous AI</a> (proposal, October 14, 2026). Not built or tested.</p></div><div class="callout"><h4>Editor's note</h4><p>This paper is reproduced as it was published on February 12, 2026, as a defensive (prior art) publication. Its statements describe design intent and research goals, not demonstrated results. Strong wording in it, such as “immunity” or attacks being “impossible”, describes what the approach aims for. None of it has been tested or independently verified. For current wording see <a href="/protocol/">the protocol</a> and <a href="/ai-factory/">AI Factory</a>.</p></div>
+<div class="wrap"><article class="doc"><div class="callout"><h4>Also in research</h4><p><a href="/research/lu-cattledog-jev/">Lu + Cattledog + Jev + LLM agents: an idea for more autonomous AI</a> (proposal, October 14, 2026). Not built or tested. See also <a href="/lu/">Lu</a> and <a href="/cattledog/">Cattledog</a>, now open source.</p></div><div class="callout"><h4>Editor's note</h4><p>This paper is reproduced as it was first published on February 12, 2026. Its statements describe design intent and research goals, not demonstrated results. Strong wording in it, such as “immunity” or attacks being “impossible”, describes what the approach aims for. None of it has been tested or independently verified. For current wording see <a href="/protocol/">the protocol</a> and <a href="/ai-factory/">AI Factory</a>.</p></div>
 <header class="paper-header">
-<div class="paper-badge">
-<span></span>
-<span>Prior Art Publication — February 12, 2026</span>
-</div>
+
 
 <div class="paper-meta">
 <strong>John Dean Martin</strong><br/>
@@ -172,64 +169,10 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
 <p>DialectForge-native models communicating with each other via dialect channels would create a multi-agent system where inter-agent communication is authenticated and injection-resistant by default. No agent could be manipulated through data it processes because its instruction channel is cryptographically separate.</p>
 <h3>7.3 Enterprise Deployment</h3>
 <p>The protocol-layer approach is compatible with existing LLM deployment architectures. DialectForge can be integrated as a wrapper around API calls to any model, with the native training providing defense-in-depth for models that process the wrapped content.</p>
-<h2>8. Prior Art Declaration</h2>
-<p>This document serves as a public disclosure of the following concepts, establishing prior art as of the publication date:</p>
-<ol class="prior-art-list">
-<li>
-<span class="prior-art-number">1</span>
-<div class="prior-art-content">
-<strong>Dialect-native language model training</strong>
-<span>A method for training a language model to natively parse dialect-encoded instructions while treating plaintext input as non-executable data.</span>
-</div>
-</li>
-<li>
-<span class="prior-art-number">2</span>
-<div class="prior-art-content">
-<strong>Instruction-data separation at the model level</strong>
-<span>A system wherein executable instructions must be dialect-encoded while data may be plaintext, and the model categorically distinguishes between them regardless of semantic content.</span>
-</div>
-</li>
-<li>
-<span class="prior-art-number">3</span>
-<div class="prior-art-content">
-<strong>Multi-layer authentication for AI access</strong>
-<span>A system comprising certificate validation, token authentication, and dialect encoding layers, all required before instruction processing.</span>
-</div>
-</li>
-<li>
-<span class="prior-art-number">4</span>
-<div class="prior-art-content">
-<strong>Prompt injection prevention through trained incomprehension</strong>
-<span>A method wherein the model is trained to produce no output for non-dialect input, making injection attacks unparseable rather than detectable.</span>
-</div>
-</li>
-<li>
-<span class="prior-art-number">5</span>
-<div class="prior-art-content">
-<strong>Hybrid crypto-AI security architecture</strong>
-<span>A system where cryptographic operations are performed by a client terminal and format recognition by a trained model.</span>
-</div>
-</li>
-<li>
-<span class="prior-art-number">6</span>
-<div class="prior-art-content">
-<strong>Seed-gated knowledge access</strong>
-<span>A method for training specific knowledge domains under specific cryptographic seeds, enabling selective capability removal by seed revocation without model retraining.</span>
-</div>
-</li>
-<li>
-<span class="prior-art-number">7</span>
-<div class="prior-art-content">
-<strong>Seed-gated machine unlearning</strong>
-<span>Application of seed-gated knowledge access to the problem of removing specific data from trained models by revoking access rather than modifying weights.</span>
-</div>
-</li>
-</ol>
-<div class="github-banner">
-<h3> View on GitHub</h3>
-<p>Full source of this publication with commit history establishing the public priority date.</p>
-<a href="https://github.com/dialectforge/dialectforge-prompt">View Repository →</a>
-</div>
+
+
+
+
 <h2>9. About DialectForge</h2>
 <p>DialectForge is a seed-negotiated protocol for secure multi-node communications. Decentralized AI agents negotiate ephemeral, seed-derived "dialects" for cyclic randomization of identifiers, payloads, and syntax. The protocol is protocol-agnostic and has been implemented across VPN (UDP), CAN bus (automotive), WiFi, Bluetooth, LoRa, and Ethernet transports.</p>
 <p>DialectForge is being prepared for open-source release, covering the core protocol and its applications across communication channels.</p>
@@ -249,8 +192,8 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
 <div class="cols">
 <div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
 <p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
-<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li></ul></div>
-<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/#cattledog">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
