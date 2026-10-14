@@ -6,6 +6,10 @@ Lu is an experimental AI I wrote from scratch in Rust. It has no neural network 
 
 [github.com/dialectforge/lu ↗](https://github.com/dialectforge/lu) [This page as Markdown](https://dialectforge.com/lu/index.md) · [Build with your AI](https://dialectforge.com/build-with-ai/)
 
+#### Who tested this
+
+All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.
+
 ## Knowledge you can point at
 
 An LLM answers by running your prompt through billions of fixed weights. What it knows is smeared across all of them, so you can't point at one fact, fix it or remove it. Lu stores each piece of knowledge as its own node with its own 32-byte identity (a *seed*), and joins nodes with bonds such as `IsA`, `Causes`, `PartOf` and `UsedFor`. Every answer is a path through that graph, so you can print it.
@@ -82,6 +86,8 @@ The honesty gate's refusal modes, from the comment at the top of `src/idk_gate.r
 ## What's tested, and what isn't
 
 **Tested:** 2,388 Rust tests pass on `cargo test` (0 failing, 8 ignored). In my own 100-question adversarial runs, Lu made no fabrications, even on questions about invented names; its failures were wrong routing or missing coverage. The parts that worked in my runs: dictionary-based definitions, entity overviews, attribute lookups, comparisons, causal answers, a calculator, a bounded code writer in a sandbox, and geometry answers that are exact or “I don't know”.
+
+All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.
 
 **Unproven or weak:** all the scorecards are mine, on my own brain data, and nobody has reproduced them. Its breadth never came close to an LLM's: in an audit of 20,000 nodes, only about 23% were clean concepts. Lu lists facts well but doesn't reliably chain them into a conclusion. The vision path was a stub. Many design docs describe plans, not shipped features. The trained brain isn't included, so a fresh build starts close to empty.
 

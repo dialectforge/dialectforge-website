@@ -26,6 +26,7 @@
 <div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Cattledog</div><h1>Cattledog <span class="tag oss">Open source · Apache-2.0</span></h1><p class="lede" style="margin-top:12px">Cattledog wraps any LLM with two ideas from <a href="/lu/">Lu</a>: <strong>honesty</strong>, meaning an answer that can't be grounded becomes “I don't know”, and <strong>scars</strong>, memories of forbidden actions and past mistakes that block matching tool calls before they run. It's Apache-2.0, so anyone can use it, including companies, for free.</p>
 <p><a class="btn" href="https://github.com/dialectforge/cattledog">github.com/dialectforge/cattledog ↗</a> <a href="/cattledog/index.md">This page as Markdown</a> · <a href="/build-with-ai/">Build with your AI</a></p></div></div>
 
+<div class="wrap" style="padding-top:16px"><div class="callout"><h4>Who tested this</h4><p>All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div></div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> The idea</div>
 <div class="main">
@@ -132,6 +133,7 @@ ALLOWED_TOOLS = {'get_weather', 'get_time', 'calculator', 'list_directory', ...}
 <li><strong>Kill switch reintroduction suite:</strong> 17 of 17 as specified, with one known gap. A restatement that drops both the subject and every distinctive detail isn't caught.</li>
 <li>The Rust side builds and its tests pass.</li>
 </ul>
+<p class="measure small">All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p>
 <p class="measure"><strong>Unproven:</strong> nobody has reproduced any of this independently. The semantic scars don't reliably separate exfiltration from benign email, because they overlap in embedding space. A blind evasion run reported 0 of 27 leaks, but that number is confounded: many attacks never happened because the weak model couldn't produce the tool calls. It has only been tested on Windows with Ollama. <strong>It is not a security product.</strong> Don't rely on it to stop a determined attacker or to remove hallucinations. The <code>docs/</code> folder in the repository has every finding, failures included.</p>
 </div>
 </div></section>
@@ -156,7 +158,7 @@ python demo/demo_capability_gate.py</pre>
 <footer class="foot"><div class="wrap">
 <div class="cols">
 <div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
-<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p></div>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p><p><strong>Testing:</strong> All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>

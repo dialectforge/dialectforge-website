@@ -24,6 +24,7 @@
 </div></header>
 <main id="content">
 <div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / VPN</div><h1>DialectForge VPN <span class="tag off">Offline</span></h1><p class="lede" style="margin-top:12px">A censorship-resistant VPN built on the DialectForge protocol. The service is offline right now, and the code is being prepared for open-source release under AGPL-3.0.</p></div></div>
+<div class="wrap" style="padding-top:16px"><div class="callout"><h4>Who tested this</h4><p>All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div></div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> On the wire</div>
 <div class="main wide">
@@ -57,6 +58,10 @@
 <p class="measure">Countries like China and Iran use deep packet inspection to fingerprint and block VPN protocols. If traffic has a recognizable pattern, it gets blocked. DialectForge traffic is designed to look like random noise, so there's no fixed pattern to write a rule against.</p>
 <h3>How it was built</h3>
 <p class="measure">The client and server negotiate a shared dialect over a control channel, then wrap every packet in it. The dialect refreshes every 120 seconds. Clients were built for macOS, Windows and iOS, with Android in progress. When the code is released you'll be able to work toward running your own server (see <a href="#self-host">Run it yourself</a>). See <a href="/protocol/">the protocol</a> for the details.</p>
+<h3>Where the security comes from</h3>
+<p class="measure">The security comes from standard cryptography: AES-256-GCM for the traffic, and in DF-VPN v1 a hybrid post-quantum key exchange (X25519 + ML-KEM-768). The dialect hopping is an extra layer meant to resist traffic analysis and fingerprinting. It is not the source of the security, and the design doesn't depend on keeping the dialect secret. This is not security through obscurity.</p>
+<h3>What's been tested</h3>
+<p class="measure">DF-VPN v1 passes 47 of 47 test vectors, 30 of 30 security tests and 41 of 41 leak tests. These are my own runs. All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p>
 <div class="callout ox"><h4>Service status: offline</h4><p>There's no live DialectForge VPN service right now, and nothing to subscribe to. Existing download links are disabled. Questions: <a href="mailto:help@dialectforge.com">help@dialectforge.com</a>.</p></div>
 </div>
 </div></section>
@@ -104,7 +109,7 @@ Treat every security property as a design goal: this code has not been independe
 <footer class="foot"><div class="wrap">
 <div class="cols">
 <div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
-<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p></div>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p><p><strong>Testing:</strong> All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>

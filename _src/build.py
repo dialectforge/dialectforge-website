@@ -24,7 +24,7 @@ def header(active):
 FOOTER = """<footer class="foot"><div class="wrap">
 <div class="cols">
 <div class="about"><a class="mark" href="/" style="color:inherit">"""+MARK+"""<span>DialectForge</span></a>
-<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p></div>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p><p><strong>Testing:</strong> All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
@@ -180,7 +180,7 @@ def wrap(path, crumb, legal):
                     h.decompose()
     content = "".join(str(c) for c in inner.contents)
     if path == "research":
-        content = '<div class="callout"><h4>Also in research</h4><p><a href="/research/lu-cattledog-jev/">Lu + Cattledog + Jev + LLM agents: an idea for more autonomous AI</a> (proposal, October 14, 2026). Not built or tested. See also <a href="/lu/">Lu</a> and <a href="/cattledog/">Cattledog</a>, now open source.</p></div>' + '<div class="callout"><h4>Editor\'s note</h4><p>This paper is reproduced as it was first published on February 12, 2026. Its statements describe design intent and research goals, not demonstrated results. Strong wording in it, such as “immunity” or attacks being “impossible”, describes what the approach aims for. None of it has been tested or independently verified. For current wording see <a href="/protocol/">the protocol</a> and <a href="/ai-factory/">AI Factory</a>.</p></div>' + content
+        content = '<div class="callout"><h4>Also in research</h4><p><a href="/research/lu-cattledog-jev/">Lu + Cattledog + Jev + LLM agents: an idea for more autonomous AI</a> (proposal, October 14, 2026). Not built or tested. See also <a href="/lu/">Lu</a> and <a href="/cattledog/">Cattledog</a>, now open source.</p></div>' + '<div class="callout"><h4>Who tested this</h4><p>All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>' + '<div class="callout"><h4>Editor\'s note</h4><p>This paper was first published on February 12, 2026, and revised on October 14, 2026 so that numbers are stated as design targets and the prompt-injection approach is described as a proposal that needs adversarial testing. Its statements describe design intent and research goals, not demonstrated results. Strong wording that remains, such as knowledge becoming “unreachable”, describes what the approach aims for. None of it has been tested or independently verified. For current wording see <a href="/protocol/">the protocol</a> and <a href="/ai-factory/">AI Factory</a>.</p></div>' + content
     app = path.split("/")[0]
     apphead = ""
     if app in APPS:
@@ -274,7 +274,7 @@ def build_md():
 
 LLMS = """# DialectForge
 
-> DialectForge is John Martin's one-person software shop (DialectForge LLC): a security protocol and the projects built on it, plus two AI projects, Lu and Cattledog, now open source. Plain, honest status: research code, tested by the author, not independently reviewed.
+> DialectForge is John Martin's one-person software shop (DialectForge LLC): a security protocol and the projects built on it, plus two AI projects, Lu and Cattledog, now open source. Plain, honest status: research code. All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.
 
 John builds by directing AI coding assistants. Vibe coders are welcome. Start with the Markdown pages below, then each repository's AGENTS.md.
 
@@ -286,7 +286,7 @@ John builds by directing AI coding assistants. Vibe coders are welcome. Start wi
 
 ## Research
 - [Lu + Cattledog + Jev + LLM agents](https://dialectforge.com/research/lu-cattledog-jev/index.md): an unbuilt proposal for a curious, persistent overseer of LLM agents.
-- [DialectForge-native language models](https://dialectforge.com/research/index.md): an earlier paper (February 2026) on dialect-only instruction channels.
+- [DialectForge-native language models](https://dialectforge.com/research/index.md): an earlier paper (February 2026, revised October 2026) proposing dialect-only instruction channels. Its numbers are design targets, not measurements, and the approach needs adversarial testing.
 
 ## Using these with an AI
 - [Build with your AI](https://dialectforge.com/build-with-ai/index.md): paste-ready prompts.

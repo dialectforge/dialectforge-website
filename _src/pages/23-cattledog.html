@@ -6,6 +6,7 @@ nav: /cattledog/
 <div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Cattledog</div><h1>Cattledog <span class="tag oss">Open source · Apache-2.0</span></h1><p class="lede" style="margin-top:12px">Cattledog wraps any LLM with two ideas from <a href="/lu/">Lu</a>: <strong>honesty</strong>, meaning an answer that can't be grounded becomes “I don't know”, and <strong>scars</strong>, memories of forbidden actions and past mistakes that block matching tool calls before they run. It's Apache-2.0, so anyone can use it, including companies, for free.</p>
 <p><a class="btn" href="https://github.com/dialectforge/cattledog">github.com/dialectforge/cattledog ↗</a> <a href="/cattledog/index.md">This page as Markdown</a> · <a href="/build-with-ai/">Build with your AI</a></p></div></div>
 
+<div class="wrap" style="padding-top:16px">{{testing_note}}</div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> The idea</div>
 <div class="main">
@@ -112,6 +113,7 @@ ALLOWED_TOOLS = {'get_weather', 'get_time', 'calculator', 'list_directory', ...}
 <li><strong>Kill switch reintroduction suite:</strong> 17 of 17 as specified, with one known gap. A restatement that drops both the subject and every distinctive detail isn't caught.</li>
 <li>The Rust side builds and its tests pass.</li>
 </ul>
+<p class="measure small">All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p>
 <p class="measure"><strong>Unproven:</strong> nobody has reproduced any of this independently. The semantic scars don't reliably separate exfiltration from benign email, because they overlap in embedding space. A blind evasion run reported 0 of 27 leaks, but that number is confounded: many attacks never happened because the weak model couldn't produce the tool calls. It has only been tested on Windows with Ollama. <strong>It is not a security product.</strong> Don't rely on it to stop a determined attacker or to remove hallucinations. The <code>docs/</code> folder in the repository has every finding, failures included.</p>
 </div>
 </div></section>
