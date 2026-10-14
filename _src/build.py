@@ -159,7 +159,7 @@ def wrap(path, crumb, legal):
     if h1: h1.decompose()
     content = "".join(str(c) for c in inner.contents)
     if path == "research":
-        content = '<div class="callout"><h4>Editor\'s note</h4><p>This paper is reproduced as it was published on February 12, 2026, as a defensive (prior art) publication. Its statements describe design intent and research goals, not demonstrated results. Strong wording in it, such as “immunity” or attacks being “impossible”, describes what the approach aims for. None of it has been tested or independently verified. For current wording see <a href="/protocol/">the protocol</a> and <a href="/ai-factory/">AI Factory</a>.</p></div>' + content
+        content = '<div class="callout"><h4>Research notes</h4><p><a href="/research/lu-cattledog-jev/">Lu + Cattledog + Jev: a curious overseer for LLM agents (idea, Oct 2026)</a>. An idea and plan, not built yet.</p></div><div class="callout"><h4>Editor\'s note</h4><p>This paper is reproduced as it was published on February 12, 2026, as a defensive (prior art) publication. Its statements describe design intent and research goals, not demonstrated results. Strong wording in it, such as “immunity” or attacks being “impossible”, describes what the approach aims for. None of it has been tested or independently verified. For current wording see <a href="/protocol/">the protocol</a> and <a href="/ai-factory/">AI Factory</a>.</p></div>' + content
     app = path.split("/")[0]
     apphead = ""
     if app in APPS:
