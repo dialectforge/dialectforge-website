@@ -6,10 +6,10 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DialectForge Research - Lu + Cattledog + Jev: a curious overseer for LLM agents (idea, Oct 2026)</title>
-<meta name="description" content="Research note (idea, not built yet): a persistent, curious overseer (Lu) that learns from LLM agents, Jev decisions and Cattledog honesty/scars, and guides agents mid-task.">
-<meta property="og:title" content="DialectForge Research - Lu + Cattledog + Jev: a curious overseer for LLM agents (idea, Oct 2026)">
-<meta property="og:description" content="Research note (idea, not built yet): a persistent, curious overseer (Lu) that learns from LLM agents, Jev decisions and Cattledog honesty/scars, and guides agents mid-task.">
+<title>Lu + Cattledog + Jev + LLM agents: a proposal — DialectForge Research</title>
+<meta name="description" content="A proposal by John Martin, DialectForge: a persistent, curious AI (Lu) that learns from LLM agents, Jev&#x27;s typed decisions and Cattledog&#x27;s scars, and guides the agents mid-task. Not built, not tested.">
+<meta property="og:title" content="Lu + Cattledog + Jev + LLM agents: a proposal — DialectForge Research">
+<meta property="og:description" content="A proposal by John Martin, DialectForge: a persistent, curious AI (Lu) that learns from LLM agents, Jev&#x27;s typed decisions and Cattledog&#x27;s scars, and guides the agents mid-task. Not built, not tested.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f2eee5">
 <link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,67 +20,88 @@
 <header class="mast"><div class="wrap">
 <a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research" aria-current=page>Research</a><a href="/#contact">Contact</a></nav>
 </div></header>
 <main id="content">
-<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/research">Research</a> / Lu + Cattledog + Jev</div><h1>Lu + Cattledog + Jev: a curious overseer for LLM agents (idea, Oct 2026)</h1></div></div>
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/research">Research</a> / Lu + Cattledog + Jev</div><h1>Lu + Cattledog + Jev + LLM agents: an idea for more autonomous AI</h1></div></div>
 <div class="wrap"><article class="doc">
-<header class="paper-header">
-<div class="paper-badge"><span></span><span>Research note (idea) — October 14, 2026</span></div>
-<div class="paper-meta"><strong>John Martin</strong><br/>DialectForge LLC<br/><a href="mailto:info@dialectforge.com">info@dialectforge.com</a> · <a href="https://dialectforge.com">dialectforge.com</a><br/><br/>Status: idea and plan only. Nothing here has been built or tested yet.</div>
-</header>
-<div class="callout"><h4>Status</h4><p>This is an idea and a plan, not a result. No prototype exists yet, nothing has been measured, and none of it is proven. We are writing it down to make the idea and its open questions public.</p></div>
+<p><strong>John Martin, DialectForge</strong> · October 14, 2026</p>
+<div class="callout"><h4>Status: proposal</h4><p>This is an idea written down, not a result. Nothing here has been built, proven or tested. The parts described below exist separately; the combination does not, as far as we know. Lu and Cattledog are being prepared for open source; there is no release date yet.</p></div>
+
 <h2>1. The idea</h2>
-<p>LLM agents can do a lot of work, but they mostly wait for a user to notice problems and tell them what to do next. The idea is to add a persistent overseer, Lu, that watches the work as it happens, learns from it, and steers the agents on its own.</p>
-<p>In John's words, lightly tidied: Lu is persistent, self-aware, always on, and able to improve. Lu could learn from the input, the output, Jev's decisions, and most importantly the agents' thinking. Lu is built for curiosity: while a user's task is getting done, Lu could spot gaps or opportunities related to the project, use Jev plus its own rules, and guide the LLMs without any interaction from the user.</p>
+<p>Lu is a persistent AI that is always on, aware of its own state, and able to improve itself. It is built around curiosity. The idea is to let Lu learn from what LLM agents take in, what they produce and, most of all, how they think, and from the decisions Jev makes along the way. While a user's task is running, Lu could notice gaps or opportunities related to the project, check them with Jev and its own rules, and guide the agents without the user having to step in.</p>
+
 <h2>2. The pieces</h2>
 <ul>
-<li><strong>LLM agents</strong> plan, reason, write, and do the actual work.</li>
-<li><strong>Jev (TypeSafe AI)</strong> is a fast typed decision model. It returns structured decisions with confidence scores (for example which tool to use, whether something is risky, whether a step is done). It does not generate text. Jev is a third-party paid service.</li>
-<li><strong>Cattledog</strong> wraps any LLM with two things: honesty (it is allowed and encouraged to say "I don't know") and scars (a memory of past mistakes, so the same mistake is less likely to repeat).</li>
-<li><strong>Lu</strong> is the persistent, always-on layer. It is meant to be self-aware about its own state, able to improve over time, and built for curiosity. It watches inputs, outputs, Jev's decisions, and the agents' reasoning, then uses what it learns to guide the agents.</li>
+<li><strong>LLM agents</strong> plan, reason, write and do the work.</li>
+<li><strong>Jev</strong> (from TypeSafe AI) is a fast “System One” model. It returns typed decisions with confidence scores, for example which tool to use, whether a step is risky, or whether a task is done. It does not generate text. Jev is a third-party, paid service; it is not made by DialectForge. <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe AI’s introduction to Jev</a>.</li>
+<li><strong>Cattledog</strong> wraps any LLM with Lu’s honesty: it can say “I don’t know”, and it carries scars, which are memories of past mistakes. Cattledog will be released under Apache-2.0. <a href="/ai-factory/#cattledog">More on Cattledog</a>.</li>
+<li><strong>Lu</strong> is the persistent layer that watches all of this, learns from it, gets curious, and steers.</li>
 </ul>
-<h2>3. How it would flow</h2>
-<pre><code>User asks for a task
-        |
-        v
-LLM agents work on it  &lt;------------------------------+
-        |                                             |
-        v                                             |
-Jev: fast typed decisions + confidence                |
-        |                                             |
-        v                                             |
-Cattledog: honesty ("I don't know") + scars           |
-                                                      |
-Lu (persistent, curious, learning) observes:          |
-  - agents' thinking, inputs, outputs                 |
-  - Jev's decisions                                   |
-  - Cattledog's scars                                 |
-        |                                             |
-        v                                             |
-Lu spots gaps or opportunities                        |
-        |                                             |
-        v                                             |
-Lu guides the agents, no user needed -----------------+</code></pre>
-<p>The agents do the work. Jev makes quick typed calls along the way. Cattledog keeps each model honest and remembers what went wrong before. Lu sits over all of it, learns, notices what nobody asked about but probably matters, and feeds guidance back to the agents mid-task.</p>
+
+<h2>3. Flow</h2>
+<figure>
+<svg viewBox="0 0 720 470" role="img" aria-labelledby="flow-t flow-d" style="width:100%;height:auto;max-width:720px" font-family="JetBrains Mono,monospace" font-size="13">
+<title id="flow-t">Proposed flow</title>
+<desc id="flow-d">The user asks for a task. LLM agents work on it. Jev makes fast typed decisions with confidence scores, and Cattledog adds honesty and scars. Lu receives the agents' thinking, inputs and outputs, Jev's decisions and Cattledog's scars. When Lu spots a gap or opportunity it guides the agents, without the user, and the agents continue.</desc>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#333"/></marker></defs>
+<g fill="#fff" stroke="#333" stroke-width="1.5">
+<rect x="40" y="20" width="220" height="44"/>
+<rect x="40" y="120" width="220" height="44"/>
+<rect x="40" y="220" width="220" height="56"/>
+<rect x="40" y="340" width="220" height="44"/>
+<rect x="430" y="200" width="250" height="56" stroke="#b4441c" stroke-width="2"/>
+<rect x="430" y="340" width="250" height="56"/>
+</g>
+<g fill="#222" text-anchor="middle">
+<text x="150" y="47">User asks for a task</text>
+<text x="150" y="147">LLM agents work on it</text>
+<text x="150" y="244">Jev: fast typed decisions</text><text x="150" y="262">+ confidence</text>
+<text x="150" y="367">Cattledog: honesty + scars</text>
+<text x="555" y="224">Lu: persistent, curious,</text><text x="555" y="242">learning</text>
+<text x="555" y="364">Lu guides the agents,</text><text x="555" y="382">no user needed</text>
+</g>
+<g stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#ah)">
+<path d="M150 64V118"/><path d="M150 164V218"/><path d="M150 276V338"/>
+<path d="M555 256V338" stroke="#b4441c"/>
+<path d="M430 380H340V100H120V118" stroke="#b4441c"/>
+</g>
+<g stroke="#666" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#ah)">
+<path d="M260 142L428 212"/><path d="M260 248H428"/><path d="M260 362L428 240"/>
+</g>
+<g fill="#555" font-size="11">
+<text x="290" y="160">thinking, inputs, outputs</text>
+<text x="300" y="242">decisions</text>
+<text x="300" y="320">scars</text>
+<text x="565" y="300">spots gaps or</text><text x="565" y="314">opportunities</text>
+<text x="350" y="94">guidance back to the agents</text>
+</g>
+</svg>
+<figcaption class="figcap"><b>Fig. 1</b> Proposed flow. Dashed lines are what Lu learns from; solid orange lines are Lu acting. Not built.</figcaption>
+</figure>
+
 <h2>4. Related work</h2>
-<p>Most of the individual pieces already exist in some form. Credit where it is due:</p>
+<p>We looked for existing work on October 14, 2026. Each piece of this idea already exists somewhere. We did not find one system that combines a persistent, curious, self-improving overseer with Jev and an honesty-and-scars layer, steering agents mid-task without the user. That is only as far as our search went; we may have missed something.</p>
 <ul>
-<li><strong>Sophia</strong> (<a href="https://arxiv.org/html/2512.18202v1">arXiv 2512.18202</a>): an always-on executive monitor that reads agents' reasoning traces, has a curiosity drive, and sets its own goals. This is the closest match to Lu. It does not use Jev or an honesty/scars layer.</li>
-<li><strong>Foreman</strong> (<a href="https://jevlist.ai/projects/foreman">jevlist.ai/projects/foreman</a>): an experimental supervisor that uses Jev to watch a coding agent and steer, stop, retry, or finish it. Supervision only, without persistent learning or curiosity.</li>
-<li><strong>Jev-Mem</strong> (<a href="https://arxiv.org/html/2609.23986">arXiv 2609.23986</a>): uses Jev to control an agent's long-term memory.</li>
-<li><strong>REFLEX</strong> (<a href="https://arxiv.org/abs/2609.26532">arXiv 2609.26532</a>): uses Jev as an agent's decision layer.</li>
-<li><strong>Jev</strong> (<a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe AI: Introducing System One models and Jev</a>): the typed decision model itself.</li>
+<li><a href="https://arxiv.org/abs/2512.18202">Sophia (arXiv 2512.18202)</a>: an always-on Executive Monitor reads agents’ reasoning traces, has a curiosity drive, and sets its own goals. This is the closest match, but it has no Jev and no honesty or scars layer.</li>
+<li><a href="https://jevlist.ai/projects/foreman">Foreman</a>: an experimental Python supervisor that uses Jev to watch a Codex worker and steer, stop, retry or finish it. Supervision only; no persistent learning or curiosity.</li>
+<li><a href="https://arxiv.org/abs/2609.23986">Jev-Mem (arXiv 2609.23986)</a>: Jev controls an agent’s long-term memory.</li>
+<li><a href="https://github.com/canvas-org/meta-agent">Meta-Agent (canvas-org)</a>: learns from execution traces to improve the agent harness.</li>
+<li><a href="https://arxiv.org/abs/2605.10913">Shepherd (arXiv 2605.10913)</a>: a meta-agent that can watch, fork and rewind another agent’s run.</li>
+<li><a href="https://arxiv.org/abs/2609.26532">REFLEX (arXiv 2609.26532)</a>: uses Jev as an agent’s decision layer. Still to be read closely.</li>
 </ul>
-<p>Other work that learns from or supervises agent runs (for example meta-agents that learn from execution traces, or that can watch, fork, and rewind another agent) is also related. As far as we found on October 14, 2026, no single system combines a persistent, curious, self-improving overseer with Jev and an honesty/scars layer, steering agents mid-task without the user. That combination appears to be new, but we may have missed something, and we would welcome pointers.</p>
+
 <h2>5. Open questions</h2>
 <ul>
-<li><strong>Autonomy limits.</strong> What may Lu do on its own, and what needs the user's approval? Acting without the user is the point, but some actions (spending money, sending messages, deleting things) clearly should not happen silently. Where that line sits is not decided.</li>
-<li><strong>Cost and access.</strong> Jev is a paid service. A proof of concept may need a local stand-in for the decision layer.</li>
-<li><strong>Open source.</strong> Lu and Cattledog are being cleaned up for open-source release. Cattledog is planned under Apache-2.0.</li>
-<li><strong>Does it help?</strong> None of this has been measured. A first step is a small experiment comparing agents with and without Lu on the same tasks.</li>
+<li><strong>Guardrails.</strong> What may Lu act on alone, and what needs the user’s approval? This has to be settled before Lu steers anything.</li>
+<li><strong>Cost.</strong> Jev is a paid service with no free credits, so a first proof of concept may need a local stand-in model for the decision layer.</li>
+<li><strong>Whether it helps.</strong> Nothing yet shows that this combination makes agents better. It would need to be built and measured against agents running without Lu.</li>
+<li><strong>Prior work.</strong> REFLEX and the other work above need a closer read to see how much of this they already cover.</li>
 </ul>
-<div class="callout"><p><em>Research note by John Martin, DialectForge LLC. October 14, 2026. This describes an idea and a plan; nothing in it has been built or verified yet.</em></p></div>
+
+<h2>6. Open source</h2>
+<p>Lu and Cattledog are being prepared for open-source release. No date is set.</p>
+<p class="small">Contact: <a href="mailto:info@dialectforge.com">info@dialectforge.com</a></p>
 </article></div>
 
 </main>
