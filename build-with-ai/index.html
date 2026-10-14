@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build with your AI — DialectForge</title>
+<meta name="description" content="Paste-ready prompts that point your AI coding assistant at dialectforge.com/llms.txt and the Lu and Cattledog repositories.">
+<meta property="og:title" content="Build with your AI — DialectForge">
+<meta property="og:description" content="Paste-ready prompts that point your AI coding assistant at dialectforge.com/llms.txt and the Lu and Cattledog repositories.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/lu/">Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Build with your AI</div><h1>Build with your AI</h1><p class="lede" style="margin-top:12px">I build by directing AI, and you can too. Vibe coders are welcome. Paste one of these prompts into your AI assistant (Claude, ChatGPT, Grok, Cursor, Codex or similar). Each one points it at <a href="/llms.txt">/llms.txt</a>, a plain map of this site for AIs, and at the repository's <code>AGENTS.md</code>.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Prompts</div>
+<div class="main wide">
+<h3>Wrap my LLM app with Cattledog</h3>
+<div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code">Read https://dialectforge.com/llms.txt, then https://dialectforge.com/cattledog/index.md, then AGENTS.md and README.md in https://github.com/dialectforge/cattledog.
+I want to add Cattledog (honesty + scars) around the LLM in my project. Ask me which model I use, which tools it can call, and what a wrong answer would cost. Then propose a small plan for me to approve before you write code.
+Be honest: Cattledog is a proof of concept, not a security product. Its results are the author's own and not independently reproduced. It is Apache-2.0.</pre></div>
+<h3>Run Lu and explain it to me</h3>
+<div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code">Read https://dialectforge.com/llms.txt, then https://dialectforge.com/lu/index.md, then AGENTS.md and docs/LU_EXPLAINED.md in https://github.com/dialectforge/lu.
+Help me clone, build and test Lu (cargo build, cargo test), then ingest a tiny dataset and ask it a question. Explain each step in plain words.
+Don't claim anything works until we've run it. Lu is research code under AGPL-3.0 (commercial license from DialectForge LLC).</pre></div>
+<h3>Contribute a fix</h3>
+<div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code">Read https://dialectforge.com/llms.txt and AGENTS.md and CONTRIBUTING.md in the repo I name (https://github.com/dialectforge/lu or https://github.com/dialectforge/cattledog).
+Pick one item from "Where to start" in AGENTS.md, explain your plan, make the change with a test, run the tests, and draft a pull request that honestly says what you tested. Never commit secrets or personal data.</pre></div>
+<h3>Explore the Lu + Cattledog + Jev idea</h3>
+<div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code">Read https://dialectforge.com/llms.txt and https://dialectforge.com/research/lu-cattledog-jev/index.md.
+It's an unbuilt proposal. Help me design the smallest experiment that would show whether a persistent overseer (Lu) with honesty and scars (Cattledog) makes LLM agents better, and how we'd measure it against agents without it.</pre></div>
+</div>
+</div></section>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
+</body>
+</html>

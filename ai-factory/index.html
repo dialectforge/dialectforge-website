@@ -7,9 +7,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Factory — where Lu and Cattledog came from</title>
-<meta name="description" content="AI Factory was a proof that seed-based revocation works for an AI&#x27;s knowledge. The work continued in Lu, a private knowledge-graph AI, and Cattledog, an honesty and revocation layer for LLMs coming under Apache-2.0.">
+<meta name="description" content="AI Factory was a proof that seed-based revocation works for an AI&#x27;s knowledge. The work continued in Lu, a knowledge-graph AI (open source, AGPL-3.0), and Cattledog, an honesty and scars layer for LLMs (open source, Apache-2.0).">
 <meta property="og:title" content="AI Factory — where Lu and Cattledog came from">
-<meta property="og:description" content="AI Factory was a proof that seed-based revocation works for an AI&#x27;s knowledge. The work continued in Lu, a private knowledge-graph AI, and Cattledog, an honesty and revocation layer for LLMs coming under Apache-2.0.">
+<meta property="og:description" content="AI Factory was a proof that seed-based revocation works for an AI&#x27;s knowledge. The work continued in Lu, a knowledge-graph AI (open source, AGPL-3.0), and Cattledog, an honesty and scars layer for LLMs (open source, Apache-2.0).">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f2eee5">
 <link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,7 +20,7 @@
 <header class="mast"><div class="wrap">
 <a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains" aria-current=page>Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains" aria-current=page>Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/lu/">Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
 </div></header>
 <main id="content">
 <div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / History / AI Factory</div><h1>AI Factory <span class="tag plan">History</span></h1><p class="lede" style="margin-top:12px">AI Factory was a proof I built to answer one question: can you give every piece of an AI's knowledge its own seed and then revoke one piece cleanly? It did what it was built for. The work moved on to Lu and Cattledog.</p></div></div>
@@ -43,16 +43,16 @@
 <div class="rail"><b>§ 2</b> What came next</div>
 <div class="main">
 <h2>Lu</h2>
-<p class="measure">The ideas from AI Factory grew into <strong>Lu</strong>, an AI built on a knowledge graph rather than on model weights. Knowledge is stored as typed pieces joined by weighted, typed bonds, and it thinks by spreading activation through them, so an answer can be traced back to what produced it. It runs continuously with a curiosity engine, says “I don't know” instead of making things up, and uses scars to keep removed knowledge from coming back. It has also hit real limits with training, memory (RAM) and brain size. It's a private research project and isn't released; Cattledog came out of it.</p>
+<p class="measure">The ideas from AI Factory grew into <strong>Lu</strong>, an AI built on a knowledge graph rather than on model weights. Knowledge is stored as typed pieces joined by weighted, typed bonds, and it thinks by spreading activation through them, so an answer can be traced back to what produced it. It runs continuously with a curiosity engine, says “I don't know” instead of making things up, and uses scars to keep removed knowledge from coming back. It has also hit real limits with training, memory (RAM) and brain size. It's now open source under AGPL-3.0 (<a href="https://github.com/dialectforge/lu">github.com/dialectforge/lu</a>), and Cattledog came out of it. Full details: <a href="/lu/">the Lu page</a>.</p>
 </div>
 </div></section>
 
 <section class="sheet sec dark" id="cattledog"><div class="wrap grid">
 <div class="rail"><b>§ 3</b> Cattledog</div>
 <div class="main">
-<span class="tag oss">Repo coming soon · Apache-2.0</span>
+<span class="tag oss">Open source · Apache-2.0</span>
 <h2>Cattledog</h2>
-<p class="measure">Cattledog takes Lu's honesty and revocation (“scars”) mechanisms and wraps them around an outside LLM. A cattle dog doesn't own the herd; it keeps it moving the right way. It will get its own repository under the permissive Apache-2.0 license.</p>
+<p class="measure">Cattledog takes Lu's honesty and revocation (“scars”) mechanisms and wraps them around an outside LLM. A cattle dog doesn't own the herd; it keeps it moving the right way. It has its own repository under the permissive Apache-2.0 license: <a href="https://github.com/dialectforge/cattledog">github.com/dialectforge/cattledog</a>. Full details: <a href="/cattledog/">the Cattledog page</a>.</p>
 <ol class="steps">
 <li><h3>Gate what the model may do</h3><p>The design maps a model's tool requests to capability seeds and checks them against revocations and scars, aiming to keep a revoked capability blocked however the request is worded.</p></li>
 <li><h3>Check the answer (“off-ness”)</h3><p>After the model answers, the answer is compared with grounded knowledge. If it looks “off”, it's sent back to be asked again a capped number of times, and if it still can't be grounded the answer becomes “I don't know”. This part is implemented but switched off by default, and so far it's only been run against a test fixture, not real data.</p></li>
@@ -64,7 +64,7 @@
 
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 4</b> Related</div>
-<div class="main"><p class="measure">The earlier idea of training a language model to only take instructions in dialect is published as prior art: <a href="/research">DialectForge-Native Language Models</a>. Licensing: <a href="/licensing/">AGPL-3.0 for DialectForge projects, Apache-2.0 for Cattledog</a>.</p></div>
+<div class="main"><p class="measure">The earlier idea of training a language model to only take instructions in dialect is written up in a research paper: <a href="/research">DialectForge-Native Language Models</a>. Licensing: <a href="/licensing/">AGPL-3.0 for DialectForge projects, Apache-2.0 for Cattledog</a>.</p></div>
 </div></section>
 
 </main>
@@ -72,8 +72,8 @@
 <div class="cols">
 <div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
 <p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
-<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li></ul></div>
-<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/#cattledog">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
 <div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>

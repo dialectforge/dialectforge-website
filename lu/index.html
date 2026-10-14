@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lu: an AI built on a knowledge graph, not model weights — DialectForge</title>
+<meta name="description" content="How Lu works, step by step: persistence, honest &quot;I don&#x27;t know&quot;, scars, curiosity, self-improvement and memory. What&#x27;s tested, what isn&#x27;t, what went wrong, and how to run it. AGPL-3.0 plus a commercial license.">
+<meta property="og:title" content="Lu: an AI built on a knowledge graph, not model weights — DialectForge">
+<meta property="og:description" content="How Lu works, step by step: persistence, honest &quot;I don&#x27;t know&quot;, scars, curiosity, self-improvement and memory. What&#x27;s tested, what isn&#x27;t, what went wrong, and how to run it. AGPL-3.0 plus a commercial license.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/lu/" aria-current=page>Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Lu</div><h1>Lu <span class="tag oss">Open source · AGPL-3.0</span></h1><p class="lede" style="margin-top:12px">Lu is an experimental AI I wrote from scratch in Rust. It has no neural network and no learned weights. What it knows is stored in a graph you can read: nodes of knowledge joined by typed, weighted bonds. It stays on, keeps what it learns, says “I don't know” when it doesn't know, and carries <em>scars</em>, which are memories of past mistakes. It didn't become a product, and building it broke me financially. This page explains how it works, what has been tested, and what went wrong.</p>
+<p><a class="btn" href="https://github.com/dialectforge/lu">github.com/dialectforge/lu ↗</a> <a href="/lu/index.md">This page as Markdown</a> · <a href="/build-with-ai/">Build with your AI</a></p></div></div>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> The idea</div>
+<div class="main">
+<h2>Knowledge you can point at</h2>
+<p class="measure">An LLM answers by running your prompt through billions of fixed weights. What it knows is smeared across all of them, so you can't point at one fact, fix it or remove it. Lu stores each piece of knowledge as its own node with its own 32-byte identity (a <em>seed</em>), and joins nodes with bonds such as <code>IsA</code>, <code>Causes</code>, <code>PartOf</code> and <code>UsedFor</code>. Every answer is a path through that graph, so you can print it.</p>
+<p class="measure">That makes four things possible that are hard for an LLM: remove one fact without retraining, show the chain behind an answer, refuse when nothing supports an answer, and run on an ordinary CPU. The cost is just as real: Lu only knows what it has been fed. It has no pre-trained prior to fall back on.</p>
+</div>
+<p class="note">A card catalog instead of a hunch. You can pull any card out and look at it.</p>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Architecture</div>
+<div class="main wide">
+<h2>The parts</h2>
+<figure>
+<svg viewBox="0 0 760 420" role="img" aria-labelledby="lu-arch-t lu-arch-d" style="width:100%;height:auto;max-width:760px" font-family="JetBrains Mono,monospace" font-size="12">
+<title id="lu-arch-t">Lu architecture</title>
+<desc id="lu-arch-d">Text sources feed the extractors, which write nodes and bonds into the knowledge graph. The graph is stored in SST files with a write-ahead log and a keyword index. Queries go through recall, the honesty gate, reasoning and narration to an answer. A scar log and a curiosity engine sit beside the graph: scars block bonds during recall, and curiosity sends gaps to a wonder queue that a worker researches later.</desc>
+<defs><marker id="la" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#333"/></marker></defs>
+<g fill="#fff" stroke="#333" stroke-width="1.5">
+<rect x="20" y="30" width="150" height="50"/><rect x="20" y="130" width="150" height="50"/>
+<rect x="250" y="110" width="250" height="90" stroke="#b4441c" stroke-width="2"/>
+<rect x="250" y="250" width="250" height="50"/>
+<rect x="580" y="30" width="160" height="50"/><rect x="580" y="110" width="160" height="50"/><rect x="580" y="190" width="160" height="50"/><rect x="580" y="270" width="160" height="50"/><rect x="580" y="350" width="160" height="50"/>
+<rect x="20" y="250" width="150" height="50"/><rect x="20" y="340" width="150" height="50"/>
+</g>
+<g fill="#222" text-anchor="middle">
+<text x="95" y="60">Text sources</text>
+<text x="95" y="152">Extractors</text><text x="95" y="168">(typed patterns)</text>
+<text x="375" y="145">Knowledge graph</text><text x="375" y="163">seeds · nodes · typed bonds</text><text x="375" y="181">weights with time history</text>
+<text x="375" y="272">Storage: SST + WAL</text><text x="375" y="288">+ keyword index</text>
+<text x="660" y="60">1. Recall</text>
+<text x="660" y="132">2. Honesty gate</text><text x="660" y="148">(I don't know)</text>
+<text x="660" y="220">3. Reasoning</text>
+<text x="660" y="300">4. Narration</text>
+<text x="660" y="380">5. Off-ness check</text>
+<text x="95" y="272">Scar log</text><text x="95" y="288">(blocked bonds)</text>
+<text x="95" y="362">Curiosity →</text><text x="95" y="378">wonder queue</text>
+</g>
+<g stroke="#333" stroke-width="1.5" fill="none" marker-end="url(#la)">
+<path d="M95 80V128"/><path d="M170 155H248"/><path d="M375 200V248"/>
+<path d="M500 130L578 60"/><path d="M660 80V108"/><path d="M660 160V188"/><path d="M660 240V268"/><path d="M660 320V348"/>
+</g>
+<g stroke="#b4441c" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#la)">
+<path d="M170 275L248 190"/><path d="M170 355L300 202"/>
+</g>
+</svg>
+<figcaption class="figcap"><b>Fig. 1</b> Lu's main parts. Orange dashed lines: scars block bonds during recall; curiosity records gaps found during recall.</figcaption>
+</figure>
+</div>
+</div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Step by step</div>
+<div class="main">
+<h2>How Lu works</h2>
+<ol class="steps">
+<li><h3>It learns by reading</h3><p>Lu doesn't train with gradient descent. Extractors split text into sentences and run typed patterns in order (definition, mechanism, composition, purpose, example, contrast, causal), and anything left over is kept as raw text. Ingestion scripts load dictionaries, WordNet, Wikidata, arXiv abstracts and more. An LLM can be a <em>source</em>: its output gets broken into nodes and bonds. Its weights are never used. I called this “the model talks, Lu eats”.</p></li>
+<li><h3>It persists</h3><p>The graph lives on disk in an SST-style store: node and bond tables, a write-ahead log, a manifest and a keyword index, with append-only IDs and compaction. Encryption at rest is optional. Lu is meant to stay on and keep learning between sessions, not start fresh each time.</p></li>
+<li><h3>It answers by spreading activation</h3><p>Query words pick seed nodes from the keyword index. Activation spreads along bonds with decay at each hop and a ceiling, and large hub nodes are damped so they don't take over. Recall runs twice: once on the question alone, so understanding isn't biased by the conversation, and then again with topic seeds from session memory.</p></li>
+<li><h3>It says “I don't know”</h3><p>Before answering, an honesty gate checks the recall. It refuses when the query has no real traction, when only some of the words match (Lu won't make up a link between something it knows and something it doesn't), and when a single word dominates and the rest add nothing.</p></li>
+<li><h3>It reasons and writes</h3><p>A thought, action, observation loop and a recall, synthesis and critic chain build the answer. The critic can force a retry. Templates turn the nodes and bonds it reached into prose: definitions, causal “why” answers, side-by-side comparisons. No LLM writes the output. The rule is honest over eloquent. A final off-ness check looks for answers that don't match what the graph supports.</p></li>
+<li><h3>It carries scars</h3><p>A scar marks a bond as “don't act on this”, with a reason and a date. During recall a scarred bond carries no weight, so activation can't cross it. The history stays intact, so Lu can say “I know this connection exists, but I was scarred against using it, on this date, for this reason.”</p></li>
+<li><h3>It gets curious</h3><p>During recall Lu watches for gaps: dead ends, isolated nodes, “knowledge deserts” and hub boundaries. Confirmed gaps go into a capped wonder queue, and a separate worker researches them later, off the hot path.</p></li>
+<li><h3>It improves itself, carefully</h3><p>Bonds that get used are strengthened. Changes made during a session are tagged, so one conversation can't pollute the baseline, and a change is only promoted after it holds up across several separate sessions. Conclusions Lu derives can be written back as inferred bonds, but only when they're corroborated: a bond that was just written can't count as its own proof.</p></li>
+</ol>
+</div>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 4</b> Code</div>
+<div class="main">
+<h2>From the repository</h2>
+<p class="measure">Short excerpts, lightly trimmed. Scars are kept separate from the bonds they block (<code>src/scar.rs</code>):</p>
+<pre class="code">//! Action layers (spread activation, Critic vetting) compute
+//!   `effective_weight = historical * (if scarred {0.0} else {1.0})`
+//!   and refuse to propagate / accept anything via a scarred bond.
+pub struct Scar {
+    pub scar_id: u64,
+    /// The directed bond this scar is on: `(from, to)`.
+    pub bond_seeds: (Seed, Seed),
+    pub scar_seed: Seed,
+    // ... reason and time
+}</pre>
+<p class="measure">The kinds of gap curiosity looks for (<code>src/curiosity.rs</code>):</p>
+<pre class="code">pub enum SignalType {
+    DeadEnd,         // hit a hub but yielded almost nothing further
+    IsolatedNode,    // activated, but has very few neighbors
+    KnowledgeDesert, // spread died before anything strong
+    HubBoundary,     // touched a hub it couldn't traverse
+}</pre>
+<p class="measure">The honesty gate's refusal modes, from the comment at the top of <code>src/idk_gate.rs</code>:</p>
+<pre class="code">//! - Mode A — Total IDK. The query has no meaningful traction at all.
+//! - Mode B — Partial-match leak. Some query tokens match the brain,
+//!   others don't. We refuse to fabricate a connection between
+//!   known and unknown.
+//! - Mode D — Single-anchor dominance. Only ONE token actually
+//!   anchors strongly ...</pre>
+</div>
+</div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 5</b> Design choices</div>
+<div class="main">
+<h2>Why it's built this way</h2>
+<ul>
+<li><strong>A graph instead of weights:</strong> so knowledge can be read, edited, revoked and traced.</li>
+<li><strong>Scars instead of deletion:</strong> keeping the history is more honest than erasing it, and Lu can explain why it won't use a connection.</li>
+<li><strong>No LLM in the output path:</strong> anything that writes prose freely can make things up. Templates can only say what was reached.</li>
+<li><strong>An append-only bond list (44 types):</strong> old brains stay readable as types are added.</li>
+<li><strong>Separate guest and admin binaries:</strong> the public HTTP server can only ask questions, because the admin tools aren't compiled into it. Code runs through a separate sandboxed broker.</li>
+<li><strong>Errors, not empty values:</strong> the hardest lesson. A component that quietly returns <code>0</code>, <code>""</code> or <code>None</code> when it fails is worse than one that errors.</li>
+</ul>
+</div>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 6</b> Tested vs unproven</div>
+<div class="main">
+<h2>What's tested, and what isn't</h2>
+<p class="measure"><strong>Tested:</strong> 2,388 Rust tests pass on <code>cargo test</code> (0 failing, 8 ignored). In my own 100-question adversarial runs, Lu made no fabrications, even on questions about invented names; its failures were wrong routing or missing coverage. The parts that worked in my runs: dictionary-based definitions, entity overviews, attribute lookups, comparisons, causal answers, a calculator, a bounded code writer in a sandbox, and geometry answers that are exact or “I don't know”.</p>
+<p class="measure"><strong>Unproven or weak:</strong> all the scorecards are mine, on my own brain data, and nobody has reproduced them. Its breadth never came close to an LLM's: in an audit of 20,000 nodes, only about 23% were clean concepts. Lu lists facts well but doesn't reliably chain them into a conclusion. The vision path was a stub. Many design docs describe plans, not shipped features. The trained brain isn't included, so a fresh build starts close to empty.</p>
+</div>
+</div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 7</b> History</div>
+<div class="main">
+<h2>What went wrong</h2>
+<ul>
+<li><strong>Breadth:</strong> every node had to be earned, and the clean ones leveled off. One large ingestion batch moved zero test questions from fail to pass.</li>
+<li><strong>Memory:</strong> RAM grew with the number of nodes, and decrypting bond blocks used a big share of CPU. Production ran out of memory more than once.</li>
+<li><strong>Parts that looked fine but weren't connected:</strong> features that passed their checks but were quietly switched off because a component returned an empty value on failure.</li>
+<li><strong>New facts aren't checked for truth:</strong> Lu won't invent a fact, but it will repeat a false one it was taught. Some misinformation got through and had to be blocked with a curated denylist.</li>
+<li><strong>Timelines:</strong> my estimates slipped again and again.</li>
+<li><strong>The server:</strong> Lu ran on one rented server with no off-box backup of its trained brain. In October 2026 the server was lost, and the brain data with it. The code was in Git and survived, and that code is what's published.</li>
+</ul>
+<p class="measure">The parts that held up (structural revocation, the honesty floor and scars) became <a href="/cattledog/">Cattledog</a>, which wraps any LLM.</p>
+</div>
+<p class="note">The prototype jig broke. The measurements you took with it are still good.</p>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 8</b> Run it</div>
+<div class="main">
+<h2>How to run it</h2>
+<pre class="code">git clone https://github.com/dialectforge/lu
+cd lu
+cargo build --release
+cargo test        # 2,388 passing
+# then ingest your own data: see scripts/ and docs/LU_EXPLAINED.md</pre>
+<p class="measure">Some scripts assume a Linux server layout under <code>/opt/lu</code>; change the paths for your machine. If you code with an AI, point it at <a href="https://github.com/dialectforge/lu/blob/main/AGENTS.md">AGENTS.md</a> or use the prompts on <a href="/build-with-ai/">Build with your AI</a>.</p>
+<h2>License</h2>
+<p class="measure">AGPL-3.0, plus a commercial license from DialectForge LLC if you need to use Lu without the AGPL obligations. Contact <a href="mailto:info@dialectforge.com">info@dialectforge.com</a>. Contributions will need a CLA; see <code>CONTRIBUTING.md</code>.</p>
+</div>
+</div></section>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
+</body>
+</html>
