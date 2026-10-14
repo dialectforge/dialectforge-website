@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Licensing — DialectForge open source (AGPL-3.0) and commercial licenses</title>
+<meta name="description" content="DialectForge is being released as open source under AGPL-3.0, with commercial licenses from DialectForge LLC. Kernel code is GPL-2.0 and Cattledog is Apache-2.0. Plain-English explanation.">
+<meta property="og:title" content="Licensing — DialectForge open source (AGPL-3.0) and commercial licenses">
+<meta property="og:description" content="DialectForge is being released as open source under AGPL-3.0, with commercial licenses from DialectForge LLC. Kernel code is GPL-2.0 and Cattledog is Apache-2.0. Plain-English explanation.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/" aria-current=page>Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Licensing</div><h1>Licensing, in plain English</h1><p class="lede" style="margin-top:12px">Everything is going open source. Here's what you can do with it, and when you'd want a commercial license instead.</p></div></div>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Status</div>
+<div class="main">
+<div class="callout ox"><h4>Source code: coming soon</h4><p>The repositories are being cleaned up and aren't public yet. When they open, they'll be announced on this site. Until then there's nothing to clone. Please don't go looking for unofficial copies.</p></div>
+<h2>The short version</h2>
+<table class="register"><thead><tr><th>License</th><th>What it covers</th></tr></thead><tbody>
+<tr><td>AGPL-3.0</td><td><span class="name">Almost everything</span><p>The protocol and its implementations: VPN, Mesh/Tunnel, Terminal, Messenger, Verify, the DFoS userspace tools, and the AI Factory proof of concept. Licensed AGPL-3.0-only.</p></td></tr>
+<tr><td>GPL-2.0</td><td><span class="name">DFoS kernel and kernel-facing code</span><p>The Linux kernel is GPL-2.0, so the DFoS kernel fork, its modules and anything that links to kernel code stay GPL-2.0-only. That's required by the kernel's license, and it isn't offered under a commercial license.</p></td></tr>
+<tr><td>Apache-2.0</td><td><span class="name">Cattledog</span><p>The AI safety layer gets a permissive license so any AI team can use it, including inside closed products.</p></td></tr>
+<tr><td>Commercial</td><td><span class="name">From DialectForge LLC</span><p>Offered by DialectForge LLC, a Delaware limited liability company. For the AGPL projects, if you want to use them without the AGPL's obligations. Free licenses may be granted to nonprofits and other projects at DialectForge LLC's discretion.</p></td></tr>
+</tbody></table>
+</div>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> AGPL</div>
+<div class="main">
+<h2>What the AGPL-3.0 means for you</h2>
+<div class="pair">
+<div class="plus"><h4>You can</h4><ul><li>Use it for anything, personal or business</li><li>Read, audit and test every line</li><li>Change it</li><li>Share it, changed or not</li><li>Charge for services or support around it</li></ul></div>
+<div class="minus"><h4>In return you must</h4><ul><li>Keep the license and copyright notices</li><li>Share your source if you hand out the software</li><li>Share your changes if you let people use a modified version over a network (that's the “Affero” part)</li><li>License your changes under the same terms</li></ul></div>
+</div>
+</div>
+<p class="note">If you improve it and let other people use your improved version, you share the improvements. That keeps it open for everybody.</p>
+</div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Commercial</div>
+<div class="main">
+<h2>When you'd want a commercial license</h2>
+<p class="measure">If you're building a closed-source product, an appliance, or a hosted service and can't publish your changes, a commercial license from DialectForge LLC lets you use the AGPL code without those obligations. The same goes for enterprise deployments that need contract terms, support or custom work.</p>
+<p class="measure">Email <a href="mailto:info@dialectforge.com?subject=Commercial%20license">info@dialectforge.com</a> and tell me what you're building. Nonprofits and community projects: ask anyway. Free licenses are possible.</p>
+<h3>Contributing</h3>
+<p class="measure">Once the repositories are public, contributions will need a signed contributor license agreement (CLA). That's what allows the dual licensing to work.</p>
+<p class="measure" style="color:var(--graphite);font-size:.92rem">This page is a plain-language summary, not legal advice. The license files in each repository are what count.</p>
+</div>
+</div></section>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/#cattledog">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
+</body>
+</html>

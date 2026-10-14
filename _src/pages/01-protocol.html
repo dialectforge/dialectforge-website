@@ -1,0 +1,125 @@
+title: The DialectForge Protocol — seeds, dialects, cyclic refresh
+desc: How DialectForge works: seed generation, negotiated dialects, XOR consensus, a 2-minute cyclic refresh, rejection of foreign frames, and how it maps onto WiFi, Bluetooth, Ethernet, LoRa, CAN bus and storage.
+path: /protocol/
+nav: /protocol/
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Protocol</div><h1>The protocol</h1><p class="lede" style="margin-top:12px">Engineering notes, written so a non-engineer can follow along. Numbers are design targets unless I say they're measured.</p></div></div>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Parts</div>
+<div class="main">
+<h2>What's in a node</h2>
+<p class="measure">Every endpoint, whether it's a phone, a server, an ECU in a car or a kernel, runs the same small set of parts:</p>
+<table class="register"><tbody>
+<tr><td>1.1</td><td><span class="name">Seed</span><p>A 256-bit random value (SHA-256 over hardware entropy). Child seeds are derived with HKDF-SHA256, so the same parent and label always give the same child. Seeds are computed when needed, not stored.</p></td></tr>
+<tr><td>1.2</td><td><span class="name">Negotiation agent</span><p>A small module (the target is about 256 KB, small enough for a microcontroller) that turns the seed into dialect proposals and settles on a shared one with its peers.</p></td></tr>
+<tr><td>1.3</td><td><span class="name">Dialect</span><p>The working rule set for one cycle: how identifiers are remapped, how payloads are scrambled, and how frames are laid out.</p></td></tr>
+<tr><td>1.4</td><td><span class="name">Cipher</span><p>A tiered choice: XOR keystream for tiny devices that need speed, AES-256-GCM where security matters more than microseconds. On the OS side, DFoS includes an experimental Kyber-768 post-quantum module; it hasn't been independently reviewed.</p></td></tr>
+<tr><td>1.5</td><td><span class="name">Anomaly monitor</span><p>Counts frames that don't fit the dialect, and other odd behavior. Past a threshold it triggers lockdown and a fresh seed.</p></td></tr>
+</tbody></table>
+</div>
+<p class="note">A seed is like a master key blank. Every other key gets cut from it, the same way every time, so nobody has to carry copies around.</p>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Negotiation</div>
+<div class="main wide">
+<h2>Startup negotiation</h2>
+<figure>
+<svg class="dia" viewBox="0 0 860 380" role="img" aria-label="Sequence diagram: node A broadcasts a seed, nodes A, B and C exchange proposals for three to five rounds, combine them by XOR consensus, confirm with ACK heartbeats, then enter runtime">
+<text x="110" y="22" text-anchor="middle" class="t-h">NODE A</text><text x="430" y="22" text-anchor="middle" class="t-h">NODE B</text><text x="750" y="22" text-anchor="middle" class="t-h">NODE C</text>
+<path class="ln" d="M110 32V370M430 32V370M750 32V370"/>
+<g class="t-dim"><text x="10" y="60">t &lt; 50 ms</text><text x="10" y="150">3–5 rounds</text><text x="10" y="150" dy="14">&lt; 100 ms</text><text x="10" y="250">quorum</text><text x="10" y="250" dy="14">&gt; 70%</text></g>
+<rect class="bx-ox" x="70" y="44" width="80" height="22"/><text x="110" y="59" text-anchor="middle">SEED gen</text>
+<path class="ln-ox" d="M150 74H745M150 74H425"/><path class="ln-ox" d="M738 69l8 5-8 5M418 69l8 5-8 5"/>
+<text x="440" y="90" text-anchor="middle" class="t-ox">seed broadcast · priority frame / protected side-channel</text>
+<g><path class="ln" d="M110 118H425"/><path class="ln" d="M418 113l8 5-8 5"/><path class="ln" d="M430 136H115"/><path class="ln" d="M122 131l-8 5 8 5"/>
+<path class="ln" d="M430 154H745"/><path class="ln" d="M738 149l8 5-8 5"/><path class="ln" d="M750 172H435"/><path class="ln" d="M442 167l-8 5 8 5"/>
+<text x="270" y="112" text-anchor="middle">proposal = H(cmd ‖ seed ‖ node_id)</text><text x="590" y="186" text-anchor="middle" class="t-dim">refine · repeat</text></g>
+<rect class="bx" x="60" y="214" width="740" height="40"/><text x="430" y="238" text-anchor="middle">CONSENSUS · shared dialect = proposal_A ⊕ proposal_B ⊕ proposal_C → ID map · hop seed · session key</text>
+<path class="ln-d" d="M110 290H745M430 290"/><text x="430" y="284" text-anchor="middle" class="t-dim">ACK heartbeat · 10 ms sync window · fallback to static mode on timeout</text>
+<rect class="bx-k" x="60" y="316" width="740" height="40"/><text x="430" y="340" text-anchor="middle" class="t-inv">RUNTIME · all traffic in dialect n · refresh every cycle</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 2</b> Startup negotiation across three nodes. Times are design targets.</figcaption>
+</figure>
+</div>
+</div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Frames</div>
+<div class="main">
+<h2>What changes each cycle</h2>
+<p class="measure">Identifiers are remapped from the shared seed. In the simplest form:</p>
+<pre class="code">remapped_id = base_id ⊕ int(shared_seed) mod address_space
+session_key = derive(shared_seed, cycle_n)
+payload'    = cipher(payload, session_key)      # XOR fast path or AES-256-GCM</pre>
+<p class="measure">Where the transport has priorities, like CAN arbitration, the remap keeps the order, so the brakes still win the bus. Payloads are mapped through the dialect and then encrypted. Frequent patterns can get short tokens during negotiation, so the dialect doubles as compression and the overhead stays small (the target is under 5% bandwidth).</p>
+<figure>
+<svg class="dia" viewBox="0 0 620 170" role="img" aria-label="Frame layout comparison: a standard frame has a fixed ID, fixed header and readable payload; a DialectForge frame has a hopped ID, a dialect-mapped header and an encrypted payload, all of which change every cycle">
+<text x="0" y="14" class="t-dim">STANDARD FRAME</text>
+<rect class="bx" x="0" y="22" width="110" height="38"/><text x="55" y="45" text-anchor="middle">ID 0x123</text>
+<rect class="bx" x="110" y="22" width="150" height="38"/><text x="185" y="45" text-anchor="middle">fixed header</text>
+<rect class="bx" x="260" y="22" width="360" height="38"/><text x="440" y="45" text-anchor="middle">62 72 61 6b  "brak"  readable</text>
+<text x="0" y="100" class="t-dim">DIALECTFORGE FRAME · cycle n</text>
+<rect class="bx-ox" x="0" y="108" width="110" height="38"/><text x="55" y="131" text-anchor="middle">ID 0x29C</text>
+<rect class="bx-ox" x="110" y="108" width="150" height="38"/><text x="185" y="131" text-anchor="middle">dialect-mapped</text>
+<rect class="bx-k" x="260" y="108" width="360" height="38"/><text x="440" y="131" text-anchor="middle" class="t-inv">19 28 9f 4a  encrypted</text>
+<text x="0" y="166" class="t-ox">every field moves when the dialect moves</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 3</b> Field-by-field: fixed and readable vs. hopped and encrypted.</figcaption>
+</figure>
+</div>
+<p class="note">On a normal network every message wears the same uniform. Here the uniform changes every couple of minutes, and only the two sides know what it'll look like next.</p>
+</div></section>
+
+<section class="sheet sec dark"><div class="wrap grid">
+<div class="rail"><b>§ 4</b> Lifecycle</div>
+<div class="main wide">
+<h2>Refresh, reject, lock down, recover</h2>
+<figure>
+<svg class="dia" viewBox="0 0 860 210" role="img" aria-label="State machine: Negotiate leads to Active; Active loops through Refresh every cycle; a foreign frame is dropped; when the anomaly score passes the threshold the network goes to Lockdown, then Recovery with two-factor approval, then a fresh seed and back to Negotiate">
+<rect class="bx" x="0" y="80" width="130" height="50"/><text x="65" y="110" text-anchor="middle">NEGOTIATE</text>
+<rect class="bx" x="200" y="80" width="130" height="50"/><text x="265" y="110" text-anchor="middle">ACTIVE · n</text>
+<rect class="bx" x="200" y="0" width="130" height="40"/><text x="265" y="25" text-anchor="middle">REFRESH n→n+1</text>
+<rect class="bx" x="200" y="168" width="130" height="40"/><text x="265" y="193" text-anchor="middle">DROP frame</text>
+<rect class="bx-ox" x="420" y="80" width="130" height="50"/><text x="485" y="110" text-anchor="middle">LOCKDOWN</text>
+<rect class="bx" x="620" y="80" width="130" height="50"/><text x="685" y="110" text-anchor="middle">RECOVER · 2FA</text>
+<path class="ln" d="M130 105H196"/><path class="ln" d="M240 80V44M290 44V80"/><path class="ln" d="M265 130V164"/>
+<path class="ln" d="M330 105H416"/><path class="ln" d="M550 105H616"/>
+<path class="ln-d" d="M685 130V150H65V134"/>
+<text x="345" y="98" class="t-dim">score &gt; threshold</text>
+<text x="300" y="60" class="t-dim">every cycle</text>
+<text x="275" y="155" class="t-dim">foreign frame</text>
+<text x="380" y="146" class="t-dim">fresh seed · full re-negotiation</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 4</b> Dialect lifecycle. Mismatched frames are dropped and counted; repeated anomalies force a fresh seed.</figcaption>
+</figure>
+<div class="grid" style="padding:0">
+<div style="grid-column:1/-1" class="measure">
+<p><strong>Cyclic refresh.</strong> The default cycle is 120 seconds for network links. Other domains tune it: tens of milliseconds for a CAN bus, minutes for LoRa or idle storage. Both sides step forward from the seed, so no key material crosses the wire at refresh time.</p>
+<p><strong>Rejecting foreign frames.</strong> A frame that wasn't made with the current dialect doesn't decode into anything valid, so it's dropped before it reaches the application. Without the session seed, an attacker shouldn't be able to build a frame that gets accepted.</p>
+<p><strong>Lockdown and recovery.</strong> When more than 70% of peers flag an anomaly, the network enters a safe state. Recovery takes one device approved with two-factor authentication, then a fresh seed and a full re-negotiation. The idea is that anything an attacker learned about the old dialect stops being useful.</p>
+<p><strong>Resilience.</strong> Critical messages can be sent as two or three dialect-shifted “echo frames” so a peer can rebuild a damaged one by quorum. Replay is countered with rolling nonce hashes.</p>
+</div></div>
+</div>
+</div></section>
+
+<section class="sheet sec" id="domains"><div class="wrap grid">
+<div class="rail"><b>§ 5</b> Domains</div>
+<div class="main wide">
+<h2>How each transport gets a dialect</h2>
+<p class="measure">The protocol is designed to sit on top of existing standards rather than replace them. Here's what's designed to hop on each one. The WiFi, Bluetooth, Ethernet and LoRa mappings are designs, not shipped implementations; CAN bus exists as a browser simulation.</p>
+<table class="register">
+<thead><tr><th>Ref</th><th>Domain</th><th class="hide-s">What changes each cycle</th><th class="hide-s">Cycle</th></tr></thead><tbody>
+<tr id="wifi"><td>5.1</td><td><span class="name">WiFi · 802.11</span><p>Seed shared inside management-frame-protected association frames. MAC addresses and frame types hop; payloads are XOR-shifted. Cycles are coordinated through beacons.</p></td><td class="hide-s">MAC, frame type, payload</td><td class="hide-s">1–5 min</td></tr>
+<tr id="bluetooth"><td>5.2</td><td><span class="name">Bluetooth · BLE</span><p>Seed set during LE Secure Connections pairing. Device address (BD_ADDR) and GATT handles hop, so a tracker can't simply follow one fixed address, and data goes out as short session bursts. This is also the link for a planned phone companion that holds keys in the phone's secure hardware.</p></td><td class="hide-s">BD_ADDR, GATT handles</td><td class="hide-s">30 s–2 min</td></tr>
+<tr id="ethernet"><td>5.3</td><td><span class="name">Ethernet</span><p>Bootstrapped over LLDP. VLAN tags and EtherTypes cycle, timed with PTP.</p></td><td class="hide-s">VLAN tag, EtherType</td><td class="hide-s">10–60 s</td></tr>
+<tr id="lora"><td>5.4</td><td><span class="name">LoRa · LoRaWAN</span><p>Seed delivered in the join request. Device identifiers and spreading factors are randomized on uplinks.</p></td><td class="hide-s">DevEUI, spreading factor</td><td class="hide-s">5–30 min</td></tr>
+<tr id="can"><td>5.5</td><td><span class="name">CAN bus · automotive</span><p>Seed broadcast once at ignition on priority ID 0x000. IDs hop while keeping arbitration priority. Diagnostic access through OBD is designed to be gated, not broken. <a href="/automotive/">Simulation →</a></p></td><td class="hide-s">CAN ID, payload</td><td class="hide-s">50–500 ms</td></tr>
+<tr id="storage"><td>5.6</td><td><span class="name">Storage · dialectfs</span><p>Files are stored as dialect-mapped, encrypted blocks. Seeds branch from root to volume to directory to file, so one subtree can be revoked without touching the rest. In DFoS this is a native kernel filesystem, not FUSE: encrypt on write, decrypt on read, invisible to applications. <a href="/dfos/">DFoS →</a></p></td><td class="hide-s">block map, keys</td><td class="hide-s">on integrity check / idle</td></tr>
+<tr id="database"><td>5.7</td><td><span class="name">Databases &amp; servers</span><p>Per-session dialects for replication streams. The dialect is held for the life of a session so a refresh can't corrupt a stream mid-write. <a href="/mesh/">Mesh →</a></p></td><td class="hide-s">session dialect</td><td class="hide-s">per session</td></tr>
+<tr id="memory"><td>5.8</td><td><span class="name">Operating system memory</span><p>Per-process seeds; memory pages encrypted with dialect-derived keys. <a href="/dfos/">DFoS →</a></p></td><td class="hide-s">page keys</td><td class="hide-s">per process</td></tr>
+</tbody></table>
+<div class="callout"><h4>Targets, not guarantees</h4><p>Design targets across domains: under 500 µs processing overhead, under 5% bandwidth overhead, under 1 mJ per negotiation on an ARM Cortex-M7. Real numbers will come from the open source release and people measuring it themselves.</p></div>
+</div>
+</div></section>

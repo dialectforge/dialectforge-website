@@ -1,0 +1,65 @@
+title: DialectForge Banking — a wire-transfer demo of the protocol
+desc: A demo of how the DialectForge protocol is designed to wrap messages between two banking systems, with an injected fake transfer being dropped. A browser demo only; no banks, customers or production systems involved.
+path: /banking/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Banking</div><h1>Banking · wire transfers <span class="tag dev">Demo</span></h1><p class="lede" style="margin-top:12px">How the DialectForge protocol is designed to carry messages between two banking systems, and what happens to a forged one. This is a demo to explain the idea. No bank uses it, and it hasn't been tested against a real payment system.</p></div></div>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Idea</div>
+<div class="main">
+<h2>What it's designed to do here</h2>
+<p class="measure">Banks still run a lot of core systems on mainframes, often in COBOL, and move payments between each other as structured messages (for example the SWIFT MT103 format for a customer transfer). Those links already use encryption and dedicated networks. DialectForge would be an extra layer on the link between two systems, not a replacement for any of that.</p>
+<p class="measure">The idea is the same as everywhere else on this site. The two ends share a seed, agree on a dialect, and wrap each message in it. A message that wasn't built with the current dialect, like a forged transfer someone injects into the link, is designed to fail to decode and be dropped. Repeated failures raise an anomaly score and trigger a fresh seed.</p>
+</div>
+<p class="note">Two offices that only accept paperwork written in this week's private shorthand. A forged form in plain English gets set aside, and someone gets told about it.</p>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Flow</div>
+<div class="main wide">
+<figure>
+<svg class="dia" viewBox="0 0 760 290" role="img" aria-label="Diagram: the sending bank system and the receiving bank system each have a DF layer. A transfer message is encoded in the current dialect and crosses the link as scrambled bytes. A forged transfer injected on the link doesn't match the dialect, is dropped, raises the anomaly score and triggers a fresh seed.">
+<rect class="bx" x="0" y="20" width="150" height="56"/><text x="75" y="44" text-anchor="middle">Sending system</text><text x="75" y="61" text-anchor="middle" class="t-dim">transfer message</text>
+<rect class="bx-ox" x="165" y="20" width="110" height="56"/><text x="220" y="44" text-anchor="middle">DF layer</text><text x="220" y="61" text-anchor="middle" class="t-dim">encode</text>
+<path class="ln" d="M275 48H481"/><path class="ln" d="M475 43l8 5-8 5"/>
+<rect class="bx-k" x="300" y="30" width="160" height="36"/><text x="380" y="53" text-anchor="middle" class="t-inv">c7 31 fa 6d 92 …</text>
+<rect class="bx-ox" x="485" y="20" width="110" height="56"/><text x="540" y="44" text-anchor="middle">DF layer</text><text x="540" y="61" text-anchor="middle" class="t-dim">decode</text>
+<rect class="bx" x="610" y="20" width="150" height="56"/><text x="685" y="44" text-anchor="middle">Receiving system</text><text x="685" y="61" text-anchor="middle" class="t-dim">same message</text>
+<text x="0" y="122" class="t-dim">FORGED TRANSFER INJECTED ON THE LINK</text>
+<rect class="bx" x="300" y="132" width="160" height="44"/><text x="380" y="152" text-anchor="middle">forged message</text><text x="380" y="168" text-anchor="middle" class="t-dim">no current seed</text>
+<path class="ln-d" d="M460 154H540V80"/>
+<rect class="bx-ox" x="485" y="190" width="275" height="44"/><text x="622" y="210" text-anchor="middle">doesn't decode → dropped</text><text x="622" y="226" text-anchor="middle" class="t-dim">anomaly score up</text>
+<path class="ln-d" d="M540 80V186"/>
+<rect class="bx" x="485" y="244" width="275" height="40"/><text x="622" y="268" text-anchor="middle">past threshold → fresh seed</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> The design of the banking demo. Bytes shown are illustrative.</figcaption>
+</figure>
+</div></div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Status</div>
+<div class="main wide">
+<h2>What's real and what isn't</h2>
+<table class="register"><thead><tr><th>Status</th><th>Item</th></tr></thead><tbody>
+<tr><td><span class="tag dev">Demo</span></td><td><span class="name">The earlier browser demo</span><p>Earlier versions of this page had an animated “mainframe terminal” that walked through a wire transfer, an injected fake transfer, lockdown and recovery. It was a scripted animation running in the browser, not a COBOL program processing real messages. The bank names in its menus were only examples; none of those banks were involved.</p></td></tr>
+<tr><td><span class="tag plan">Design</span></td><td><span class="name">The protocol applied to a bank link</span><p>The steps described above follow the general <a href="/protocol/">protocol design</a>.</p></td></tr>
+<tr><td><span class="tag off">Not done</span></td><td><span class="name">Banks, payment networks, compliance</span><p>No bank, payment network or financial institution uses DialectForge or has tested it. Nothing here has been audited, certified or reviewed for any banking regulation or standard.</p></td></tr>
+</tbody></table>
+</div></div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 4</b> Limits</div>
+<div class="main">
+<h2>Known limitations</h2>
+<ul class="measure">
+<li><b>It's an extra layer, not the security model.</b> Payment systems rely on authentication, signing, fraud controls and audit trails. DialectForge doesn't replace any of those.</li>
+<li><b>Fast path vs. strong path.</b> The demo showed the XOR fast path. For anything financial you'd want the authenticated AES-256-GCM path, and messages would still need proper signing.</li>
+<li><b>Lockdowns have a cost.</b> Dropping traffic and re-keying on an anomaly could delay real payments. How that should work operationally isn't designed yet.</li>
+<li><b>Key handling isn't worked out for banks.</b> Where seeds live, who can rotate them, and how that fits existing key-management rules are open questions.</li>
+<li><b>Not tested or reviewed.</b> Nobody outside DialectForge has tested this, and there are no performance measurements for this use.</li>
+</ul>
+<p class="measure">If you work on payment systems and can see where this would or wouldn't fit, I'd like to hear from you: <a href="mailto:info@dialectforge.com?subject=Banking%20demo">info@dialectforge.com</a>.</p>
+</div>
+<p class="note">A demo is a mock-up on the sawhorses. It shows the joint; it doesn't prove it'll carry the load.</p>
+</div></section>

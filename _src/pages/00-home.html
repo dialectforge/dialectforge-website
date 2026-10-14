@@ -1,0 +1,151 @@
+title: DialectForge — One protocol, applied everywhere data moves
+desc: DialectForge is a seed-negotiated protocol that re-encodes data into a new "dialect" every two minutes and is designed to drop anything that doesn't speak it. Being applied, as working code, prototypes and demos, to networks, storage, an operating system and more. Being released as open source under AGPL-3.0.
+path: /
+nav: /
+---
+<section class="hero"><div class="wrap grid">
+<div class="hero-copy">
+<span class="kicker">Protocol engineering · Built in Michigan</span>
+<h1>One protocol.<br>Every place data <em>moves or rests.</em></h1>
+<p class="lede">DialectForge gives two machines a private language that changes every two minutes. Anything that doesn't speak today's language is designed to be dropped. I've been applying that one idea to networks, storage, an operating system, and as demos and designs to radios, cars and a bank ledger. None of it has been independently tested yet.</p>
+<div class="btns"><a class="btn solid" href="/protocol/">How the protocol works <span class="arr">→</span></a><a class="btn" href="/dfos/">DFoS: an experimental OS</a></div>
+<div class="titleblock" aria-label="Protocol at a glance">
+<div><span>Dialect cycle</span>120 s</div><div><span>Seed</span>256-bit</div><div><span>License</span>AGPL-3.0</div><div><span>Source</span>Coming soon</div>
+</div>
+</div>
+<figure class="hero-fig" aria-labelledby="fig1">
+<svg class="dia" viewBox="0 0 420 360" role="img" aria-label="The same request encoded under two consecutive dialects looks completely different on the wire">
+<g class="grid-ln">
+<path d="M0 0H420M0 40H420M0 80H420M0 120H420M0 160H420M0 200H420M0 240H420M0 280H420M0 320H420M0 360H420"/>
+<path d="M0 0V360M40 0V360M80 0V360M120 0V360M160 0V360M200 0V360M240 0V360M280 0V360M320 0V360M360 0V360M400 0V360"/>
+</g>
+<text x="0" y="20" class="t-dim">PLAINTEXT · what the app sends</text>
+<rect class="bx" x="0" y="30" width="420" height="44"/>
+<text x="12" y="57">47 45 54 20 2f 61 70 69 2f 64 61 74 61</text>
+<text x="330" y="57" class="t-dim">GET /api/data</text>
+<path class="ln" d="M210 74V104"/><path class="ln" d="M204 96l6 8 6-8"/>
+<text x="222" y="94" class="t-ox">dialect n · seed⊕t₀</text>
+<text x="0" y="124" class="t-dim">ON THE WIRE · cycle n</text>
+<rect class="bx-k" x="0" y="132" width="420" height="44"/>
+<text x="12" y="159" class="t-inv">9a 7f 3c 4d 5e e1 08 b2 c7 31 fa 6d 92</text>
+<path class="ln" d="M210 176V206"/><path class="ln" d="M204 198l6 8 6-8"/>
+<text x="222" y="196" class="t-ox">120 s later · dialect n+1</text>
+<text x="0" y="226" class="t-dim">ON THE WIRE · cycle n+1, same request</text>
+<rect class="bx-k" x="0" y="234" width="420" height="44"/>
+<text x="12" y="261" class="t-inv" data-hexline>d4 1b c7 52 38 f0 a6 9e 04 7c e5 3b a0</text>
+<rect class="bx-ox" x="0" y="300" width="420" height="44"/>
+<text x="12" y="320">FOREIGN FRAME · wrong dialect</text>
+<text x="12" y="335" class="t-ox">→ dropped before it is parsed</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> Same request, two cycles, no shared bytes.</figcaption>
+<div class="cycle" data-cycle aria-hidden="true">Demo cycle <span class="bar"><i></i></span> <b>120</b>s</div>
+</figure>
+</div></section>
+
+<section class="sheet sec" id="protocol"><div class="wrap grid">
+<div class="rail"><b>§ 01</b> The idea</div>
+<div class="main">
+<h2>Two machines invent a language, use it for two minutes, then throw it away.</h2>
+<p class="measure">Most secure connections pick a well-known protocol and lock it down. That works, but a well-known protocol has a well-known shape, and anyone watching the wire can spot that shape, block it, or aim at it.</p>
+<p class="measure">DialectForge works the other way. Both ends start from a shared random seed and work out a <em>dialect</em>: how identifiers are remapped, how payloads are scrambled, what the frames look like. Every 120 seconds they both move to the next dialect without having to talk about it. A frame that isn't in the current dialect isn't treated as a bad message. It's treated as noise and dropped. That's the design; it hasn't been independently tested yet.</p>
+<p class="measure">It's its own protocol, not a wrapper around WireGuard or OpenVPN. And it doesn't care what carries it: UDP, WiFi, Bluetooth, a CAN bus, a disk block, or a page of memory.</p>
+</div>
+<p class="note">It's like changing the locks every two minutes, and the new key is cut the same way on both sides without anyone handing it over.</p>
+</div></section>
+
+<section class="sheet sec tint" id="how-it-works"><div class="wrap grid">
+<div class="rail"><b>§ 02</b> How it works</div>
+<div class="main">
+<h2>The short version, in four steps</h2>
+<ol class="steps">
+<li><h3>Seed</h3><p>One node makes a 256-bit random seed from hardware entropy and shares it with its peers over a protected channel. The design target is under 50 ms.</p></li>
+<li><h3>Propose</h3><p>Each node's negotiation agent turns the seed into proposals: how to remap IDs, how to scramble payloads. They trade proposals for 3 to 5 rounds.</p></li>
+<li><h3>Agree</h3><p>Proposals are combined (XOR consensus) into one shared dialect. A quorum of more than 70% has to agree before traffic flows.</p></li>
+<li><h3>Refresh &amp; reject</h3><p>On a timer, every 120 s by default, the dialect moves forward from the seed. Both sides know the next one already. Frames that don't fit the current dialect are dropped, and repeated misses raise an anomaly score that can lock things down and force a fresh seed.</p></li>
+</ol>
+<div class="btns"><a class="btn" href="/protocol/">Full protocol walkthrough <span class="arr">→</span></a><a class="btn" href="/comparison/">See the hex dumps</a></div>
+</div>
+<p class="note">Think of two devices inventing their own secret language every two minutes. If someone slips a fake message in, it gets thrown out, because they don't know today's language.</p>
+</div></section>
+
+<section class="sheet sec" id="domains"><div class="wrap grid">
+<div class="rail"><b>§ 03</b> Applied</div>
+<div class="main wide">
+<h2>One protocol, applied domain by domain</h2>
+<p class="measure">Same seed, same negotiation, same refresh, same rule about foreign frames. What changes is what gets remapped: an IP flow, a MAC address, a CAN ID, a disk sector, a memory page.</p>
+<div class="domains" id="applications">
+<a class="dom" href="/vpn/"><span class="no">D-01 · NETWORK</span><h3>VPN <span class="tag off">Offline</span></h3><p>Censorship-resistant VPN. The service is offline; the code is being open sourced.</p></a>
+<a class="dom" href="/mesh/"><span class="no">D-02 · NETWORK</span><h3>Mesh / Tunnel</h3><p>Server-to-server and database traffic wrapped in DF. The database thinks it's talking to localhost.</p></a>
+<a class="dom end" href="/terminal/"><span class="no">D-03 · NETWORK</span><h3>Terminal / SSH</h3><p>SSH carried inside DF, with TOTP, session tokens and a pinned certificate.</p></a>
+<a class="dom" href="/protocol/#wifi"><span class="no">D-04 · RADIO</span><h3>WiFi <span class="tag plan">Design</span></h3><p>MAC addresses and frame types that hop each cycle; seeds exchanged in protected association frames.</p></a>
+<a class="dom" href="/protocol/#bluetooth"><span class="no">D-05 · RADIO</span><h3>Bluetooth / BLE <span class="tag plan">Design</span></h3><p>Device addresses and GATT handles that hop; seeds set during secure pairing.</p></a>
+<a class="dom end" href="/automotive/"><span class="no">D-06 · VEHICLE</span><h3>CAN bus <span class="tag dev">Simulation</span></h3><p>Designed to hop IDs while keeping arbitration priority, plus scrambled payloads. Browser simulation only; not tested on a vehicle.</p></a>
+<a class="dom" href="/protocol/#storage"><span class="no">D-07 · STORAGE</span><h3>dialectfs</h3><p>An encrypted filesystem where every volume, directory and file has its own derived seed.</p></a>
+<a class="dom" href="/banking/"><span class="no">D-08 · FINANCE</span><h3>Banking <span class="tag dev">Demo</span></h3><p>A browser demo of a COBOL-style wire transfer processor showing negotiation, an injected attack, lockdown and recovery.</p></a>
+<a class="dom end" href="/dfos/#stratosphere"><span class="no">D-09 · OPERATING SYSTEM</span><h3>Stratosphere <span class="tag dev">In development</span></h3><p>A clean-room Rust OS where DF isn't added on. It's how processes talk at every level.</p></a>
+<a class="dom" href="/dfos/#android"><span class="no">D-10 · MOBILE</span><h3>DFoS Android <span class="tag plan">Planned</span></h3><p>DF at every layer of a hardened Android base.</p></a>
+<a class="dom" href="/messenger/"><span class="no">D-11 · MESSAGING</span><h3>Messenger <span class="tag dev">In development</span></h3><p>Two layers: DF on the wire, end-to-end encryption on the content.</p></a>
+<a class="dom end" href="/verify/"><span class="no">D-12 · VERIFICATION</span><h3>Verify <span class="tag oss">Open-sourcing</span></h3><p>Seed-scoped module isolation for proof checkers, with targeted revocation.</p></a>
+<a class="dom" href="/research"><span class="no">D-13 · AI</span><h3>Prompt <span class="tag oss">Prior art</span></h3><p>Training a language model to only take instructions in dialect. Published Feb 2026.</p></a>
+<a class="dom" href="/ai-factory/#lu"><span class="no">D-14 · AI</span><h3>Lu <span class="tag plan">Research, private</span></h3><p>An AI with no neural network or weights: a typed knowledge graph whose answers come from spreading activation through its bonds, so they can be traced. It says “I don't know” instead of guessing, and “scars” keep removed knowledge from coming back. Cattledog came out of it.</p></a>
+<a class="dom end" href="/ai-factory/#cattledog"><span class="no">D-15 · AI SAFETY</span><h3>Cattledog <span class="tag oss">Apache-2.0 soon</span></h3><p>A safety layer designed to herd an outside AI model: gate its tool calls and check its answers.</p></a>
+<a class="dom w6 end" href="/enterprise/"><span class="no">D-16 · DEPLOYMENT</span><h3>Enterprise</h3><p>Container-first deployment of the tunnel for offices, clouds, branch sites and industrial networks. Commercial licenses available.</p></a>
+</div>
+</div>
+</div></section>
+
+<section class="sheet dark sec" id="dfos"><div class="wrap grid">
+<div class="rail"><b>§ 04</b> Flagship</div>
+<div class="main">
+<span class="kicker">DFoS v1.0 “Troposphere”</span>
+<h2>An experimental operating system built around the protocol.</h2>
+<p class="measure">DFoS is a fork of the Linux kernel with DialectForge as a kernel subsystem. Every process gets its own dialect seed. Memory pages are encrypted with keys derived from it, and the filesystem speaks dialect natively. It comes with demo attack scripts I wrote. Its security hasn't been independently tested or reviewed, and I'm not claiming it resists any particular attack. Once the source is out, I'd welcome review.</p>
+<div class="term"><div class="bar"><span>tty1 · dfos</span><span>kernel 6.12.12-df</span></div><pre><span class="p">root@dfos:~#</span> dfctl status
+<span class="d">dialect:</span> active   <span class="d">cycle:</span> 120s
+<span class="d">cipher:</span>  AES-256-GCM
+<span class="d">lsm:</span>     dialectforge  <span class="d">zones:</span> 3  <span class="d">quarantined:</span> 0
+<span class="p">root@dfos:~#</span> <span class="k">df_pentest.sh --all</span></pre></div>
+<div class="btns"><a class="btn" href="/dfos/">Inside DFoS <span class="arr">→</span></a><a class="btn" href="https://github.com/dialectforge/dfos-releases/releases">Experimental image</a></div>
+</div>
+<p class="note">A computer designed so even the memory is scrambled with a key only that one program has. Whether it holds up is something other people need to test, not something I can just say.</p>
+</div></section>
+
+<section class="sheet sec" id="open-source"><div class="wrap grid">
+<div class="rail"><b>§ 05</b> Open source</div>
+<div class="main">
+<h2>All of it is going open source.</h2>
+<p class="measure">Every DialectForge project is being prepared for public release under the <strong>GNU AGPL-3.0</strong>. You'll be able to read it, run it, test it and build on it. If you want to use it inside a closed product without AGPL obligations, DialectForge LLC sells commercial licenses. Kernel code stays GPL-2.0, like Linux. Cattledog will be Apache-2.0.</p>
+<p class="measure">The repositories aren't public yet. I'm cleaning them up first. They'll be announced here.</p>
+<table class="register"><thead><tr><th>Lic.</th><th>Covers</th></tr></thead><tbody>
+<tr><td>AGPL-3.0</td><td><span class="name">Protocol, VPN, Mesh, Terminal, Messenger, Verify, DFoS tools</span><p>Free to use, change and share. If you run a modified version as a service, share your changes.</p></td></tr>
+<tr><td>GPL-2.0</td><td><span class="name">DFoS kernel and kernel-facing code</span><p>Same license as the Linux kernel it's built on.</p></td></tr>
+<tr><td>Apache-2.0</td><td><span class="name">Cattledog</span><p>Permissive, so AI teams can drop it in anywhere.</p></td></tr>
+<tr><td>Comm.</td><td><span class="name">Commercial license from DialectForge LLC</span><p>For use without AGPL obligations. Email info@dialectforge.com.</p></td></tr>
+</tbody></table>
+<div class="btns"><a class="btn solid" href="/licensing/">Licensing, plainly explained <span class="arr">→</span></a></div>
+</div>
+<p class="note">You can look at every line. If you're a company that can't share your changes, you can buy a license instead.</p>
+</div></section>
+
+<section class="sheet sec tint" id="about"><div class="wrap grid">
+<div class="rail"><b>§ 06</b> Who built it</div>
+<div class="main">
+<h2>A carpenter who built a protocol.</h2>
+<p class="measure">I'm John Martin, a fourth-generation carpenter from Michigan. I taught myself to build software the same way I learned to build houses: measure, cut, test the fit, and do it again until it's square. DialectForge started as one question: what if a connection didn't have a shape anyone could recognize? It turned into a protocol, and then I kept finding places to use it.</p>
+<p class="measure">I also built a few <a href="/download/">iOS apps</a> and <a href="https://liveflyer.app">LiveFlyer</a>, a web app that makes gift-triggered animations and overlays for TikTok LIVE streamers. They're how I fund the work on DialectForge. LiveFlyer isn't open source.</p>
+<p class="measure">I'll tell you what's working, what's in progress and what's still an idea. Where I say something is <em>designed to</em> resist an attack, that's the goal and the reason it's built that way, not a promise. That's what the open source release and outside review are for.</p>
+</div>
+</div></section>
+
+<section class="sheet sec" id="contact"><div class="wrap grid">
+<div class="rail"><b>§ 07</b> Contact</div>
+<div class="main">
+<h2>Get in touch</h2>
+<p class="measure">Questions, testing, security research, partnerships, licensing, or you just want to talk protocols.</p>
+<table class="register"><tbody>
+<tr><td>General</td><td class="name"><a href="mailto:info@dialectforge.com?subject=DialectForge%20Inquiry">info@dialectforge.com</a></td></tr>
+<tr><td>Support</td><td class="name"><a href="mailto:help@dialectforge.com">help@dialectforge.com</a> <p>App help, or see the <a href="/help/">Help Center</a>.</p></td></tr>
+<tr><td>Where</td><td class="name">DialectForge LLC, a Delaware limited liability company. Built in Michigan, USA.</td></tr>
+</tbody></table>
+</div>
+</div></section>

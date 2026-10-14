@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SDLC9S27DQ');
+    </script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Help Center - DialectForge VPN</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #00ff88;
+            --primary-dark: #00cc6a;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+            --accent-blue: #4da6ff;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.8; }
+        .container { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem; }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--primary); text-align: center; }
+        .subtitle { color: var(--text-secondary); text-align: center; margin-bottom: 2.5rem; }
+        h2 { font-size: 1.3rem; margin-top: 2rem; margin-bottom: 1rem; color: var(--text); }
+        p, li { color: var(--text-secondary); margin-bottom: 1rem; }
+        ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        .contact-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; text-align: center; margin-bottom: 2rem; }
+        .contact-card h2 { margin-top: 0; font-size: 1.2rem; }
+        .contact-btn { display: inline-block; background: var(--primary); color: var(--bg-dark); padding: 0.875rem 1.5rem; border-radius: 10px; font-weight: 600; text-decoration: none; margin-top: 0.75rem; transition: all 0.3s; }
+        .contact-btn:hover { background: var(--primary-dark); text-decoration: none; }
+        
+        .faq-section { background: var(--bg-card); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1.25rem 0; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .faq-item:first-child { padding-top: 0; }
+        .faq-question { color: var(--text); font-weight: 600; margin-bottom: 0.5rem; font-size: 1rem; }
+        .faq-answer { color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem; }
+        
+        .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        .quick-link { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem; text-align: center; text-decoration: none; transition: all 0.3s; }
+        .quick-link:hover { border-color: var(--primary); transform: translateY(-2px); text-decoration: none; }
+        .quick-link-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .quick-link-title { color: var(--text); font-weight: 600; font-size: 0.9rem; }
+        
+        @media (max-width: 500px) {
+            .quick-links { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<h1>Help Center</h1>
+<p class="subtitle">The DialectForge VPN service is offline. The code is being prepared for open-source release.</p>
+<div style="margin-bottom: 2rem; position: relative;">
+<input id="faq-search" onblur="this.style.borderColor='rgba(255,255,255,0.15)'" onfocus="this.style.borderColor='var(--primary)'" oninput="filterFAQs(this.value)" placeholder="Search help articles..." style="width: 100%; padding: 1rem 1rem 1rem 3rem; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--text); font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.3s;" type="text"/>
+<svg fill="none" height="18" stroke="#8b8b9a" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none;" viewbox="0 0 24 24" width="18"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+</div>
+<!-- Quick Video Guide -->
+<div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; text-align: center;">
+<h2 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: var(--text);">How to Connect on macOS — 15 sec</h2>
+<p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Watch the quick setup walkthrough</p>
+<!-- Click-to-play: thumbnail link, works on all browsers -->
+<a href="https://www.youtube.com/watch?v=ANoR7vNR31o" rel="noopener" style="display: block; position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000; text-decoration: none;" target="_blank">
+<img alt="How to Connect DialectForge VPN" loading="lazy" onmouseout="this.style.opacity='0.85'" onmouseover="this.style.opacity='1'" src="https://img.youtube.com/vi/ANoR7vNR31o/hqdefault.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; opacity: 0.85; transition: opacity 0.3s;"/>
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center;">
+<div style="width: 68px; height: 48px; background: rgba(255,0,0,0.85); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+<svg fill="white" height="24" viewbox="0 0 24 24" width="24"><polygon points="9.5,7.5 16.5,12 9.5,16.5"></polygon></svg>
+</div>
+</div>
+</a>
+</div>
+<div class="quick-links">
+
+
+<a class="quick-link" href="#account">
+<div class="quick-link-icon">👤</div>
+<div class="quick-link-title">Account &amp; Billing</div>
+</a>
+<a class="quick-link" href="mailto:help@dialectforge.com">
+<div class="quick-link-icon">💬</div>
+<div class="quick-link-title">Contact Support</div>
+</a>
+</div>
+
+
+
+
+<h2 id="account">Account &amp; Billing</h2>
+<div class="faq-section">
+<div class="faq-item">
+<p class="faq-question">How do I reset my password?</p>
+<p class="faq-answer">On the login screen, tap "Forgot Password?" and enter your email. You'll receive a reset link within a few minutes.</p>
+</div>
+<div class="faq-item">
+<p class="faq-question">How do I cancel my subscription?</p>
+<p class="faq-answer">Go to your iPhone Settings → Your Name → Subscriptions → DialectForge VPN → Cancel Subscription. You'll keep access until the end of your billing period.</p>
+</div>
+<div class="faq-item">
+<p class="faq-question">How do I restore my purchase?</p>
+<p class="faq-answer">In the app, go to Settings and tap "Restore Purchases". This will restore your subscription if you've reinstalled the app or switched devices.</p>
+</div>
+<div class="faq-item">
+<p class="faq-question">Can I get a refund?</p>
+<p class="faq-answer">Refunds for App Store purchases are handled by Apple. Visit <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a> to request a refund.</p>
+</div>
+</div>
+<h2>Still Need Help?</h2>
+<div class="contact-card">
+<h2>Contact Support</h2>
+<p style="color: var(--text-secondary); margin-bottom: 0.5rem;">We'll get back to you as soon as we can</p>
+<a class="contact-btn" href="mailto:help@dialectforge.com?subject=DialectForge iOS App Support">Email Us</a>
+</div>
+<p style="text-align: center; font-size: 0.85rem;">
+<a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a>
+</p>
+</div>
+<script>
+function filterFAQs(query) {
+    var q = query.toLowerCase().trim();
+    var items = document.querySelectorAll('.faq-item');
+    items.forEach(function(item) {
+        if (!q) { item.style.display = ''; return; }
+        var text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? '' : 'none';
+    });
+}
+</script>
+</body>
+</html>

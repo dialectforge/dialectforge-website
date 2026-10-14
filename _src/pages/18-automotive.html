@@ -1,0 +1,79 @@
+title: DialectForge Automotive — a CAN bus design and browser simulation
+desc: How the DialectForge protocol is designed to apply to a vehicle's CAN bus: seed at ignition, ID hopping that keeps arbitration priority, scrambled payloads. A design and a browser simulation only; not tested on a vehicle.
+path: /automotive/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Automotive</div><h1>Automotive · CAN bus <span class="tag dev">Design &amp; simulation</span></h1><p class="lede" style="margin-top:12px">What the DialectForge protocol is designed to do on a vehicle's internal network, and how far it actually is. Short answer: it's a design and a simulation. It hasn't been run on a real vehicle or real ECU hardware.</p></div></div>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Problem</div>
+<div class="main">
+<h2>Why CAN bus</h2>
+<p class="measure">CAN (Controller Area Network) is the bus most cars use to connect their electronic control units (ECUs): engine, brakes, body, infotainment. Classic CAN was designed for reliability on a closed network, not for security. A frame carries an identifier and up to 8 bytes of data, and there's no built-in field that says who sent it. Security researchers have published work showing what's possible once someone gets access to a vehicle's bus.</p>
+<p class="measure">The industry has its own answers to this, such as AUTOSAR SecOC message authentication, gateways and intrusion detection. DialectForge isn't a replacement for those. It's an idea I've been working through: what happens if the bus itself speaks a dialect that changes over time?</p>
+</div>
+<p class="note">Picture a job site where anyone who walks on can shout orders and every crew does what it's told, because nobody checks who's talking.</p>
+</div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Design</div>
+<div class="main">
+<h2>What it's designed to do</h2>
+<figure>
+<svg class="dia" viewBox="0 0 640 300" role="img" aria-label="Diagram: at ignition a seed frame goes out on CAN ID 0x000 to brake, engine and body ECUs. In normal use a brake frame with ID 0x123 and readable payload becomes a frame with a hopped ID and scrambled payload. A frame injected through the OBD-II port with the old fixed ID doesn't match the current dialect and is designed to be dropped.">
+<text x="0" y="14" class="t-dim">1 · IGNITION</text>
+<rect class="bx-ox" x="0" y="24" width="150" height="44"/><text x="75" y="44" text-anchor="middle">seed frame</text><text x="75" y="59" text-anchor="middle" class="t-dim">ID 0x000</text>
+<path class="ln" d="M150 46H190"/>
+<rect class="bx" x="190" y="24" width="140" height="44"/><text x="260" y="50" text-anchor="middle">Brake ECU</text>
+<rect class="bx" x="345" y="24" width="140" height="44"/><text x="415" y="50" text-anchor="middle">Engine ECU</text>
+<rect class="bx" x="500" y="24" width="140" height="44"/><text x="570" y="50" text-anchor="middle">Body ECU</text>
+<text x="0" y="104" class="t-dim">2 · NORMAL FRAME, BEFORE AND AFTER</text>
+<rect class="bx" x="0" y="114" width="300" height="50"/><text x="150" y="136" text-anchor="middle">ID 0x123 · 62 72 61 6b</text><text x="150" y="153" text-anchor="middle" class="t-dim">fixed ID · readable payload</text>
+<path class="ln" d="M300 139H336"/><path class="ln" d="M330 134l8 5-8 5"/>
+<rect class="bx-k" x="340" y="114" width="300" height="50"/><text x="490" y="136" text-anchor="middle" class="t-inv">ID 0x29C · 19 28 9f 4a</text><text x="490" y="153" text-anchor="middle" class="t-inv" style="opacity:.7">hopped ID · scrambled payload</text>
+<text x="0" y="200" class="t-dim">3 · INJECTED FRAME (OBD-II)</text>
+<rect class="bx" x="0" y="210" width="300" height="50"/><text x="150" y="232" text-anchor="middle">ID 0x123 · forged data</text><text x="150" y="249" text-anchor="middle" class="t-dim">old fixed ID, no seed</text>
+<path class="ln-d" d="M300 235H336"/>
+<rect class="bx-ox" x="340" y="210" width="300" height="50"/><text x="490" y="232" text-anchor="middle">doesn't match current dialect</text><text x="490" y="249" text-anchor="middle" class="t-dim">designed to be dropped and counted</text>
+<text x="0" y="292" class="t-dim">Example values are illustrative. Cycle target: 50–500 ms.</text>
+</svg>
+<figcaption class="figcap"><b>FIG. 1</b> The CAN design in three steps. A diagram of the design, not a capture from a vehicle.</figcaption>
+</figure>
+<ol class="steps">
+<li><h3>Seed at ignition</h3><p>When the vehicle starts, a high-priority frame (ID 0x000) is designed to share a 256-bit seed with every participating ECU, before normal traffic starts.</p></li>
+<li><h3>Negotiate a dialect</h3><p>Each ECU's negotiation agent turns the seed into a shared dialect: how IDs are remapped and how payloads are scrambled. The target size for that agent is about 256 KB, small enough for automotive microcontrollers. That's a target, not a measurement.</p></li>
+<li><h3>Hop IDs, keep priority</h3><p>CAN IDs also decide which frame wins the bus, so the remap is designed to keep the priority order: brake messages should still beat infotainment messages. IDs move every cycle, with a target of 50 to 500 ms.</p></li>
+<li><h3>Drop what doesn't fit</h3><p>A frame built without the current seed shouldn't match a valid ID or decode to a valid payload, so ECUs are designed to drop it and raise an anomaly score. Past a threshold, the design calls for a fresh seed and a new dialect.</p></li>
+</ol>
+</div>
+<p class="note">Every crew gets a code word at the start of the day, and the code word changes through the day. Orders without today's word get ignored.</p>
+</div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> Status</div>
+<div class="main wide">
+<h2>What's real and what isn't</h2>
+<table class="register"><thead><tr><th>Status</th><th>Item</th></tr></thead><tbody>
+<tr><td><span class="tag plan">Design</span></td><td><span class="name">The CAN mapping</span><p>Seed at ignition, priority-preserving ID hopping, payload scrambling and lockdown, as described above and on the <a href="/protocol/#can">protocol page</a>.</p></td></tr>
+<tr><td><span class="tag dev">Simulation</span></td><td><span class="name">A software simulation of a multi-node bus</span><p>Earlier versions of this page had an animated browser simulation of negotiation, an injected frame, lockdown and re-keying. It was a scripted visual demo, not a test on hardware. Timing numbers it showed were targets, not measurements.</p></td></tr>
+<tr><td><span class="tag off">Not done</span></td><td><span class="name">Hardware, vehicles, certification</span><p>It hasn't run on real ECUs or in a vehicle. Nothing has been safety-assessed or certified (for example under ISO 26262), and there are no automotive partners or customers.</p></td></tr>
+</tbody></table>
+</div></div></section>
+
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 4</b> Limits</div>
+<div class="main">
+<h2>Known limitations</h2>
+<ul class="measure">
+<li><b>Space is tight.</b> Classic CAN frames carry 8 bytes of data. Any scrambling, counters or authentication have to fit in that, or move to CAN FD.</li>
+<li><b>Scrambling isn't authentication.</b> The XOR fast path hides values but doesn't by itself prove who sent a frame. A real deployment would need proper message authentication.</li>
+<li><b>Timing is safety-critical.</b> Brakes and steering can't wait. Negotiation, re-keying and lockdown would have to be proven safe under real bus load, and that hasn't been done.</li>
+<li><b>Every ECU has to take part.</b> Cars contain ECUs from many suppliers. This only works if all participating ECUs run compatible firmware, which isn't something an outside party can just add.</li>
+<li><b>The seed has to stay secret.</b> If an attacker can read the seed from an ECU or catch the ignition broadcast, the protection is gone. Key storage in ECUs isn't designed out here yet.</li>
+<li><b>Diagnostics have to keep working.</b> Mechanics, inspections and OBD-II tools need access. The design intends to gate that access, not break it, but the details aren't worked out.</li>
+<li><b>Not independently reviewed.</b> No one outside DialectForge has tested this design.</li>
+</ul>
+<p class="measure">If you work on vehicle networks and see a flaw, I'd like to hear it: <a href="mailto:info@dialectforge.com?subject=CAN%20bus%20design">info@dialectforge.com</a>.</p>
+</div>
+<p class="note">This is a drawing of a house, not the house. I'm showing the drawing so people who build these for a living can tell me what won't hold.</p>
+</div></section>

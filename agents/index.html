@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start with an AI agent — DialectForge</title>
+<meta name="description" content="Copy-paste prompts that point your AI coding agent at each DialectForge repository&#x27;s AGENTS.md, the protocol notes and the license, so it can help you integrate the protocol into your project.">
+<meta property="og:title" content="Start with an AI agent — DialectForge">
+<meta property="og:description" content="Copy-paste prompts that point your AI coding agent at each DialectForge repository&#x27;s AGENTS.md, the protocol notes and the license, so it can help you integrate the protocol into your project.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/" aria-current=page>Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/protocol/">Protocol</a> / AI agents</div><h1>Start with an AI agent</h1><p class="lede" style="margin-top:12px">If you use an AI coding agent, paste one of these prompts into it. Each one points the agent at the project's <code>AGENTS.md</code>, the <a href="/protocol/">protocol notes</a> and the <a href="/licensing/">license</a>, then has it plan an integration with you before writing code.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Prompts</div>
+<div class="main wide">
+<div class="callout"><h4>The repositories aren't public yet</h4><p>They're being cleaned up and will be published soon: the DialectForge projects under AGPL-3.0, Cattledog under Apache-2.0 in its own repository. Until then the links in these prompts won't open. The prompts are written so they work unchanged once the repositories are public.</p></div>
+<div class="agent-item" id="dfos-tools-oss"><h3><a href="/dfos/">DFoS tools</a> <span class="tag plan">Source coming soon</span></h3><div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-dfos-tools-oss">I want to integrate the DialectForge protocol (DFoS tools) into my project. Before writing any code, read these in order:
+1. AGENTS.md in https://github.com/dialectforge/dfos-tools-oss
+2. https://dialectforge.com/protocol/
+3. LICENSE, COMMERCIAL-LICENSE.md and CONTRIBUTING.md in that repository
+Then ask me about my project (language, where data moves, what I want to protect) and propose a small integration plan for me to approve.
+Treat every security property as a design goal: this code has not been independently audited. Tell me about the license obligations (AGPL-3.0, or a commercial license from DialectForge LLC) before copying any of its code into my project.</pre></div><p class="measure small">Repository: <code>dialectforge/dfos-tools-oss</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p></div><div class="agent-item" id="dialectforge-vpn-oss"><h3><a href="/vpn/">VPN</a> <span class="tag plan">Source coming soon</span></h3><div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-dialectforge-vpn-oss">I want to integrate the DialectForge protocol (VPN) into my project. Before writing any code, read these in order:
+1. AGENTS.md in https://github.com/dialectforge/dialectforge-vpn-oss
+2. https://dialectforge.com/protocol/
+3. LICENSE, COMMERCIAL-LICENSE.md and CONTRIBUTING.md in that repository
+Then ask me about my project (language, where data moves, what I want to protect) and propose a small integration plan for me to approve.
+Treat every security property as a design goal: this code has not been independently audited. Tell me about the license obligations (AGPL-3.0, or a commercial license from DialectForge LLC) before copying any of its code into my project.</pre></div><p class="measure small">Repository: <code>dialectforge/dialectforge-vpn-oss</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p></div><div class="agent-item" id="dialectforge-mesh"><h3><a href="/mesh/">Mesh / Tunnel</a> <span class="tag plan">Source coming soon</span></h3><div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-dialectforge-mesh">I want to integrate the DialectForge protocol (Mesh / Tunnel) into my project. Before writing any code, read these in order:
+1. AGENTS.md in https://github.com/dialectforge/dialectforge-mesh
+2. https://dialectforge.com/protocol/
+3. LICENSE, COMMERCIAL-LICENSE.md and CONTRIBUTING.md in that repository
+Then ask me about my project (language, where data moves, what I want to protect) and propose a small integration plan for me to approve.
+Treat every security property as a design goal: this code has not been independently audited. Tell me about the license obligations (AGPL-3.0, or a commercial license from DialectForge LLC) before copying any of its code into my project.</pre></div><p class="measure small">Repository: <code>dialectforge/dialectforge-mesh</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p></div><div class="agent-item" id="dialectforge-terminal"><h3><a href="/terminal/">Terminal / SSH</a> <span class="tag plan">Source coming soon</span></h3><div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-dialectforge-terminal">I want to integrate the DialectForge protocol (Terminal / SSH) into my project. Before writing any code, read these in order:
+1. AGENTS.md in https://github.com/dialectforge/dialectforge-terminal
+2. https://dialectforge.com/protocol/
+3. LICENSE, COMMERCIAL-LICENSE.md and CONTRIBUTING.md in that repository
+Then ask me about my project (language, where data moves, what I want to protect) and propose a small integration plan for me to approve.
+Treat every security property as a design goal: this code has not been independently audited. Tell me about the license obligations (AGPL-3.0, or a commercial license from DialectForge LLC) before copying any of its code into my project.</pre></div><p class="measure small">Repository: <code>dialectforge/dialectforge-terminal</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p></div><div class="agent-item" id="dialectforge-messenger"><h3><a href="/messenger/">Messenger</a> <span class="tag plan">Source coming soon</span></h3><div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-dialectforge-messenger">I want to integrate the DialectForge protocol (Messenger) into my project. Before writing any code, read these in order:
+1. AGENTS.md in https://github.com/dialectforge/dialectforge-messenger
+2. https://dialectforge.com/protocol/
+3. LICENSE, COMMERCIAL-LICENSE.md and CONTRIBUTING.md in that repository
+Then ask me about my project (language, where data moves, what I want to protect) and propose a small integration plan for me to approve.
+Treat every security property as a design goal: this code has not been independently audited. Tell me about the license obligations (AGPL-3.0, or a commercial license from DialectForge LLC) before copying any of its code into my project.</pre></div><p class="measure small">Repository: <code>dialectforge/dialectforge-messenger</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p></div><div class="agent-item" id="dialectforge-verify-core"><h3><a href="/verify/">Verify</a> <span class="tag plan">Source coming soon</span></h3><div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-dialectforge-verify-core">I want to integrate the DialectForge protocol (Verify) into my project. Before writing any code, read these in order:
+1. AGENTS.md in https://github.com/dialectforge/dialectforge-verify-core
+2. https://dialectforge.com/protocol/
+3. LICENSE, COMMERCIAL-LICENSE.md and CONTRIBUTING.md in that repository
+Then ask me about my project (language, where data moves, what I want to protect) and propose a small integration plan for me to approve.
+Treat every security property as a design goal: this code has not been independently audited. Tell me about the license obligations (AGPL-3.0, or a commercial license from DialectForge LLC) before copying any of its code into my project.</pre></div><p class="measure small">Repository: <code>dialectforge/dialectforge-verify-core</code>. It is private while it is being cleaned up and will be public soon; the prompt works as-is once it is. <a href="/agents/">All agent prompts</a>.</p></div><div class="agent-item" id="cattledog"><h3><a href="/ai-factory/#cattledog">Cattledog</a> <span class="tag plan">Repo coming soon (Apache 2.0)</span></h3><div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-cattledog">I want to try Cattledog, DialectForge&#x27;s honesty and revocation layer for LLMs, in my project. Its repository isn&#x27;t public yet; it will be released under Apache-2.0 and linked from https://dialectforge.com/agents/#cattledog.
+Once it&#x27;s available, read in order:
+1. The repository&#x27;s README and AGENTS.md (if present)
+2. https://dialectforge.com/ai-factory/#cattledog
+3. Its LICENSE (Apache-2.0)
+Then ask me about my project (which model, which tools it can call, what a wrong answer would cost) and propose a small integration plan for me to approve.
+Be careful with claims: the answer check (&quot;off-ness&quot;) is off by default and has only been exercised on a test fixture, and nothing in Cattledog has been independently reviewed. Don&#x27;t promise it stops prompt injection or hallucinations.</pre></div><p class="measure small">Repository coming soon under Apache-2.0. Until it's published, the prompt tells the agent where it will be linked.</p></div>
+</div>
+</div></section>
+<section class="sheet sec tint"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> What's in AGENTS.md</div>
+<div class="main">
+<p class="measure">Every DialectForge repository has an <code>AGENTS.md</code> (Cattledog's will come with its repository) that covers what the project is, its honest status, the files to read first, how to build and test it, the protocol concepts it uses (seed-negotiated dialects, the 2-minute refresh, dropping foreign frames), where to plug it in, the license, and what not to claim. Nothing in these projects has been independently audited.</p>
+</div>
+<p class="note">An agent does better work when it reads the plans first. These prompts make sure it does.</p>
+</div></section>
+
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Being released as open source under AGPL-3.0.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/ai-factory/#cattledog">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Code: AGPL-3.0 (open source coming soon) · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
+</body>
+</html>

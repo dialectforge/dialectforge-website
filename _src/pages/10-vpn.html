@@ -1,0 +1,53 @@
+title: DialectForge VPN — What your ISP sees (service offline)
+desc: A side-by-side look at WireGuard traffic and DialectForge traffic on the wire. The DialectForge VPN service is offline; the code is being prepared for open-source release.
+path: /vpn/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / VPN</div><h1>DialectForge VPN <span class="tag off">Offline</span></h1><p class="lede" style="margin-top:12px">A censorship-resistant VPN built on the DialectForge protocol. The service is offline right now, and the code is being prepared for open-source release under AGPL-3.0.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> On the wire</div>
+<div class="main wide">
+<h2>What your ISP sees</h2>
+<p class="measure">Here's the same kind of capture a packet analyzer shows, the same kind of tool used to detect and block VPNs. On the left, WireGuard. On the right, DialectForge.</p>
+<div class="grid" style="padding:0">
+<figure style="grid-column:1/-1;margin:16px 0" class="hexcol">
+<h4>Standard VPN · WireGuard <span class="tag off">Identifiable</span></h4>
+{{hex_wg}}
+<figcaption class="figcap"><b>■</b> message-type bytes and known header fields: a fixed, recognizable pattern</figcaption></figure>
+<figure style="grid-column:1/-1;margin:16px 0" class="hexcol">
+<h4>DialectForge · dialect cycling <span class="tag dev">Designed to resist detection</span></h4>
+{{hex_df}}
+<figcaption class="figcap"><b>↻</b> no fixed headers or signatures; the encoding moves every 2 minutes</figcaption></figure>
+</div>
+<h3>Why it matters</h3>
+<p class="measure">Countries like China and Iran use deep packet inspection to fingerprint and block VPN protocols. If traffic has a recognizable pattern, it gets blocked. DialectForge traffic is designed to look like random noise, so there's no fixed pattern to write a rule against.</p>
+<h3>How it was built</h3>
+<p class="measure">The client and server negotiate a shared dialect over a control channel, then wrap every packet in it. The dialect refreshes every 120 seconds. Clients were built for macOS, Windows and iOS, with Android in progress. When the code is released you'll be able to work toward running your own server (see <a href="#self-host">Run it yourself</a>). See <a href="/protocol/">the protocol</a> for the details.</p>
+<div class="callout ox"><h4>Service status: offline</h4><p>There's no live DialectForge VPN service right now, and nothing to subscribe to. Existing download links are disabled. Questions: <a href="mailto:help@dialectforge.com">help@dialectforge.com</a>.</p></div>
+</div>
+</div></section>
+
+<section class="sheet sec tint" id="self-host"><div class="wrap grid">
+<div class="rail"><b>§ 2</b> Run it yourself</div>
+<div class="main">
+<h2>Run it yourself</h2>
+<p class="measure">DialectForge LLC doesn't run any VPN servers anymore. The server and client source code will be published as open source under AGPL-3.0 in the repository <code>dialectforge/dialectforge-vpn-oss</code>. It isn't public yet.</p>
+<div class="btns"><span class="btn" aria-disabled="true">Source coming soon</span></div>
+<h3>What self-hosting involves</h3>
+<table class="register"><thead><tr><th>Part</th><th>What it is and what it needs</th></tr></thead><tbody>
+<tr><td>Server</td><td><span class="name">Auth API + VPN handler</span><p>A Python (FastAPI) account and device API backed by PostgreSQL, with an installer for Ubuntu 22.04, plus a Python handler that relays the dialect-encoded traffic through a Linux TUN device with NAT. Needs a Linux server with root access and your own TLS certificate.</p></td></tr>
+<tr><td>iOS / macOS</td><td><span class="name">Swift apps with a packet tunnel</span><p>Xcode and an Apple Developer account with the Network Extension entitlement.</p></td></tr>
+<tr><td>Android</td><td><span class="name">Kotlin app</span><p>The Android SDK; builds with Gradle.</p></td></tr>
+<tr><td>Windows</td><td><span class="name">.NET 8 app</span><p>The .NET 8 SDK and the third-party Wintun driver, which isn't included.</p></td></tr>
+</tbody></table>
+<ol class="steps">
+<li><h3>Set up the server</h3><p>Install the auth API and database, then run the VPN handler.</p></li>
+<li><h3>Point the clients at it</h3><p>The server address is set in the client code, so you change it and build the apps yourself.</p></li>
+<li><h3>Sign and install</h3><p>Use your own signing identities and keys. None of the old ones are included.</p></li>
+</ol>
+<div class="callout"><h4>Not complete yet</h4><p>Some pieces still need work before this runs end to end. Most importantly, the negotiation service the clients connect to first isn't in the repository yet. There's also no service file for the VPN handler, and some settings are hardcoded. The repository's self-hosting guide lists them. The code hasn't been independently security-reviewed.</p></div>
+</div>
+<p class="note">The shop's closed, but the plans and the jigs are going on the table so you can build your own. A couple of jigs are still on the bench.</p>
+</div></section>
+
+{{agent:dialectforge-vpn-oss}}

@@ -1,0 +1,29 @@
+title: DialectForge Enterprise — the tunnel, deployed across an organization
+desc: Container-first deployment of the DialectForge tunnel for offices, remote staff, clouds, branch sites and industrial networks. Commercial licenses from DialectForge LLC.
+path: /enterprise/
+nav: /#domains
+---
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Enterprise</div><h1>Enterprise</h1><p class="lede" style="margin-top:12px">The same seed-negotiated protocol, deployed across an organization. Corporate traffic is designed to be not just encrypted, but hard to identify.</p></div></div>
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 1</b> Pipeline</div>
+<div class="main wide">
+<figure><svg class="dia" viewBox="0 0 860 90" role="img" aria-label="Pipeline: client app, DF tunnel with seed-negotiated dialect, compression, container deployable anywhere">
+<rect class="bx" x="0" y="20" width="180" height="50"/><text x="90" y="42" text-anchor="middle" class="t-h">Client app</text><text x="90" y="58" text-anchor="middle" class="t-dim">your software</text>
+<rect class="bx-ox" x="226" y="20" width="180" height="50"/><text x="316" y="42" text-anchor="middle" class="t-h">DF tunnel</text><text x="316" y="58" text-anchor="middle" class="t-dim">negotiated dialect</text>
+<rect class="bx" x="452" y="20" width="180" height="50"/><text x="542" y="42" text-anchor="middle" class="t-h">Compression</text><text x="542" y="58" text-anchor="middle" class="t-dim">reduce, then encode</text>
+<rect class="bx-k" x="680" y="20" width="180" height="50"/><text x="770" y="42" text-anchor="middle" class="t-h t-inv">Container</text><text x="770" y="58" text-anchor="middle" class="t-inv">deploy anywhere</text>
+<path class="ln" d="M180 45H222M406 45H448M632 45H676"/></svg>
+<figcaption class="figcap"><b>FIG. 1</b> Deployment pipeline.</figcaption></figure>
+<table class="register"><thead><tr><th>Ref</th><th>Use</th></tr></thead><tbody>
+<tr><td>E1</td><td><span class="name">On-site network protection</span><p>Run DF at the network edge so WiFi and wired traffic is encoded before it leaves the building. A tapped wire or captured WiFi frame is designed to show nothing identifiable.</p></td></tr>
+<tr><td>E2</td><td><span class="name">Data in transit for regulated work</span><p>Healthcare, finance and legal teams get an extra layer on top of standard encryption. DF is meant to add to compliance work, not replace it.</p></td></tr>
+<tr><td>E3</td><td><span class="name">Remote staff under DPI</span><p>Designed to let employees in countries with deep packet inspection reach company resources without the connection standing out as a VPN.</p></td></tr>
+<tr><td>E4</td><td><span class="name">IoT &amp; industrial control</span><p>SCADA, sensors and building systems talk through DF tunnels, so reconnaissance has a harder time even naming the protocols in use.</p></td></tr>
+<tr><td>E5</td><td><span class="name">Multi-cloud mesh</span><p>Link AWS, Azure and GCP environments through a DF relay, without depending on each provider's peering.</p></td></tr>
+<tr><td>E6</td><td><span class="name">Service-to-service</span><p>Microservices talk through DF tunnels, making lateral movement and architecture mapping harder for an intruder.</p></td></tr>
+<tr><td>E7</td><td><span class="name">Branch &amp; edge</span><p>Each site runs a container that tunnels back to HQ. No appliance to ship.</p></td></tr>
+<tr><td>E8</td><td><span class="name">Organizational messaging</span><p>Double-DF messaging where the server routes sealed blobs and stores nothing. See <a href="/messenger/">Messenger</a>.</p></td></tr>
+</tbody></table>
+<div class="callout"><h4>Engineering notes</h4><p>Dialect cycles can be tuned per network (30 s to 5 min). Dialect maps double as a compression layer: frequent patterns get short tokens during negotiation, with a design target of under 5% overhead. Frames injected into a stream are designed to fail validation, get dropped, and count toward anomaly detection. These are intended uses based on the protocol's design; none has been independently tested.</p></div>
+<div class="btns"><a class="btn solid" href="mailto:info@dialectforge.com?subject=Enterprise%20inquiry">Talk about a deployment</a><a class="btn" href="/licensing/">Commercial licensing</a></div>
+</div></div></section>
