@@ -22,6 +22,10 @@ Everything lives in one SQLite file on your computer. Nothing is sent anywhere u
 - **claude.ai and ChatGPT**, through the optional remote access.
 - **Any other MCP client**, locally or over your network with a key.
 
+## Many AIs, one memory, at the same time
+
+Claude, ChatGPT, Cursor and Grok can all use FlowState at once, on your computer, across your network, or from your phone. When one AI logs a decision or a change, the others see it the next time they check. Hard rules and handoff notes reach every AI, and every change records which AI made it, so you always know who did what. Work across projects is linked too, so a change to something shared shows up in every project that uses it.
+
 ## What it does
 
 ### Memory your AI actually reads
