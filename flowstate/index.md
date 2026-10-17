@@ -96,7 +96,7 @@ Prices as listed on each vendor's pricing page, October 2026.
 
 ## Think of a feature? Have your AI build it
 
-FlowState is open source and written to be worked on by AI. [AGENTS.md](https://github.com/dialectforge/FlowStateV1.1/blob/main/AGENTS.md) and [llms.txt](https://github.com/dialectforge/FlowStateV1.1/blob/main/llms.txt) explain the repo, the code is split into small modules, and there's a test suite that runs against temporary databases. If you think of a feature, have your own AI build it. You're not waiting on a vendor's roadmap.
+FlowState is open source and written to be worked on by AI. [AGENTS.md](https://github.com/dialectforge/FlowState/blob/main/AGENTS.md) and [llms.txt](https://github.com/dialectforge/FlowState/blob/main/llms.txt) explain the repo, the code is split into small modules, and there's a test suite that runs against temporary databases. If you think of a feature, have your own AI build it. You're not waiting on a vendor's roadmap.
 
 ## What it doesn't do
 
@@ -118,7 +118,7 @@ The full list is in the README's "Honest limits" section.
 Paste this into an AI app that can run commands on your computer (Claude Code, Cursor, Windsurf, Codex CLI, Grok Build and others). It reads the repo's AGENTS.md, asks which apps to connect and whether you want nightly backups, shows you a dry run, then runs the setup script. When it's done, fully quit and reopen the apps it connected.
 
 ```
-Set up FlowState for me from https://github.com/dialectforge/FlowStateV1.1 by following its AGENTS.md.
+Set up FlowState for me from https://github.com/dialectforge/FlowState by following its AGENTS.md.
 ```
 
 Prefer to do it yourself? It needs Python 3.11 or newer and git. The README has the manual install steps.
