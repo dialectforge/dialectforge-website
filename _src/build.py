@@ -27,7 +27,7 @@ FOOTER = """<footer class="foot"><div class="wrap">
 <p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p><p><strong>Testing:</strong> All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>
 <div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
 <div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
-<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/flowstate/">FlowState</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
 <div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Open source now: <a href="https://github.com/dialectforge/lu">Lu</a> (AGPL-3.0) and <a href="https://github.com/dialectforge/cattledog">Cattledog</a> (Apache-2.0) · DF-VPN in progress · Commercial licenses available</span></div>
@@ -199,7 +199,7 @@ def build_wraps():
     for p, (c, legal) in WRAP.items(): wrap(p, c, legal)
 
 # ---- AI-friendly copies: plain Markdown of key pages, and /llms.txt ----
-MD_PAGES = ["lu", "cattledog", "research/lu-cattledog-jev", "research", "build-with-ai"]
+MD_PAGES = ["lu", "cattledog", "flowstate", "research/lu-cattledog-jev", "research", "build-with-ai"]
 SITE = "https://dialectforge.com"
 
 def html_to_md(node):
@@ -283,6 +283,10 @@ John builds by directing AI coding assistants. Vibe coders are welcome. Start wi
 - [Lu repository](https://github.com/dialectforge/lu): start with AGENTS.md and docs/LU_EXPLAINED.md.
 - [Cattledog](https://dialectforge.com/cattledog/index.md): wraps any LLM with Lu's honesty and scars. Python + Rust. Apache-2.0, free for anyone, including companies.
 - [Cattledog repository](https://github.com/dialectforge/cattledog): start with AGENTS.md and README.md.
+
+## Tools for AI apps (open source)
+- [FlowState](https://dialectforge.com/flowstate/index.md): free, local-first shared project memory for your AI apps. An MCP server for Claude, ChatGPT, Cursor, Grok and any MCP client. Python. MIT.
+- [FlowState repository](https://github.com/dialectforge/FlowStateV1.1): start with AGENTS.md and llms.txt.
 
 ## Research
 - [Lu + Cattledog + Jev + LLM agents](https://dialectforge.com/research/lu-cattledog-jev/index.md): an unbuilt proposal for a curious, persistent overseer of LLM agents.

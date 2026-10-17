@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlowState: shared project memory for your AI apps - DialectForge</title>
+<meta name="description" content="FlowState is free, open-source (MIT), local-first project memory for your AI apps. An MCP server for Claude, ChatGPT, Cursor, Grok and any MCP client. Your data stays on your machine.">
+<meta property="og:title" content="FlowState: shared project memory for your AI apps - DialectForge">
+<meta property="og:description" content="FlowState is free, open-source (MIT), local-first project memory for your AI apps. An MCP server for Claude, ChatGPT, Cursor, Grok and any MCP client. Your data stays on your machine.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/" aria-current=page>Apps</a><a href="/licensing/">Licensing</a><a href="/lu/">Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/download/">Apps</a> / FlowState</div><h1>FlowState <span class="tag oss">Open source &middot; MIT</span></h1><p class="lede" style="margin-top:12px">A shared project memory for your AI apps. Free, open source and local-first. FlowState is an <a href="https://modelcontextprotocol.io">MCP</a> server for Claude, ChatGPT, Cursor, Grok and any other MCP client. Your data stays on your machine.</p>
+<div class="btns"><a class="btn solid" href="https://github.com/dialectforge/FlowStateV1.1">GitHub repository &#8599;</a><a class="btn" href="https://github.com/dialectforge/FlowStateV1.1/releases/tag/v2.0.0">Release v2.0.0 &#8599;</a></div>
+<p class="small"><a href="/flowstate/index.md">This page as Markdown</a> &middot; <a href="/build-with-ai/">Build with your AI</a></p></div></div>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>&sect; 1</b> What it is</div>
+<div class="main">
+<h2>One memory for every AI app you use</h2>
+<p class="measure">Without shared memory, each new AI chat starts from scratch. FlowState gives all of your AI apps the same memory of your projects: todos, changes, decisions, problems and lessons learned. Your AI reads a short brief when it starts work on a project and writes down what happens as it goes. The next chat, or the next app, picks up where the last one stopped.</p>
+<p class="measure">Everything lives in one SQLite file on your computer. Nothing is sent anywhere unless you turn on an optional feature that does so: an off-site backup to your own private GitHub repo, or remote access through your own Cloudflare Tunnel.</p>
+<h3>Works with</h3>
+<ul>
+<li><strong>Claude Desktop, Claude Code, Cursor, Windsurf, Codex CLI and Grok Build</strong>, on the same computer. The setup script connects them for you.</li>
+<li><strong>claude.ai and ChatGPT</strong>, through the optional remote access.</li>
+<li><strong>Any other MCP client</strong>, locally or over your network with a key.</li>
+</ul>
+</div>
+</div></section>
+<section class="sheet sec tint" id="features"><div class="wrap grid">
+<div class="rail"><b>&sect; 2</b> Features</div>
+<div class="main">
+<h2>What it does</h2>
+<h3>Memory your AI actually reads</h3>
+<ul>
+<li><strong>The start_here brief:</strong> one call gives your AI the project's hard rules, handoff notes, open todos, problems, recent changes, decisions and key lessons. Pick quick, standard or deep, depending on how much context you want to spend.</li>
+<li><strong>One tool to write things down:</strong> <code>log_work</code> records a decision, change, problem, lesson or todo. Every write has to name a project, so nothing lands in the wrong place.</li>
+<li><strong>Automatic sessions:</strong> a session opens on the first call for a project and closes after two hours idle or when the app quits, with a short summary that waits for your review.</li>
+</ul>
+<h3>You stay in charge</h3>
+<ul>
+<li><strong>Hard rules:</strong> "never do this" rules for each project, always shown in full at the top of the brief.</li>
+<li><strong>Handoff notes between AIs:</strong> an AI that has to stop mid-task leaves "where I was, next step". The next AI, in any app, sees it first until it picks it up.</li>
+<li><strong>Review queue:</strong> auto-captured summaries, and anything the AI marks as a suggestion, wait for your OK. Approve, edit or reject them in chat or on the review page.</li>
+<li><strong>Review modes:</strong> you choose how much needs your OK: off, auto-captured only (the default), chosen record types, or everything. Set it for the whole install or per project. The AI may change it only when you ask in the chat, and every change is logged with your words.</li>
+<li><strong>Browser review page:</strong> a small page on your own computer (one-time link, this computer only) with the review queue, review mode, a pause switch for each app, and "Who did what".</li>
+<li><strong>Edit history with undo:</strong> edits made through FlowState are kept. You can see them and undo the last change to a record, and an undo can itself be undone.</li>
+<li><strong>Superseded decisions:</strong> a new decision can name the one it replaces, so only the current one shows in the brief.</li>
+<li><strong>Source, confidence and "last checked":</strong> records can say where they came from (you said it, the AI inferred it, or it was read from the code), and solution attempts carry a confidence level from "attempted" to "proven". Facts like paths, ports and settings that haven't been checked for 60 days are flagged for re-checking.</li>
+</ul>
+<h3>Accountability</h3>
+<ul>
+<li><strong>Which app, machine and model made each change:</strong> edits, review items, decisions, links, handoffs, hard rules, review-mode changes and the activity log all record the app, the machine or workspace, the AI model (when the app supplies it) and how the app was identified.</li>
+<li><strong>"Who did what" view:</strong> filter changes by app, model, machine, project and time on the review page, and undo a change from there.</li>
+<li><strong>Per-app keys:</strong> give each app its own key, optionally read-only, so the recorded app name comes from the key rather than from what the app says about itself. The key is shown once, only a hash is kept, and a revoked key stops working at once.</li>
+<li><strong>Activity log and pause:</strong> see which app did what, and pause one app's writes. A paused app can still read.</li>
+</ul>
+<h3>Projects, tasks and finding things</h3>
+<ul>
+<li><strong>Todos with priorities:</strong> critical, urgent, normal and low, plus subtasks, blockers and a "what's next" list of open, unblocked work, highest priority first.</li>
+<li><strong>Cross-project links:</strong> when several projects share one thing, link them. A change logged on the shared part gives every linked project an update todo and a "changed since you last looked" note. FlowState alerts; it never changes code in other projects.</li>
+<li><strong>GitHub and Linear links:</strong> attach an issue or pull request to a todo, problem or other record.</li>
+<li><strong>Ask in plain language:</strong> ask a question in your own words. FlowState answers by quoting your own records, with their ids, and says so when it has nothing on it. It doesn't make anything up.</li>
+<li><strong>Search:</strong> keyword search across todos, decisions, changes, lessons, problems and solutions. Search by meaning is optional and uses a local model you install yourself.</li>
+<li><strong>Clean-up suggestions:</strong> likely duplicates, stale items and records filed under the wrong project go to the review queue. Nothing moves until you approve.</li>
+</ul>
+<h3>Bringing things in and out</h3>
+<ul>
+<li><strong>Import your memories:</strong> bring a Claude or ChatGPT memory export (text, Markdown or JSON) into the review queue, so you decide what is kept.</li>
+<li><strong>Markdown export and import:</strong> write a readable copy of a project, edit it, and bring your edits back through the review queue.</li>
+<li><strong>Opt-in git capture:</strong> off by default. Turn it on for a project and new commit subjects become changes (subject lines only; no author, e-mail or diff).</li>
+</ul>
+<h3>Safety and backups</h3>
+<ul>
+<li><strong>Secret refusal:</strong> a write that looks like it contains a key, token, password, private key or card number is refused and not saved. A command lists older records that look suspicious, without showing their values.</li>
+<li><strong>Token in your OS credential store:</strong> Windows Credential Manager, the macOS Keychain, or a private file on Linux.</li>
+<li><strong>Nightly backups:</strong> integrity-checked, with 14 daily and 8 weekly copies kept. A restore goes to a new file unless you force it.</li>
+<li><strong>Optional private GitHub off-site copy:</strong> FlowState checks that the repo is private before every push and refuses otherwise. It never stores a GitHub token.</li>
+</ul>
+<h3>Connecting</h3>
+<ul>
+<li><strong>Local and network connections:</strong> apps on the same computer connect directly; other machines on your network use a token or a per-app key.</li>
+<li><strong>Optional remote access through your own tunnel:</strong> for cloud AIs such as claude.ai and ChatGPT, FlowState can listen behind your own Cloudflare Tunnel, with a sign-in you approve using your owner passphrase and per-app tokens you can revoke (optionally read-only).</li>
+<li><strong>Fewer tools if you want:</strong> a core mode lists only the 9 core tools to save context; the others still work if called.</li>
+</ul>
+<p class="measure small">The v1.1 desktop GUI was an unfinished experiment and has been removed. FlowState 2 is used through your AI and the browser review page.</p>
+</div>
+</div></section>
+
+<section class="sheet sec" id="free"><div class="wrap grid">
+<div class="rail"><b>&sect; 3</b> Free</div>
+<div class="main">
+<h2>Free, with no paid tier</h2>
+<p class="measure">Many AI memory tools now put their best features behind subscriptions: <a href="https://mem0.ai/pricing">Mem0</a> ($19 to $249/mo), <a href="https://www.getzep.com/pricing">Zep</a> ($125/mo and up), <a href="https://supermemory.ai/pricing">Supermemory</a> ($19/mo and up). Some have dropped their free or self-hosted options entirely, like Zep's self-hosted edition and Pieces' free tier. FlowState is MIT-licensed, runs on your own machine, and is free with no paid tier.</p>
+<p class="measure small">Prices as listed on each vendor's pricing page, October 2026.</p>
+</div>
+</div></section>
+
+<section class="sheet sec tint" id="build-your-own"><div class="wrap grid">
+<div class="rail"><b>&sect; 4</b> Not limited</div>
+<div class="main">
+<h2>Think of a feature? Have your AI build it</h2>
+<p class="measure">FlowState is open source and written to be worked on by AI. <a href="https://github.com/dialectforge/FlowStateV1.1/blob/main/AGENTS.md">AGENTS.md</a> and <a href="https://github.com/dialectforge/FlowStateV1.1/blob/main/llms.txt">llms.txt</a> explain the repo, the code is split into small modules, and there's a test suite that runs against temporary databases. If you think of a feature, have your own AI build it. You're not waiting on a vendor's roadmap.</p>
+</div>
+</div></section>
+<section class="sheet sec" id="limits"><div class="wrap grid">
+<div class="rail"><b>&sect; 5</b> Honest limits</div>
+<div class="main">
+<h2>What it doesn't do</h2>
+<ul>
+<li><strong>The AI model is recorded only when the app supplies it.</strong> FlowState never guesses one. If the app says nothing, the model is left empty.</li>
+<li><strong>Desktop app and machine names are self-reported.</strong> They are a convenience, not security. Only per-app keys, per-app remote tokens and approved sign-ins give an identity an app can't pick for itself, and "Who did what" shows which kind each change used.</li>
+<li><strong>Tested mainly on Windows and macOS.</strong> Linux should work but is less tested.</li>
+<li><strong>"Only when you ask" is enforced by wording, not cryptography.</strong> Approving review items and changing the review mode require the AI to quote your words, but a misbehaving AI could make them up. FlowState can't stop an AI from doing something outside FlowState.</li>
+<li><strong>Search by meaning needs a model you install yourself.</strong> FlowState never downloads a model or calls a cloud API. Without one, search and ask match words only, so a reworded question can miss.</li>
+<li><strong>Ask quotes; it doesn't write.</strong> It returns the best-matching sentences from your records rather than new answers.</li>
+<li><strong>Remote access is optional and takes setup:</strong> your own domain on Cloudflare, <code>cloudflared</code> on your computer, and an owner passphrase.</li>
+<li><strong>The secret scanner is pattern-based.</strong> It can refuse harmless text and miss a short secret without a label.</li>
+<li><strong>Undo covers edits made through FlowState.</strong> Creating a record isn't undone, and changes made directly in the database aren't tracked.</li>
+<li><strong>The off-site copy keeps one backup.</strong> History depth comes from your local backups.</li>
+</ul>
+<p class="measure small">The full list is in the README's "Honest limits" section.</p>
+</div>
+</div></section>
+
+<section class="sheet sec tint" id="get-it"><div class="wrap grid">
+<div class="rail"><b>&sect; 6</b> Get it</div>
+<div class="main">
+<h2>Set it up with your AI</h2>
+<p class="measure">Paste this into an AI app that can run commands on your computer (Claude Code, Cursor, Windsurf, Codex CLI, Grok Build and others). It reads the repo's AGENTS.md, asks which apps to connect and whether you want nightly backups, shows you a dry run, then runs the setup script. When it's done, fully quit and reopen the apps it connected.</p>
+<div class="prompt"><button class="copy" type="button" data-copy>Copy</button><pre class="code" id="prompt-flowstate">Set up FlowState for me from https://github.com/dialectforge/FlowStateV1.1 by following its AGENTS.md.</pre></div>
+<p class="measure">Prefer to do it yourself? It needs Python 3.11 or newer and git. The README has the manual install steps.</p>
+<div class="btns"><a class="btn solid" href="https://github.com/dialectforge/FlowStateV1.1">GitHub repository &#8599;</a><a class="btn" href="https://github.com/dialectforge/FlowStateV1.1/releases/tag/v2.0.0">Release v2.0.0 &#8599;</a></div>
+<h2>License</h2>
+<p class="measure">MIT. Free for anyone to use, change and share, including companies. Questions: <a href="mailto:info@dialectforge.com">info@dialectforge.com</a>.</p>
+</div>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p><p><strong>Testing:</strong> All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/flowstate/">FlowState</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Open source now: <a href="https://github.com/dialectforge/lu">Lu</a> (AGPL-3.0) and <a href="https://github.com/dialectforge/cattledog">Cattledog</a> (Apache-2.0) · DF-VPN in progress · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
+</body>
+</html>
