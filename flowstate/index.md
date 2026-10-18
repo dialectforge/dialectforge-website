@@ -8,6 +8,8 @@ GitHub repository ↗
 
 Release v2.0.0 ↗
 
+Discord ↗
+
 [This page as Markdown](https://dialectforge.com/flowstate/index.md) · [Build with your AI](https://dialectforge.com/build-with-ai/)
 
 ## One memory for every AI app you use
@@ -126,6 +128,8 @@ Prefer to do it yourself? It needs Python 3.11 or newer and git. The README has 
 GitHub repository ↗
 
 Release v2.0.0 ↗
+
+Discord ↗
 
 ## License
 
