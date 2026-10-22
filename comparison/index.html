@@ -23,12 +23,12 @@
 <nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains" aria-current=page>Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/lu/">Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
 </div></header>
 <main id="content">
-<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Traffic comparison</div><h1>Traffic comparison</h1><p class="lede" style="margin-top:12px">Side-by-side hex dumps: a standard VPN vs. DialectForge on the wire.</p></div></div>
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Traffic comparison</div><h1>Traffic comparison</h1><p class="lede" style="margin-top:12px">Hex dumps: a standard VPN vs. the earlier DialectForge protocol used by the current apps.</p></div></div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> On the wire</div>
 <div class="main wide">
 <h2>What your ISP sees</h2>
-<p class="measure">Here's the same kind of capture a packet analyzer shows, the same kind of tool used to detect and block VPNs. On the left, WireGuard. On the right, DialectForge.</p>
+<p class="measure">Here's the same kind of capture a packet analyzer shows, the same kind of tool used to detect and block VPNs. Top: WireGuard. Bottom: an example of the earlier DialectForge protocol used by the current apps. DF-VPN v1 traffic does not look like this yet.</p>
 <div class="grid" style="padding:0">
 <figure style="grid-column:1/-1;margin:16px 0" class="hexcol">
 <h4>Standard VPN · WireGuard <span class="tag off">Identifiable</span></h4>
@@ -42,7 +42,7 @@
 <span class="off">0070</span>  53 f9 82 d6 01 e4 70 bd  2c a8 0b ff 97 6e 43 a0</pre>
 <figcaption class="figcap"><b>■</b> message-type bytes and known header fields: a fixed, recognizable pattern</figcaption></figure>
 <figure style="grid-column:1/-1;margin:16px 0" class="hexcol">
-<h4>DialectForge · dialect cycling <span class="tag dev">Designed to resist detection</span></h4>
+<h4>DialectForge, earlier protocol (current apps) · dialect cycling <span class="tag dev">Example</span></h4>
 <pre class="hex"><span class="off">0000</span>  74 24 9f c4 77 e3 22 1c  b6 58 0d a3 f1 6b 89 3e
 <span class="off">0010</span>  d7 42 15 e8 93 af 5c 71  0e fa 36 c5 88 2d b4 60
 <span class="off">0020</span>  a2 17 cb 4e f5 63 8a d9  31 7c e6 04 bf 52 98 2b
@@ -51,13 +51,13 @@
 <span class="off">0050</span>  29 86 d0 4c fb 61 a4 38  c7 55 0a e9 72 b1 3d f8
 <span class="off">0060</span>  83 c6 1a 5f ae 47 d4 02  69 bb f7 2e 94 c1 58 0f
 <span class="off">0070</span>  e5 3b a0 76 d8 43 1f b9  64 fc 27 8e 51 cc 05 ab</pre>
-<figcaption class="figcap"><b>↻</b> no fixed headers or signatures; the encoding moves every 2 minutes</figcaption></figure>
+<figcaption class="figcap"><b>↻</b> Earlier protocol only: designed to avoid fixed headers, with an encoding that changes every 2 minutes. DF-VPN v1 does not do this yet. It has a visible header and sends public keys in the clear.</figcaption></figure>
 </div>
 <h3>Why it matters</h3>
-<p class="measure">Countries like China and Iran use deep packet inspection to fingerprint and block VPN protocols. If traffic has a recognizable pattern, it gets blocked. DialectForge traffic is designed to look like random noise, so there's no fixed pattern to write a rule against.</p>
+<p class="measure">Countries like China and Iran use deep packet inspection to fingerprint and block VPN protocols. If traffic has a recognizable pattern, it can be blocked. The earlier DialectForge protocol, used by the current apps, was designed to avoid a fixed pattern. DF-VPN v1 does not include that traffic shaping yet. It is planned for a later version. None of this has been tested against a real censor.</p>
 <p class="measure">And if someone injects packets into a DialectForge stream, they don't match the current dialect, so they're designed to be silently dropped.</p>
 <h3>How it was built</h3>
-<p class="measure">The client and server negotiate a shared dialect over a control channel, then wrap every packet in it. The dialect refreshes every 120 seconds. Clients were built for macOS, Windows and iOS, with Android in progress. When the code is released you'll be able to work toward running your own server (see <a href="/vpn/#self-host">Run it yourself</a>). See <a href="/protocol/">the protocol</a> for the details.</p>
+<p class="measure">Current apps (earlier protocol): clients were built for macOS, Windows and iOS, with Android in progress. They negotiate a shared dialect over a control channel, wrap every packet in it, and refresh the dialect every 120 seconds. They do not use post-quantum cryptography. They are built on an XOR-seed scheme, and the DF-VPN v1 spec says an XOR keystream must not be used as encryption. DF-VPN v1 (in testing, not yet released) replaces that protocol. None of the released apps run v1 yet. When the code is released you'll be able to work toward running your own server (see <a href="/vpn/#self-host">Run it yourself</a>). See <a href="/protocol/">the protocol</a> for the details.</p>
 <div class="callout ox"><h4>Service status: offline</h4><p>There's no live DialectForge VPN service right now, and nothing to subscribe to. Existing download links are disabled. Questions: <a href="mailto:help@dialectforge.com">help@dialectforge.com</a>.</p></div>
 </div>
 </div></section>

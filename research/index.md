@@ -230,13 +230,13 @@ The protocol-layer approach is compatible with existing LLM deployment architect
 
 ## 9. About DialectForge
 
-DialectForge is a seed-negotiated protocol for secure multi-node communications. Decentralized AI agents negotiate ephemeral, seed-derived "dialects" for cyclic randomization of identifiers, payloads, and syntax. The protocol is protocol-agnostic and has been implemented across VPN (UDP), CAN bus (automotive), WiFi, Bluetooth, LoRa, and Ethernet transports.
+DialectForge is a seed-negotiated protocol for secure multi-node communications. Decentralized AI agents negotiate ephemeral, seed-derived "dialects" for cyclic randomization of identifiers, payloads, and syntax. The protocol is protocol-agnostic. It has been implemented for VPN (UDP), with a browser simulation for CAN bus (automotive) and designs for WiFi, Bluetooth, LoRa, and Ethernet.
 
 DialectForge is being prepared for open-source release, covering the core protocol and its applications across communication channels.
 
 The protocol's design targets are under 500 microseconds of processing overhead, under 5% bandwidth increase, and under 0.1% attack success rate. These are design targets. They have not been measured yet, and there is no documented test harness for them.
 
-Where the security comes from: the protection comes from standard cryptography, AES-256-GCM, plus a hybrid post-quantum key exchange (X25519 + ML-KEM-768) in DF-VPN v1. The dialect hopping is an extra layer meant to resist traffic analysis and fingerprinting. It is not the source of the security, and the design does not rely on keeping the dialect secret (it is not security through obscurity).
+Where the security comes from: the protection comes from standard cryptography. DF-VPN v1 (in testing, not yet released) uses AES-256-GCM and a hybrid post-quantum key exchange (X-Wing: ML-KEM-768 plus X25519); its authentication is classical only. The current VPN apps use an earlier protocol with no post-quantum key exchange. The dialect hopping is an extra layer meant to resist traffic analysis and fingerprinting. It is not the source of the security, and the design does not rely on keeping the dialect secret (it is not security through obscurity).
 
 All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.
 
