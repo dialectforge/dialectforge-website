@@ -7,9 +7,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DialectForge Terminal — SSH over DialectForge</title>
-<meta name="description" content="DialectForge Terminal carries SSH inside the DialectForge protocol, with TOTP, per-session tokens and certificate pinning. macOS and iPad apps plus a Python server proxy. Open source (AGPL-3.0) coming soon.">
+<meta name="description" content="DialectForge Terminal carries SSH over DialectForge. The current macOS and iPad apps use an earlier protocol that scrambles traffic but does not encrypt it. A new command-line version built on the DF-VPN v1 core is in testing and not yet released. Planned open source under AGPL-3.0.">
 <meta property="og:title" content="DialectForge Terminal — SSH over DialectForge">
-<meta property="og:description" content="DialectForge Terminal carries SSH inside the DialectForge protocol, with TOTP, per-session tokens and certificate pinning. macOS and iPad apps plus a Python server proxy. Open source (AGPL-3.0) coming soon.">
+<meta property="og:description" content="DialectForge Terminal carries SSH over DialectForge. The current macOS and iPad apps use an earlier protocol that scrambles traffic but does not encrypt it. A new command-line version built on the DF-VPN v1 core is in testing and not yet released. Planned open source under AGPL-3.0.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#f2eee5">
 <link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
@@ -23,13 +23,13 @@
 <nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains" aria-current=page>Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/lu/">Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
 </div></header>
 <main id="content">
-<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Terminal</div><h1>Terminal / SSH</h1><p class="lede" style="margin-top:12px">Server administration with SSH carried inside DialectForge. The goal is to hide the connection itself from network monitors, not just its content.</p></div></div>
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / <a href="/#domains">Domains</a> / Terminal</div><h1>Terminal / SSH</h1><p class="lede" style="margin-top:12px">Server administration with SSH carried over DialectForge. There are two versions: the current macOS and iPad apps, which use an earlier protocol that scrambles traffic but does not encrypt it, and a new command-line version (dft and dftd) that is in testing and not yet released.</p></div></div>
 <section class="sheet sec"><div class="wrap grid">
 <div class="rail"><b>§ 1</b> Compare</div>
 <div class="main wide">
 <div class="pair">
 <div class="minus"><h4>Standard SSH · <code>ssh root@server</code></h4><ul><li>Known port 22</li><li>Recognizable SSH handshake</li><li>Port scanners find it fast</li><li>Brute-force attempts around the clock</li><li>Traffic pattern shows admin activity</li></ul></div>
-<div class="plus"><h4>DF Terminal · <code>dialectforge connect server-eu</code></h4><ul><li>Non-standard port, designed not to answer scanners</li><li>SSH wrapped in a DF dialect</li><li>Traffic designed to look like random noise</li><li>Three factors required before a shell</li><li>Dialect refreshes every 2 minutes</li></ul></div>
+<div class="plus"><h4>DF Terminal, current app · <code>dialectforge connect server-eu</code></h4><ul><li>Non-standard port</li><li>SSH scrambled with the earlier XOR scheme, which is not encryption</li><li>The key comes only from values sent in the clear, so anyone who records a session can rebuild it</li><li>The key does not change during a session</li><li>TOTP, a session token and a pinned certificate are checked before a shell</li></ul></div>
 </div>
 <div class="term"><div class="bar"><span>DialectForge Terminal</span><span>session</span></div><pre><span class="d">[DialectForge]</span> Connecting to server...
 <span class="d">[DialectForge]</span> TOTP required: enter 6-digit code: ██████
@@ -46,12 +46,27 @@
 <tr><td>L1</td><td><span class="name">TOTP code</span><p>A time-based one-time code from your authenticator app. New every 30 seconds.</p></td></tr>
 <tr><td>L2</td><td><span class="name">Session token</span><p>Issued after TOTP, scoped to this one session, not reusable.</p></td></tr>
 <tr><td>L3</td><td><span class="name">Certificate pinning</span><p>A pinned client certificate. If it doesn't match exactly, the connection is closed. No fallback.</p></td></tr>
-<tr><td>+</td><td><span class="name">DialectForge underneath</span><p>All of the above happens inside a dialect that changes every two minutes.</p></td></tr>
+<tr><td>+</td><td><span class="name">Earlier DialectForge protocol underneath</span><p>In the current app, all of the above runs inside the earlier XOR scheme. It scrambles traffic but is not encryption. Its key comes only from values sent in the clear and does not change during a session, so anyone who records a session can rebuild it.</p></td></tr>
 </tbody></table>
-<p class="measure">The pieces: a Python server-side SSH proxy with a systemd unit, a command-line client, and native macOS and iPad apps. Each one carries its own copy of the dialect engine.</p>
+<p class="measure">The current pieces: a Python server-side SSH proxy with a systemd unit, a command-line client, and native macOS and iPad apps, all using the earlier protocol. They are replaced by the new version below once it is released.</p>
 <div class="btns"><a class="btn" href="mailto:info@dialectforge.com?subject=Terminal%20Enterprise%20Inquiry">Commercial licensing</a><a class="btn" href="/licensing/">AGPL-3.0, coming soon</a></div>
 </div>
-<p class="note">Normal SSH is a front door with a good deadbolt. This puts the door around back, changes its shape every two minutes, and adds three different locks.</p>
+<p class="note">Normal SSH is a front door with a good deadbolt. The current app moves the door around back and adds three more locks, but its outer cover is only a sheet, not a wall. The new version is being built to replace that sheet with standard cryptography, and it still needs outside testing.</p>
+</div></section>
+
+<section class="sheet sec"><div class="wrap grid">
+<div class="rail"><b>§ 3</b> New version</div>
+<div class="main">
+<h2>New version: dft and dftd <span class="tag dev">In testing</span></h2>
+<p class="measure">A new command-line client (<code>dft</code>) and server (<code>dftd</code>) for Linux, macOS and Windows. It is in testing and not yet released, and there is nothing to download yet.</p>
+<table class="register"><tbody>
+<tr><td>N1</td><td><span class="name">Built on the DF-VPN v1 core</span><p>A hybrid post-quantum key exchange (X-Wing: ML-KEM-768 plus X25519), AES-256-GCM for the traffic, and new keys on a timer.</p></td></tr>
+<tr><td>N2</td><td><span class="name">A front end to standard OpenSSH</span><p>It plugs into ssh as a ProxyCommand, so the login is still handled by standard SSH. The server only forwards to the local SSH port. It has no shell of its own.</p></td></tr>
+<tr><td>N3</td><td><span class="name">Pinned server keys</span><p>The client pins the server's key.</p></td></tr>
+<tr><td>N4</td><td><span class="name">Classical authentication</span><p>The key exchange is hybrid post-quantum, but authentication is classical, not post-quantum.</p></td></tr>
+</tbody></table>
+<p class="measure">Status: tests pass on macOS. Linux and Windows are being tested now. It is self-tested and not yet independently reviewed. It is planned to be released as open source under AGPL-3.0.</p>
+</div>
 </div></section>
 
 <section class="sheet sec" id="ai-agent"><div class="wrap grid">
