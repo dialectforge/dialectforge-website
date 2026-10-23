@@ -6,7 +6,7 @@ A shared project memory for your AI apps. Free, open source and local-first. Flo
 
 GitHub repository ↗
 
-Release v2.0.0 ↗
+Latest release ↗
 
 Discord ↗
 
@@ -127,7 +127,7 @@ Prefer to do it yourself? It needs Python 3.11 or newer and git. The README has 
 
 GitHub repository ↗
 
-Release v2.0.0 ↗
+Latest release ↗
 
 Discord ↗
 
