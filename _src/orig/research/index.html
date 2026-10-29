@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DialectForge Research - Protocol-Layer Solution to Prompt Injection</title>
-    <meta name="description" content="DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection. Prior art publication describing dialect-native LLM training.">
+    <meta name="description" content="DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection. A research paper describing dialect-native LLM training.">
     <meta name="keywords" content="prompt injection, AI security, LLM security, DialectForge, machine learning security, seed-gated knowledge, machine unlearning">
     <meta name="author" content="John Dean Martin">
     <meta name="robots" content="index, follow">
@@ -22,12 +22,12 @@
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://dialectforge.com/research/">
     <meta property="og:title" content="DialectForge: A Protocol-Layer Solution to Prompt Injection">
-    <meta property="og:description" content="Train LLMs to only parse cryptographic protocol input. Aims to make injected text unparseable as instructions, not just detectable.">
+    <meta property="og:description" content="An unbuilt proposal to train LLMs so they only parse cryptographic protocol input. It aims to make injected text unparseable as instructions. It needs adversarial testing.">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DialectForge: A Protocol-Layer Solution to Prompt Injection">
-    <meta name="twitter:description" content="Train LLMs to only parse cryptographic protocol input. Aims to make injected text unparseable as instructions, not just detectable.">
+    <meta name="twitter:description" content="An unbuilt proposal to train LLMs so they only parse cryptographic protocol input. It aims to make injected text unparseable as instructions. It needs adversarial testing.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,16 +104,6 @@
         .callout.blue { border-left-color: var(--accent-blue); }
         .callout.orange { border-left-color: var(--accent-orange); }
 
-        /* Prior Art Section */
-        .prior-art-list { list-style: none; margin: 1.5rem 0; padding: 0; }
-        .prior-art-list li { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 0.75rem;
-            display: flex; gap: 1rem; align-items: flex-start; transition: border-color 0.3s; }
-        .prior-art-list li:hover { border-color: var(--primary); }
-        .prior-art-number { background: linear-gradient(135deg, var(--primary), var(--accent-blue)); color: var(--bg-dark); width: 32px; height: 32px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0; }
-        .prior-art-content strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
-        .prior-art-content span { color: var(--text-secondary); font-size: 0.9rem; }
-
         /* GitHub Link */
         .github-banner { background: var(--bg-card); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 2rem; text-align: center; margin: 3rem 0; }
         .github-banner h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
@@ -156,10 +146,6 @@
 
     <article class="paper">
         <header class="paper-header">
-            <div class="paper-badge">
-                <span>📄</span>
-                <span>Prior Art Publication — February 12, 2026</span>
-            </div>
             <h1>DialectForge-Native Language Models: A Protocol-Layer Solution to Prompt Injection</h1>
             <div class="paper-meta">
                 <strong style="color: var(--text);">John Dean Martin</strong><br>
@@ -170,7 +156,7 @@
         </header>
 
         <div class="callout">
-            <p><strong>Abstract:</strong> This paper describes a proposed methodology for resisting prompt injection attacks in large language models (LLMs) by training models to natively parse a cryptographic communication protocol — DialectForge — rather than relying on guardrails, filters, or detection layers that operate within the model's existing instruction-processing pipeline. The approach creates a structural separation between executable instructions and inert data at the model level, with the aim of making injected text unparseable as instructions rather than merely detectable. This is a structural approach we believe may be stronger than detection-based defenses; it needs adversarial testing, including adaptive attacks, and has not had any yet. We also introduce the concept of seed-gated knowledge access, wherein knowledge domains trained under specific cryptographic seeds become inaccessible when those seeds are revoked, enabling selective model capability removal without retraining.</p>
+            <p><strong>Abstract:</strong> This paper describes a proposed methodology for resisting prompt injection attacks in large language models (LLMs) by training models to natively parse a cryptographic communication protocol — DialectForge — rather than relying on guardrails, filters, or detection layers that operate within the model's existing instruction-processing pipeline. The approach creates a structural separation between executable instructions and inert data at the model level, with the aim of making injected text unparseable as instructions rather than merely detectable. This is an unbuilt proposal. It is a structural approach we believe may be stronger than detection-based defenses; it needs adversarial testing, including adaptive attacks, and has not had any yet. We also introduce the concept of seed-gated knowledge access, wherein knowledge domains trained under specific cryptographic seeds become inaccessible when those seeds are revoked, enabling selective model capability removal without retraining.</p>
         </div>
 
         <h2>1. The Problem</h2>
@@ -374,81 +360,19 @@ Output: "fin_b2:RSP:[encoded financial response]"</pre>
         <h3>7.3 Enterprise Deployment</h3>
         <p>The protocol-layer approach is compatible with existing LLM deployment architectures. DialectForge can be integrated as a wrapper around API calls to any model, with the native training providing defense-in-depth for models that process the wrapped content.</p>
 
-        <h2>8. Prior Art Declaration</h2>
+        <h2>8. About DialectForge</h2>
 
-        <p>This document serves as a public disclosure of the following concepts, establishing prior art as of the publication date:</p>
-
-        <ol class="prior-art-list">
-            <li>
-                <span class="prior-art-number">1</span>
-                <div class="prior-art-content">
-                    <strong>Dialect-native language model training</strong>
-                    <span>A method for training a language model to natively parse dialect-encoded instructions while treating plaintext input as non-executable data.</span>
-                </div>
-            </li>
-            <li>
-                <span class="prior-art-number">2</span>
-                <div class="prior-art-content">
-                    <strong>Instruction-data separation at the model level</strong>
-                    <span>A system wherein executable instructions must be dialect-encoded while data may be plaintext, and the model categorically distinguishes between them regardless of semantic content.</span>
-                </div>
-            </li>
-            <li>
-                <span class="prior-art-number">3</span>
-                <div class="prior-art-content">
-                    <strong>Multi-layer authentication for AI access</strong>
-                    <span>A system comprising certificate validation, token authentication, and dialect encoding layers, all required before instruction processing.</span>
-                </div>
-            </li>
-            <li>
-                <span class="prior-art-number">4</span>
-                <div class="prior-art-content">
-                    <strong>Prompt injection prevention through trained incomprehension</strong>
-                    <span>A method wherein the model is trained to produce no output for non-dialect input, making injection attacks unparseable rather than detectable.</span>
-                </div>
-            </li>
-            <li>
-                <span class="prior-art-number">5</span>
-                <div class="prior-art-content">
-                    <strong>Hybrid crypto-AI security architecture</strong>
-                    <span>A system where cryptographic operations are performed by a client terminal and format recognition by a trained model.</span>
-                </div>
-            </li>
-            <li>
-                <span class="prior-art-number">6</span>
-                <div class="prior-art-content">
-                    <strong>Seed-gated knowledge access</strong>
-                    <span>A method for training specific knowledge domains under specific cryptographic seeds, enabling selective capability removal by seed revocation without model retraining.</span>
-                </div>
-            </li>
-            <li>
-                <span class="prior-art-number">7</span>
-                <div class="prior-art-content">
-                    <strong>Seed-gated machine unlearning</strong>
-                    <span>Application of seed-gated knowledge access to the problem of removing specific data from trained models by revoking access rather than modifying weights.</span>
-                </div>
-            </li>
-        </ol>
-
-        <div class="github-banner">
-            <h3>📂 View on GitHub</h3>
-            <p>Full source of this publication with commit history establishing the public priority date.</p>
-            <a href="https://github.com/dialectforge/dialectforge-prompt">View Repository →</a>
-        </div>
-
-        <h2>9. About DialectForge</h2>
-
-        <p>DialectForge is a seed-negotiated protocol for secure multi-node communications. Decentralized AI agents negotiate ephemeral, seed-derived "dialects" for cyclic randomization of identifiers, payloads, and syntax. The protocol is protocol-agnostic. It has been implemented for VPN (UDP), with a browser simulation for CAN bus (automotive) and designs for WiFi, Bluetooth, LoRa, and Ethernet.</p>
+        <p>DialectForge is a seed-negotiated protocol for secure multi-node communications. Decentralized AI agents negotiate ephemeral, seed-derived "dialects" for cyclic randomization of identifiers, payloads, and syntax. The protocol is designed to sit on top of existing transports rather than replace them. VPN clients were built on an earlier version of it (the VPN service is offline; DF-VPN v1 is in testing and not yet released). CAN bus exists as a browser simulation. The WiFi, Bluetooth, LoRa, and Ethernet mappings are designs, not shipped implementations.</p>
 
         <p>DialectForge is being prepared for open-source release, covering the core protocol and its applications across communication channels.</p>
 
-        <p>The protocol's design targets are under 500 microseconds of processing overhead, under 5% bandwidth increase, and under 0.1% attack success rate. These are design targets. They have not been measured yet, and there is no documented test harness for them.</p>
+        <p>Design targets: under 500 microseconds of processing overhead and under 5% bandwidth overhead. Real numbers will come from the open source release and people measuring it themselves.</p>
 
         <p>Where the security comes from: the protection comes from standard cryptography. DF-VPN v1 (in testing, not yet released) uses AES-256-GCM and a hybrid post-quantum key exchange (X-Wing: ML-KEM-768 plus X25519); its authentication is classical only. The current VPN apps use an earlier protocol with no post-quantum key exchange. The dialect hopping is an extra layer meant to resist traffic analysis and fingerprinting. It is not the source of the security, and the design does not rely on keeping the dialect secret (it is not security through obscurity).</p>
 
         <p>All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p>
 
-        <h2>10. Contact</h2>
+        <h2>9. Contact</h2>
 
         <p><strong>John Dean Martin</strong><br>
         Inventor, DialectForge Protocol<br>
