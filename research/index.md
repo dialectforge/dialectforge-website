@@ -12,7 +12,7 @@ All testing so far was done by John Martin himself, with help from AI assistants
 
 #### Editor's note
 
-This paper was first published on February 12, 2026, and revised on October 14, 2026 so that numbers are stated as design targets and the prompt-injection approach is described as a proposal that needs adversarial testing. Its statements describe design intent and research goals, not demonstrated results. Strong wording that remains, such as knowledge becoming “unreachable”, describes what the approach aims for. None of it has been tested or independently verified. For current wording see [the protocol](https://dialectforge.com/protocol/) and [AI Factory](https://dialectforge.com/ai-factory/).
+This paper was first published on February 12, 2026, and revised in October 2026. Overhead and bandwidth figures are design targets, not measured results. The prompt-injection approach is an unbuilt proposal that needs adversarial testing, including adaptive attacks. Its statements describe design intent and research goals, not demonstrated results. Strong wording that remains, such as knowledge becoming “unreachable” or injected text being unparseable, describes what the approach aims for. None of it has been tested or independently verified. For current wording see [the protocol](https://dialectforge.com/protocol/) and [AI Factory](https://dialectforge.com/ai-factory/).
 
 John Dean Martin
 
@@ -26,7 +26,7 @@ dialectforge.com
 
 Status: Being prepared for open-source release
 
-**Abstract:** This paper describes a proposed methodology for resisting prompt injection attacks in large language models (LLMs) by training models to natively parse a cryptographic communication protocol — DialectForge — rather than relying on guardrails, filters, or detection layers that operate within the model's existing instruction-processing pipeline. The approach creates a structural separation between executable instructions and inert data at the model level, with the aim of making injected text unparseable as instructions rather than merely detectable. This is a structural approach we believe may be stronger than detection-based defenses; it needs adversarial testing, including adaptive attacks, and has not had any yet. We also introduce the concept of seed-gated knowledge access, wherein knowledge domains trained under specific cryptographic seeds become inaccessible when those seeds are revoked, enabling selective model capability removal without retraining.
+**Abstract:** This paper describes a proposed methodology for resisting prompt injection attacks in large language models (LLMs) by training models to natively parse a cryptographic communication protocol — DialectForge — rather than relying on guardrails, filters, or detection layers that operate within the model's existing instruction-processing pipeline. The approach creates a structural separation between executable instructions and inert data at the model level, with the aim of making injected text unparseable as instructions rather than merely detectable. This is an unbuilt proposal. It is a structural approach we believe may be stronger than detection-based defenses; it needs adversarial testing, including adaptive attacks, and has not had any yet. We also introduce the concept of seed-gated knowledge access, wherein knowledge domains trained under specific cryptographic seeds become inaccessible when those seeds are revoked, enabling selective model capability removal without retraining.
 
 ## 1. The Problem
 
@@ -228,19 +228,19 @@ DialectForge-native models communicating with each other via dialect channels ar
 
 The protocol-layer approach is compatible with existing LLM deployment architectures. DialectForge can be integrated as a wrapper around API calls to any model, with the native training providing defense-in-depth for models that process the wrapped content.
 
-## 9. About DialectForge
+## 8. About DialectForge
 
-DialectForge is a seed-negotiated protocol for secure multi-node communications. Decentralized AI agents negotiate ephemeral, seed-derived "dialects" for cyclic randomization of identifiers, payloads, and syntax. The protocol is protocol-agnostic. It has been implemented for VPN (UDP), with a browser simulation for CAN bus (automotive) and designs for WiFi, Bluetooth, LoRa, and Ethernet.
+DialectForge is a seed-negotiated protocol for secure multi-node communications. Decentralized AI agents negotiate ephemeral, seed-derived "dialects" for cyclic randomization of identifiers, payloads, and syntax. The protocol is designed to sit on top of existing transports rather than replace them. VPN clients were built on an earlier version of it (the VPN service is offline; DF-VPN v1 is in testing and not yet released). CAN bus exists as a browser simulation. The WiFi, Bluetooth, LoRa, and Ethernet mappings are designs, not shipped implementations.
 
 DialectForge is being prepared for open-source release, covering the core protocol and its applications across communication channels.
 
-The protocol's design targets are under 500 microseconds of processing overhead, under 5% bandwidth increase, and under 0.1% attack success rate. These are design targets. They have not been measured yet, and there is no documented test harness for them.
+Design targets: under 500 microseconds of processing overhead and under 5% bandwidth overhead. Real numbers will come from the open source release and people measuring it themselves.
 
 Where the security comes from: the protection comes from standard cryptography. DF-VPN v1 (in testing, not yet released) uses AES-256-GCM and a hybrid post-quantum key exchange (X-Wing: ML-KEM-768 plus X25519); its authentication is classical only. The current VPN apps use an earlier protocol with no post-quantum key exchange. The dialect hopping is an extra layer meant to resist traffic analysis and fingerprinting. It is not the source of the security, and the design does not rely on keeping the dialect secret (it is not security through obscurity).
 
 All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.
 
-## 10. Contact
+## 9. Contact
 
 **John Dean Martin**
  Inventor, DialectForge Protocol
