@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SDLC9S27DQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SDLC9S27DQ');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security - DialectForge</title>
+<meta name="description" content="How FlowState, FlowStateMCP and FlowState Relay keep your data safe, what outside checks have found, and how to report a security problem.">
+<meta property="og:title" content="Security - DialectForge">
+<meta property="og:description" content="How FlowState, FlowStateMCP and FlowState Relay keep your data safe, what outside checks have found, and how to report a security problem.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/df.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="mast"><div class="wrap">
+<a class="mark" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/protocol/">Protocol</a><a href="/#domains">Domains</a><a href="/dfos/">DFoS</a><a href="/download/">Apps</a><a href="/licensing/">Licensing</a><a href="/lu/">Lu</a><a href="/cattledog/">Cattledog</a><a href="/research">Research</a><a href="/#contact">Contact</a></nav>
+</div></header>
+<main id="content">
+<div class="doc-head"><div class="wrap"><div class="crumbs"><a href="/">DialectForge</a> / Legal</div><h1>Security</h1></div></div>
+<div class="wrap"><article class="doc">
+<a class="back-link" href="/">← Back to DialectForge</a>
+
+<p class="updated">Last updated: October 30, 2026</p>
+
+<div class="highlight">
+<p><strong>In short:</strong> FlowState keeps your project memory on your own computer. FlowStateMCP and FlowState Relay let cloud AI apps reach it without the relay being able to read your traffic. This page sums up how, what outside checks have found, and how to report a problem.</p>
+</div>
+
+<h2>1. FlowState</h2>
+<ul>
+<li>FlowState is open source under the MIT license: <a href="https://github.com/dialectforge/FlowState">github.com/dialectforge/FlowState</a>.</li>
+<li>Your project memory is one SQLite file on your own computer. FlowState needs no account.</li>
+<li>Releases are tags signed with the FlowState release key, and <code>flowstate update</code> installs only a correctly signed release.</li>
+</ul>
+
+<h2>2. FlowStateMCP and FlowState Relay</h2>
+<ul>
+<li>The relay passes your encrypted connection through without opening it (TLS passthrough). Your TLS key is made on your computer and never leaves it.</li>
+<li>Each AI app signs in to your own FlowState, and you approve it with your owner passphrase.</li>
+<li>The full details, including the limits we know about, are on <a href="https://flowstatemcp.com/security">flowstatemcp.com/security</a>.</li>
+</ul>
+
+<h2>3. Outside Checks</h2>
+<p>No outside firm has audited FlowState, the relay or flowstatemcp.com. A scan is not an audit. These are the outside checks done so far:</p>
+<ul>
+<li><strong>OAuth auth scan, October 2026:</strong> Auth-scanned by Leroy H. Mason using <a href="https://github.com/LHMisme420/mcp-authscan">mcp-authscan</a>, against his own beta relay address, with permission. Seven checks passed. The scan found that the token endpoint sent <code>Access-Control-Allow-Origin: *</code>. It also noted that <code>/revoke</code> refused standard RFC 7009 requests and that the OAuth issuer had a trailing slash. All three are fixed in <a href="https://github.com/dialectforge/FlowState/releases/tag/v2.4.4">FlowState 2.4.4</a>.</li>
+</ul>
+
+<h2>4. Report a Vulnerability</h2>
+<p>Found a security problem in FlowState, FlowStateMCP or FlowState Relay? Email <a href="mailto:support@flowstatemcp.com">support@flowstatemcp.com</a>. Tell us what you found and how to see it happen. Please don't send passwords, keys or tokens, and give us time to fix it before you make it public.</p>
+<p>For other DialectForge products, contact <a href="mailto:info@dialectforge.com">info@dialectforge.com</a>.</p>
+<p>Our policy, scope and supported versions: <a href="https://github.com/dialectforge/FlowState/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+</article></div>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="cols">
+<div class="about"><a class="mark" href="/" style="color:inherit"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1 11h6M25 21h6M11 1v6M21 25v6" stroke="currentColor" stroke-width="2"/><text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#b4441c">df</text></svg><span>DialectForge</span></a>
+<p>One protocol, applied everywhere data moves or rests. Built in Michigan by John Martin. Lu and Cattledog are open source now; DF-VPN is in progress.</p><p><strong>Testing:</strong> All testing so far was done by John Martin himself, with help from AI assistants (Claude and Grok). None of it has been verified by anyone outside of us.</p></div>
+<div><h4>Protocol</h4><ul><li><a href="/protocol/">How it works</a></li><li><a href="/comparison/">Traffic comparison</a></li><li><a href="/research">Research</a></li><li><a href="/licensing/">Licensing</a></li><li><a href="/agents/">AI agent prompts</a></li><li><a href="/build-with-ai/">Build with your AI</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+<div><h4>Domains</h4><ul><li><a href="/dfos/">DFoS</a></li><li><a href="/vpn/">VPN</a></li><li><a href="/mesh/">Mesh</a></li><li><a href="/terminal/">Terminal</a></li><li><a href="/messenger/">Messenger</a></li><li><a href="/automotive/">Automotive</a></li><li><a href="/banking/">Banking</a></li><li><a href="/verify/">Verify</a></li><li><a href="/lu/">Lu</a></li><li><a href="/cattledog/">Cattledog</a></li><li><a href="/enterprise/">Enterprise</a></li></ul></div>
+<div><h4>Apps</h4><ul><li><a href="/download/">All apps</a></li><li><a href="/snapguard/support/">SnapGuard</a></li><li><a href="/scansmith/support/">ScanSmith</a></li><li><a href="/soundbits/support/">VoxBitz</a></li><li><a href="/pixelsmith/privacy/">PixelSmith</a></li><li><a href="/download/#quick-export">Quick Export</a></li><li><a href="/flowstate/">FlowState</a></li><li><a href="/workshopblast/support/">Workshop Blast</a></li><li><a href="https://liveflyer.app">LiveFlyer (web) ↗</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="mailto:info@dialectforge.com">info@dialectforge.com</a></li><li><a href="mailto:help@dialectforge.com">help@dialectforge.com</a></li><li><a href="https://discord.gg/JPDW7dWKhB" target="_blank" rel="noopener">Discord ↗</a></li><li><a href="/help/">Help Center</a></li><li><a href="/support/">VPN support</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/security/">Security</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="legal"><span>© 2026 DialectForge LLC, a Delaware limited liability company</span><span>Open source now: <a href="https://github.com/dialectforge/lu">Lu</a> (AGPL-3.0) and <a href="https://github.com/dialectforge/cattledog">Cattledog</a> (Apache-2.0) · DF-VPN in progress · Commercial licenses available</span></div>
+</div></footer>
+<script src="/assets/js/df.js" defer></script>
+</body>
+</html>
